@@ -7,11 +7,13 @@
     |app.comp.container $ {}
       :ns $ quote
         ns app.comp.container $ :require (respo-ui.core :as ui)
-          respo.core :refer $ defcomp defeffect <> >> div button textarea span input
+          respo-ui.core :refer $ hsl
+          respo.core :refer $ defcomp defeffect <> >> div button textarea span input list->
           respo.comp.space :refer $ =<
           reel.comp.reel :refer $ comp-reel
           respo-md.comp.md :refer $ comp-md
           app.config :refer $ dev?
+          memof.alias :refer $ memof-call
       :defs $ {}
         |comp-container $ quote
           defcomp comp-container (reel)
@@ -22,23 +24,94 @@
                 state $ either (:data states)
                   {} $ :content "\""
               div
-                {} $ :style (merge ui/global ui/row)
+                {} $ :style (merge ui/global ui/fullscreen ui/column)
+                memof-call comp-header
+                comp-messages $ :messages store
+                memof-call comp-input $ >> states :input
+                when dev? $ comp-reel (>> states :reel) reel ({})
+        |comp-input $ quote
+          defcomp comp-input (states)
+            let
+                cursor $ :cursor states
+                state $ either (:data states)
+                  {} $ :content "\""
+              div
+                {} $ :style
+                  merge ui/row-middle $ {} (:padding "\"6px 4px")
+                    :background-color $ hsl 0 0 97
+                    :border-top $ str "\"1px solid " (hsl 0 0 90)
                 textarea $ {}
                   :value $ :content state
                   :placeholder "\"Content"
-                  :style $ merge ui/expand ui/textarea
-                    {} $ :height 320
+                  :style $ merge ui/textarea ui/expand
+                    {} (:height 40) (:line-height "\"24px") (:border :none)
                   :on-input $ fn (e d!)
                     d! cursor $ assoc state :content (:value e)
-                =< 8 nil
+                  :autofocus true
+                  :on-keydown $ fn (e d!)
+                    let
+                        event $ :event e
+                      when
+                        = "\"Enter" $ .-key event
+                        .!preventDefault $ :event e
+                        d! :message $ .-value
+                          .-target $ :event e
+                        d! cursor $ assoc state :content "\""
+                        scroll-view!
+                =< 6 nil
+                div $ {}
+                  :style $ {}
+                    :border $ str "\"2px solid " (hsl 200 80 60)
+                    :width 28
+                    :height 28
+                    :border-radius "\"50%"
+        |comp-messages $ quote
+          defcomp comp-messages (ms)
+            div
+              {} $ :style ui/expand
+              list->
+                {} $ :id "\"message-area"
+                -> ms (w-log)
+                  either $ []
+                  .map-indexed $ fn (idx m)
+                    [] idx $ comp-message m
+              =< nil 80
+        |scroll-view! $ quote
+          defn scroll-view! () $ js/setTimeout
+            fn () $ let
+                target $ js/document.querySelector "\"#message-area"
+                last-child $ if (some? target) (.-lastElementChild target)
+              if (some? last-child) (.!scrollIntoViewIfNeeded last-child) (js/console.warn "\"no target")
+            , 100
+        |comp-header $ quote
+          defcomp comp-header () $ div
+            {} $ :style
+              merge ui/row-parted $ {} (:padding "\"4px 6px") (:font-weight :bold) (:font-size 16)
+                :background-color $ hsl 0 0 97
+                :border-bottom $ str "\"1px solid " (hsl 0 0 90)
+            <> "\"<"
+            <> "\"Sky Chat"
+            <> "\"..."
+        |comp-message $ quote
+          defcomp comp-message (content)
+            div
+              {} $ :style
+                merge ui/row $ {} (:width "\"90%") (:padding "\"4px 6px")
+              div ({})
+                div $ {}
+                  :style $ {} (:width 40) (:height 40)
+                    :background-color $ hsl (rand-int 360) (rand-int 80) (rand-int 90)
+                    :border-radius "\"4px"
+              =< 8 nil
+              div
+                {} $ :style ui/expand
                 div
-                  {} $ :style ui/expand
-                  comp-md "|This is some content with `code`"
-                  =< |8px nil
-                  button $ {} (:style ui/button) (:inner-text "\"Run")
-                    :on-click $ fn (e d!)
-                      println $ :content state
-                when dev? $ comp-reel (>> states :reel) reel ({})
+                  {} $ :style
+                    {}
+                      :color $ hsl 0 0 70
+                      :font-size 10
+                      :line-height "\"16px"
+                  <> "\"她他它"
     |app.schema $ {}
       :ns $ quote (ns app.schema)
       :defs $ {}
@@ -46,6 +119,7 @@
           def store $ {}
             :states $ {}
               :cursor $ []
+            :messages $ []
     |app.updater $ {}
       :ns $ quote
         ns app.updater $ :require
@@ -53,10 +127,12 @@
       :defs $ {}
         |updater $ quote
           defn updater (store op data op-id op-time)
-            case op
+            case-default op
+              do (println "\"unknown op:" op) store
               :states $ update-states store data
               :hydrate-storage data
-              op store
+              :message $ update store :messages
+                fn (xs) (conj xs data)
     |app.main $ {}
       :ns $ quote
         ns app.main $ :require
@@ -86,9 +162,9 @@
             render-app!
             add-watch *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |k dispatch!
-            .!addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
-            repeat! 60 persist-storage!
-            let
+            ; .!addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
+            ; repeat! 60 persist-storage!
+            ; let
                 raw $ .!getItem js/localStorage (:storage-key config/site)
               when (some? raw)
                 dispatch! :hydrate-storage $ parse-cirru-edn raw
@@ -118,4 +194,4 @@
         |dev? $ quote
           def dev? $ = "\"dev" (get-env "\"mode")
         |site $ quote
-          def site $ {} (:storage-key "\"workflow")
+          def site $ {} (:storage-key "\"hestory")
