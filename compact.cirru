@@ -8,13 +8,26 @@
       :ns $ quote
         ns app.comp.container $ :require (respo-ui.core :as ui)
           respo-ui.core :refer $ hsl
-          respo.core :refer $ defcomp defeffect <> >> div button textarea span input list->
+          respo.core :refer $ defcomp defeffect <> >> div button textarea span input list-> create-element
           respo.comp.space :refer $ =<
           reel.comp.reel :refer $ comp-reel
           respo-md.comp.md :refer $ comp-md
           app.config :refer $ dev?
           memof.alias :refer $ memof-call
+          "\"jdenticon" :as jdenticon
       :defs $ {}
+        |read-content $ quote
+          defn read-content (messages d!)
+            when
+              not $ empty? messages
+              let
+                  msg $ first messages
+                  text $ :text msg
+                d! :message msg
+                ; println "\"read" text
+                scroll-view!
+                speech! text $ fn ()
+                  read-content (rest messages) d!
         |comp-container $ quote
           defcomp comp-container (reel)
             let
@@ -24,11 +37,50 @@
                 state $ either (:data states)
                   {} $ :content "\""
               div
-                {} $ :style (merge ui/global ui/fullscreen ui/column)
-                memof-call comp-header
-                comp-messages $ :messages store
-                memof-call comp-input $ >> states :input
-                when dev? $ comp-reel (>> states :reel) reel ({})
+                {} $ :style
+                  merge ui/global ui/fullscreen ui/row $ {} (:background-color :white)
+                div
+                  {} $ :style
+                    {} (:width "\"40%")
+                      :border $ str "\"1px solid " (hsl 0 0 80)
+                  memof-call comp-menu
+                div
+                  {} $ :style (merge ui/expand ui/column)
+                  memof-call comp-header
+                  comp-messages $ :messages store
+                  memof-call comp-input $ >> states :input
+                  when dev? $ comp-reel (>> states :reel) reel ({})
+        |comp-menu $ quote
+          defcomp comp-menu () $ div
+            {} $ :style
+              {} $ :padding 16
+            list-> ({})
+              -> reading-list $ map
+                fn (info)
+                  [] (:id info)
+                    div
+                      {} $ :on-click
+                        fn (e d!) (js/window.speechSynthesis.cancel)
+                          read-content (:messages info) d!
+                      <> $ :title info
+        |speech! $ quote
+          defn speech! (text cb)
+            let
+                t $ new js/window.SpeechSynthesisUtterance text
+              set! (.-lang t) "\"zh-cn"
+              set! (.-rate t) 1.2
+              let
+                  vs $ .!filter (js/window.speechSynthesis.getVoices)
+                    fn (v i a)
+                      .!includes (.-lang v) "\"zh"
+                js/console.log "\"Voices" vs
+                set! (.-voice t)
+                  w-js-log $ aget vs 3
+              js/window.speechSynthesis.speak t
+              set! (.-onend t)
+                fn (event) (js/setTimeout cb 400)
+        |slurp $ quote
+          defmacro slurp (path) (; println "\"reading path" path) (read-file path)
         |comp-input $ quote
           defcomp comp-input (states)
             let
@@ -71,11 +123,18 @@
               {} $ :style ui/expand
               list->
                 {} $ :id "\"message-area"
-                -> ms (w-log)
-                  either $ []
+                -> ms
+                  or $ []
                   .map-indexed $ fn (idx m)
                     [] idx $ comp-message m
               =< nil 80
+        |comp-avatar $ quote
+          defcomp comp-avatar (label)
+            [] (effect-render-icon label)
+              div $ {}
+                :style $ {} (:width 40) (:height 40)
+                  :background-color $ hsl 0 0 90
+                  :border-radius "\"4px"
         |scroll-view! $ quote
           defn scroll-view! () $ js/setTimeout
             fn () $ let
@@ -85,23 +144,24 @@
             , 100
         |comp-header $ quote
           defcomp comp-header () $ div
-            {} $ :style
-              merge ui/row-parted $ {} (:padding "\"4px 6px") (:font-weight :bold) (:font-size 16)
-                :background-color $ hsl 0 0 97
-                :border-bottom $ str "\"1px solid " (hsl 0 0 90)
+            {}
+              :style $ merge ui/row-parted
+                {} (:padding "\"4px 6px") (:font-weight :bold) (:font-size 16)
+                  :background-color $ hsl 0 0 97
+                  :border-bottom $ str "\"1px solid " (hsl 0 0 90)
+              :on-click $ fn (e d!) (js/document.body.requestFullscreen)
             <> "\"<"
-            <> "\"Sky Chat"
+            <> "\"Hestory"
             <> "\"..."
+        |reading-list $ quote
+          def reading-list $ []
+            parse-cirru-edn $ slurp "\"data/000-demo.cirru"
         |comp-message $ quote
           defcomp comp-message (content)
             div
               {} $ :style
                 merge ui/row $ {} (:width "\"90%") (:padding "\"4px 6px")
-              div ({})
-                div $ {}
-                  :style $ {} (:width 40) (:height 40)
-                    :background-color $ hsl (rand-int 360) (rand-int 80) (rand-int 90)
-                    :border-radius "\"4px"
+              comp-avatar $ :author content
               =< 8 nil
               div
                 {} $ :style ui/expand
@@ -109,9 +169,23 @@
                   {} $ :style
                     {}
                       :color $ hsl 0 0 70
-                      :font-size 10
-                      :line-height "\"16px"
-                  <> "\"她他它"
+                      :font-size 12
+                      :line-height "\"18px"
+                  <> $ :author content
+                  div
+                    {} $ :style
+                      {}
+                        :color $ hsl 0 0 40
+                        :font-size 16
+                        :line-height "\"24px"
+                    <> $ :text content
+        |effect-render-icon $ quote
+          defeffect effect-render-icon (label) (action el at?)
+            let
+                svg-ns "\"http://www.w3.org/2000/svg"
+                svg $ js/document.createElementNS svg-ns "\"svg"
+              .!appendChild el svg
+              jdenticon/update svg label
     |app.schema $ {}
       :ns $ quote (ns app.schema)
       :defs $ {}
@@ -159,6 +233,7 @@
         |main! $ quote
           defn main! ()
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
+            js/window.speechSynthesis.getVoices
             render-app!
             add-watch *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |k dispatch!
