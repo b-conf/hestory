@@ -27,12 +27,12 @@
                   text $ :text msg
                 d! :message msg
                 ; println "\"read" text
-                scroll-view!
                 if use-xunfei?
                   speakXunfei (santinize-voice text)
                     fn () $ read-content (rest messages) d!
                   speech! (santinize-voice text)
                     fn () $ read-content (rest messages) d!
+                scroll-view!
         |comp-container $ quote
           defcomp comp-container (reel)
             let
@@ -92,10 +92,11 @@
               set! (.-lang t) "\"zh-cn"
               set! (.-rate t) 1.1
               let
-                  vs $ .!filter (js/window.speechSynthesis.getVoices)
+                  v0 $ js/window.speechSynthesis.getVoices
+                  vs $ .!filter v0
                     fn (v i a)
                       .!includes (.-lang v) "\"zh"
-                ; js/console.log "\"Voices" vs
+                ; js/console.log "\"Voices" v0 vs
                 set! (.-voice t)
                   wo-js-log $ aget vs 3
               js/window.speechSynthesis.speak t
@@ -168,7 +169,11 @@
             fn () $ let
                 target $ js/document.querySelector "\"#message-area"
                 last-child $ if (some? target) (.-lastElementChild target)
-              if (some? last-child) (.!scrollIntoViewIfNeeded last-child) (js/console.warn "\"no target")
+              if (some? last-child)
+                if
+                  some? $ .-scrollIntoViewIfNeeded last-child
+                  .!scrollIntoViewIfNeeded last-child
+                js/console.warn "\"no target"
             , 100
         |comp-header $ quote
           defcomp comp-header () $ div
