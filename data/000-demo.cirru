@@ -52,7 +52,7 @@
       :author "|工业聚"
       :text "|也就是说，运算符重载和面向接口编程，其实同一个语言特性带来的"
     {}
-      :author "|Jason Yu 于航"
+      :author "|Jason Yu"
       :text "|https://www.microsoft.com/en-us/research/wp-content/uploads/2016/08/algeff-tr-2016-v2.pdf"
     {}
       :author "|工业聚"
@@ -62,7 +62,7 @@
       :text "|了解了"
     {}
       :author "|工业聚"
-      :text "|这样可以极大地较少编译器的复杂性，不用专门提供特例去处理重载，接口，异步，异常，迭代等语法"
+      :text "|这样可以极大地减少编译器的复杂性，不用专门提供特例去处理重载，接口，异步，异常，迭代等语法"
     {}
       :author "|工业聚"
       :text "|更高技术含量，更低复杂度和成本，感觉更有概率成功"

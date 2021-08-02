@@ -5,6 +5,8 @@
   },
   "devDependencies": {
     "bottom-tip": "^0.1.2",
+    "crypto-js": "^4.1.1",
+    "js-base64": "^3.6.1",
     "vite": "^2.4.4"
   },
   "version": "0.0.1"
