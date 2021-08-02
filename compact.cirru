@@ -12,9 +12,10 @@
           respo.comp.space :refer $ =<
           reel.comp.reel :refer $ comp-reel
           respo-md.comp.md :refer $ comp-md
-          app.config :refer $ dev?
+          app.config :refer $ dev? use-xunfei?
           memof.alias :refer $ memof-call
           "\"jdenticon" :as jdenticon
+          "\"../xunfei/sdk" :refer $ speakXunfei
       :defs $ {}
         |read-content $ quote
           defn read-content (messages d!)
@@ -26,8 +27,11 @@
                 d! :message msg
                 ; println "\"read" text
                 scroll-view!
-                speech! text $ fn ()
-                  read-content (rest messages) d!
+                if use-xunfei?
+                  speakXunfei text $ fn ()
+                    read-content (rest messages) d!
+                  speech! text $ fn ()
+                    read-content (rest messages) d!
         |comp-container $ quote
           defcomp comp-container (reel)
             let
@@ -41,7 +45,7 @@
                   merge ui/global ui/fullscreen ui/row $ {} (:background-color :white)
                 div
                   {} $ :style
-                    {} (:width "\"40%")
+                    {} (:width "\"34%")
                       :border $ str "\"1px solid " (hsl 0 0 80)
                   memof-call comp-menu
                 div
@@ -68,14 +72,14 @@
             let
                 t $ new js/window.SpeechSynthesisUtterance text
               set! (.-lang t) "\"zh-cn"
-              set! (.-rate t) 1.2
+              set! (.-rate t) 1.1
               let
                   vs $ .!filter (js/window.speechSynthesis.getVoices)
                     fn (v i a)
                       .!includes (.-lang v) "\"zh"
-                js/console.log "\"Voices" vs
+                ; js/console.log "\"Voices" vs
                 set! (.-voice t)
-                  w-js-log $ aget vs 3
+                  wo-js-log $ aget vs 3
               js/window.speechSynthesis.speak t
               set! (.-onend t)
                 fn (event) (js/setTimeout cb 400)
@@ -270,3 +274,5 @@
           def dev? $ = "\"dev" (get-env "\"mode")
         |site $ quote
           def site $ {} (:storage-key "\"hestory")
+        |use-xunfei? $ quote
+          def use-xunfei? $ = "\"true" (get-env "\"xunfei")

@@ -79,7 +79,7 @@
                         :by |rJG4IHzWf
                       |s $ {}
                         :data $ {}
-                          |D $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829580786) (:text |;)
+                          |D $ {} (:text |;) (:type :leaf) (:at 1627829580786) (:by |rJG4IHzWf)
                           |T $ {} (:text |println) (:type :leaf) (:at 1627815419007) (:by |rJG4IHzWf)
                           |j $ {} (:text "|\"read") (:type :leaf) (:at 1627815420362) (:by |rJG4IHzWf)
                           |r $ {} (:text |text) (:type :leaf) (:at 1627815421855) (:by |rJG4IHzWf)
@@ -94,35 +94,62 @@
                         :by |rJG4IHzWf
                       |u $ {}
                         :data $ {}
-                          |T $ {} (:text |speech!) (:type :leaf) (:at 1627815235467) (:by |rJG4IHzWf)
-                          |j $ {} (:text |text) (:type :leaf) (:at 1627815240156) (:by |rJG4IHzWf)
-                          |r $ {}
+                          |D $ {} (:text |if) (:type :leaf) (:at 1627901061185) (:by |rJG4IHzWf)
+                          |L $ {} (:text |use-xunfei?) (:type :leaf) (:at 1627901058871) (:by |rJG4IHzWf)
+                          |P $ {}
                             :data $ {}
-                              |T $ {} (:text |fn) (:type :leaf) (:at 1627815297406) (:by |rJG4IHzWf)
-                              |j $ {}
+                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627901064410) (:text |speakXunfei)
+                              |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627901064410) (:text |text)
+                              |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627901064410)
                                 :data $ {}
-                                :type :expr
-                                :at 1627815299206
-                                :by |rJG4IHzWf
+                                  |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627901064410) (:text |fn)
+                                  |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627901064410)
+                                    :data $ {}
+                                  |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627901064410)
+                                    :data $ {}
+                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627901064410) (:text |read-content)
+                                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627901064410)
+                                        :data $ {}
+                                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627901064410) (:text |rest)
+                                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627901064410) (:text |messages)
+                                      |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627901064410) (:text |d!)
+                            :type :expr
+                            :at 1627901064410
+                            :by |rJG4IHzWf
+                          |T $ {}
+                            :data $ {}
+                              |T $ {} (:text |speech!) (:type :leaf) (:at 1627815235467) (:by |rJG4IHzWf)
+                              |j $ {} (:text |text) (:type :leaf) (:at 1627815240156) (:by |rJG4IHzWf)
                               |r $ {}
                                 :data $ {}
-                                  |T $ {} (:text |read-content) (:type :leaf) (:at 1627815300355) (:by |rJG4IHzWf)
+                                  |T $ {} (:text |fn) (:type :leaf) (:at 1627815297406) (:by |rJG4IHzWf)
                                   |j $ {}
                                     :data $ {}
-                                      |T $ {} (:text |rest) (:type :leaf) (:at 1627815300355) (:by |rJG4IHzWf)
-                                      |j $ {} (:text |messages) (:type :leaf) (:at 1627815300355) (:by |rJG4IHzWf)
+                                    :type :expr
+                                    :at 1627815299206
+                                    :by |rJG4IHzWf
+                                  |r $ {}
+                                    :data $ {}
+                                      |T $ {} (:text |read-content) (:type :leaf) (:at 1627815300355) (:by |rJG4IHzWf)
+                                      |j $ {}
+                                        :data $ {}
+                                          |T $ {} (:text |rest) (:type :leaf) (:at 1627815300355) (:by |rJG4IHzWf)
+                                          |j $ {} (:text |messages) (:type :leaf) (:at 1627815300355) (:by |rJG4IHzWf)
+                                        :type :expr
+                                        :at 1627815300355
+                                        :by |rJG4IHzWf
+                                      |r $ {} (:text |d!) (:type :leaf) (:at 1627815300355) (:by |rJG4IHzWf)
                                     :type :expr
                                     :at 1627815300355
                                     :by |rJG4IHzWf
-                                  |r $ {} (:text |d!) (:type :leaf) (:at 1627815300355) (:by |rJG4IHzWf)
                                 :type :expr
-                                :at 1627815300355
+                                :at 1627815297155
                                 :by |rJG4IHzWf
                             :type :expr
-                            :at 1627815297155
+                            :at 1627815232142
                             :by |rJG4IHzWf
                         :type :expr
-                        :at 1627815232142
+                        :at 1627901057847
                         :by |rJG4IHzWf
                     :type :expr
                     :at 1627815102935
@@ -285,7 +312,7 @@
                                       |j $ {}
                                         :data $ {}
                                           |T $ {} (:text |:width) (:type :leaf) (:at 1627814331624) (:by |rJG4IHzWf)
-                                          |j $ {} (:text "|\"40%") (:type :leaf) (:at 1627814375204) (:by |rJG4IHzWf)
+                                          |j $ {} (:text "|\"34%") (:type :leaf) (:at 1627901529099) (:by |rJG4IHzWf)
                                         :type :expr
                                         :at 1627814330162
                                         :by |rJG4IHzWf
@@ -501,34 +528,40 @@
                                         :by |rJG4IHzWf
                                       |r $ {}
                                         :data $ {}
-                                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |div)
+                                          |T $ {} (:text |div) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
                                           |j $ {}
                                             :data $ {}
-                                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |{})
+                                              |T $ {} (:text |{}) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
                                               |j $ {}
                                                 :data $ {}
-                                                  |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |:on-click)
+                                                  |T $ {} (:text |:on-click) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
                                                   |j $ {}
                                                     :data $ {}
-                                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |fn)
-                                                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627829871976)
+                                                      |T $ {} (:text |fn) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
+                                                      |j $ {}
                                                         :data $ {}
-                                                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |e)
-                                                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |d!)
-                                                      |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627829871976)
+                                                          |T $ {} (:text |e) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
+                                                          |j $ {} (:text |d!) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
+                                                        :type :expr
+                                                        :at 1627829871976
+                                                        :by |rJG4IHzWf
+                                                      |r $ {}
                                                         :data $ {}
-                                                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |js/window.speechSynthesis.cancel)
+                                                          |T $ {} (:text |js/window.speechSynthesis.cancel) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
+                                                        :type :expr
+                                                        :at 1627829871976
+                                                        :by |rJG4IHzWf
                                                       |v $ {}
                                                         :data $ {}
-                                                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |read-content)
+                                                          |T $ {} (:text |read-content) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
                                                           |j $ {}
                                                             :data $ {}
-                                                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |:messages)
+                                                              |T $ {} (:text |:messages) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
                                                               |j $ {} (:text |info) (:type :leaf) (:at 1627829883020) (:by |rJG4IHzWf)
                                                             :type :expr
                                                             :at 1627829871976
                                                             :by |rJG4IHzWf
-                                                          |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |d!)
+                                                          |r $ {} (:text |d!) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
                                                         :type :expr
                                                         :at 1627829871976
                                                         :by |rJG4IHzWf
@@ -543,7 +576,7 @@
                                             :by |rJG4IHzWf
                                           |r $ {}
                                             :data $ {}
-                                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829871976) (:text |<>)
+                                              |T $ {} (:text |<>) (:type :leaf) (:at 1627829871976) (:by |rJG4IHzWf)
                                               |j $ {}
                                                 :data $ {}
                                                   |T $ {} (:text |:title) (:type :leaf) (:at 1627829878906) (:by |rJG4IHzWf)
@@ -642,7 +675,7 @@
                         :type :expr
                         :at 1627815692802
                         :by |rJG4IHzWf
-                      |r $ {} (:text |1.2) (:type :leaf) (:at 1627815724519) (:by |rJG4IHzWf)
+                      |r $ {} (:text |1.1) (:type :leaf) (:at 1627901160126) (:by |rJG4IHzWf)
                     :type :expr
                     :at 1627815691538
                     :by |rJG4IHzWf
@@ -702,6 +735,7 @@
                         :by |rJG4IHzWf
                       |P $ {}
                         :data $ {}
+                          |D $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627901180427) (:text |;)
                           |T $ {} (:text |js/console.log) (:type :leaf) (:at 1627816598450) (:by |rJG4IHzWf)
                           |b $ {} (:text "|\"Voices") (:type :leaf) (:at 1627816603253) (:by |rJG4IHzWf)
                           |j $ {} (:text |vs) (:type :leaf) (:at 1627816599526) (:by |rJG4IHzWf)
@@ -720,7 +754,7 @@
                             :by |rJG4IHzWf
                           |r $ {}
                             :data $ {}
-                              |D $ {} (:text |w-js-log) (:type :leaf) (:at 1627816243546) (:by |rJG4IHzWf)
+                              |D $ {} (:text |wo-js-log) (:type :leaf) (:at 1627901189797) (:by |rJG4IHzWf)
                               |T $ {}
                                 :data $ {}
                                   |D $ {} (:text |aget) (:type :leaf) (:at 1627816217709) (:by |rJG4IHzWf)
@@ -789,7 +823,7 @@
                 :by |rJG4IHzWf
               |t $ {}
                 :data $ {}
-                  |D $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829563114) (:text |;)
+                  |D $ {} (:text |;) (:type :leaf) (:at 1627829563114) (:by |rJG4IHzWf)
                   |T $ {} (:text |println) (:type :leaf) (:at 1627815507425) (:by |rJG4IHzWf)
                   |j $ {} (:text "|\"reading path") (:type :leaf) (:at 1627815509556) (:by |rJG4IHzWf)
                   |r $ {} (:text |path) (:type :leaf) (:at 1627815510363) (:by |rJG4IHzWf)
@@ -1409,31 +1443,49 @@
                           |T $ {} (:text |{}) (:type :leaf) (:at 1627829176957) (:by |rJG4IHzWf)
                           |j $ {}
                             :data $ {}
-                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |:style)
-                              |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627829491458)
+                              |T $ {} (:text |:style) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                              |j $ {}
                                 :data $ {}
-                                  |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |{})
-                                  |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627829491458)
+                                  |T $ {} (:text |{}) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                  |j $ {}
                                     :data $ {}
-                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |:width)
-                                      |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |40)
-                                  |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627829491458)
+                                      |T $ {} (:text |:width) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                      |j $ {} (:text |40) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                    :type :expr
+                                    :at 1627829491458
+                                    :by |rJG4IHzWf
+                                  |r $ {}
                                     :data $ {}
-                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |:height)
-                                      |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |40)
-                                  |v $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627829491458)
+                                      |T $ {} (:text |:height) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                      |j $ {} (:text |40) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                    :type :expr
+                                    :at 1627829491458
+                                    :by |rJG4IHzWf
+                                  |v $ {}
                                     :data $ {}
-                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |:background-color)
-                                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627829491458)
+                                      |T $ {} (:text |:background-color) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                      |j $ {}
                                         :data $ {}
-                                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |hsl)
-                                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |0)
-                                          |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |0)
-                                          |v $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |90)
-                                  |x $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1627829491458)
+                                          |T $ {} (:text |hsl) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                          |j $ {} (:text |0) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                          |r $ {} (:text |0) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                          |v $ {} (:text |90) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                        :type :expr
+                                        :at 1627829491458
+                                        :by |rJG4IHzWf
+                                    :type :expr
+                                    :at 1627829491458
+                                    :by |rJG4IHzWf
+                                  |x $ {}
                                     :data $ {}
-                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text |:border-radius)
-                                      |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829491458) (:text "|\"4px")
+                                      |T $ {} (:text |:border-radius) (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                      |j $ {} (:text "|\"4px") (:type :leaf) (:at 1627829491458) (:by |rJG4IHzWf)
+                                    :type :expr
+                                    :at 1627829491458
+                                    :by |rJG4IHzWf
+                                :type :expr
+                                :at 1627829491458
+                                :by |rJG4IHzWf
                             :type :expr
                             :at 1627829491458
                             :by |rJG4IHzWf
@@ -2016,9 +2068,9 @@
                     :by |rJG4IHzWf
                   |v $ {}
                     :data $ {}
-                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829483200) (:text |jdenticon/update)
-                      |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829483200) (:text |svg)
-                      |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1627829483200) (:text |label)
+                      |T $ {} (:text |jdenticon/update) (:type :leaf) (:at 1627829483200) (:by |rJG4IHzWf)
+                      |j $ {} (:text |svg) (:type :leaf) (:at 1627829483200) (:by |rJG4IHzWf)
+                      |r $ {} (:text |label) (:type :leaf) (:at 1627829483200) (:by |rJG4IHzWf)
                     :type :expr
                     :at 1627829483200
                     :by |rJG4IHzWf
@@ -2058,6 +2110,7 @@
                     |v $ {}
                       :data $ {}
                         |j $ {} (:text |dev?) (:type :leaf) (:at 1521954067604) (:by |root)
+                        |r $ {} (:text |use-xunfei?) (:type :leaf) (:at 1627901054717) (:by |rJG4IHzWf)
                       :type :expr
                       :at 1521954065004
                       :by |root
@@ -2084,6 +2137,19 @@
                     |r $ {} (:text |jdenticon) (:type :leaf) (:at 1627828877932) (:by |rJG4IHzWf)
                   :type :expr
                   :at 1627828874067
+                  :by |rJG4IHzWf
+                |yx $ {}
+                  :data $ {}
+                    |T $ {} (:text "|\"../xunfei/sdk") (:type :leaf) (:at 1627898062489) (:by |rJG4IHzWf)
+                    |j $ {} (:text |:refer) (:type :leaf) (:at 1627898065750) (:by |rJG4IHzWf)
+                    |r $ {}
+                      :data $ {}
+                        |T $ {} (:text |speakXunfei) (:type :leaf) (:at 1627898066392) (:by |rJG4IHzWf)
+                      :type :expr
+                      :at 1627898066034
+                      :by |rJG4IHzWf
+                  :type :expr
+                  :at 1627898051724
                   :by |rJG4IHzWf
                 |T $ {} (:text |:require) (:type :leaf) (:at 1499755354983) (:by |root)
                 |r $ {}
@@ -2989,6 +3055,27 @@
             :type :expr
             :at 1545933382603
             :by |root
+          |use-xunfei? $ {}
+            :data $ {}
+              |T $ {} (:text |def) (:type :leaf) (:at 1627901031724) (:by |rJG4IHzWf)
+              |j $ {} (:text |use-xunfei?) (:type :leaf) (:at 1627901029389) (:by |rJG4IHzWf)
+              |r $ {}
+                :data $ {}
+                  |D $ {} (:text |=) (:type :leaf) (:at 1627901041011) (:by |rJG4IHzWf)
+                  |L $ {} (:text "|\"true") (:type :leaf) (:at 1627901043223) (:by |rJG4IHzWf)
+                  |T $ {}
+                    :data $ {}
+                      |T $ {} (:text |get-env) (:type :leaf) (:at 1627901034362) (:by |rJG4IHzWf)
+                      |j $ {} (:text "|\"xunfei") (:type :leaf) (:at 1627901036836) (:by |rJG4IHzWf)
+                    :type :expr
+                    :at 1627901029389
+                    :by |rJG4IHzWf
+                :type :expr
+                :at 1627901040104
+                :by |rJG4IHzWf
+            :type :expr
+            :at 1627901029389
+            :by |rJG4IHzWf
         :proc $ {}
           :data $ {}
           :type :expr
