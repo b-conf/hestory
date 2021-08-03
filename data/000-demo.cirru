@@ -84,3 +84,6 @@
     {}
       :author "|引证"
       :text "|Todolist 溢出了"
+    {}
+      :author "|Bot"
+      :text "|(播放完成)"
