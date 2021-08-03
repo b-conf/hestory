@@ -1,7 +1,7 @@
 
 {}
   :id |000-demo
-  :title "|Demo, 关于 FP 语言"
+  :title "|章节 0 - 关于 compile-to-js 语言"
   :messages $ []
     {}
       :author "|uzen"
@@ -11,7 +11,7 @@
       :text "|很甜"
     {}
       :author "|winter"
-      :text "|那确实和coffee一个套路"
+      :text "|那确实和 CoffeeScript 一个套路"
     {}
       :author "|工业聚"
       :text "|这种程度的提升，首先就面临风格偏好的问题，很多开发者甚至觉得糖分过多"
@@ -26,16 +26,16 @@
       :text "|增加控制流手段： Algebraic Effects"
     {}
       :author "|工业聚"
-      :text "|做到第一个，是 TS"
+      :text "|做到第一个，是 TypeScript"
     {}
       :author "|工业聚"
-      :text "|做到前两个是 reason"
+      :text "|做到前两个是 Reason"
     {}
       :author "|工业聚"
-      :text "|做到三个是 koka"
+      :text "|做到三个是 Koka"
     {}
       :author "|工业聚"
-      :text "|都没做到，主要加糖，是 coffee"
+      :text "|都没做到，主要加糖，是 CoffeeScript"
     {}
       :author "|winter"
       :text "|运算符重载之类的？"
@@ -74,13 +74,13 @@
       :text "|更年轻，更有科班基础"
     {}
       :author "|工业聚"
-      :text "|后面再发展一下 dependent types，俨然是一门后现代编程语言"
+      :text "|后面再发展一下 Dependent Types，俨然是一门后现代编程语言"
     {}
       :author "|工业聚"
       :text "|上面这个小书，将如何实现一个实用的函数式编程语言，挺不错的，可以参考参考"
     {}
       :author "|uzen"
-      :text "|todolist加一笔去"
+      :text "|Todolist 加一笔去"
     {}
       :author "|引证"
-      :text "|todos溢出了"
+      :text "|Todolist 溢出了"

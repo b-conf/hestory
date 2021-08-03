@@ -1,14 +1,14 @@
 
 {} (:package |app)
   :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
-    :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
+    :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru |respo-feather.calcit/
     :version |0.0.1
   :files $ {}
     |app.comp.container $ {}
       :ns $ quote
         ns app.comp.container $ :require (respo-ui.core :as ui)
           respo-ui.core :refer $ hsl
-          respo.core :refer $ defcomp defeffect <> >> div button textarea span input list-> create-element
+          respo.core :refer $ defcomp defeffect <> >> a div button textarea span input list-> create-element
           respo.comp.space :refer $ =<
           reel.comp.reel :refer $ comp-reel
           respo-md.comp.md :refer $ comp-md
@@ -16,6 +16,7 @@
           memof.alias :refer $ memof-call
           "\"jdenticon" :as jdenticon
           "\"../xunfei/sdk" :refer $ speakXunfei
+          feather.core :refer $ comp-icon comp-i
       :defs $ {}
         |read-content $ quote
           defn read-content (messages d!)
@@ -26,12 +27,12 @@
                   text $ :text msg
                 d! :message msg
                 ; println "\"read" text
-                scroll-view!
                 if use-xunfei?
-                  speakXunfei text $ fn ()
-                    read-content (rest messages) d!
-                  speech! text $ fn ()
-                    read-content (rest messages) d!
+                  speakXunfei (santinize-voice text)
+                    fn () $ read-content (rest messages) d!
+                  speech! (santinize-voice text)
+                    fn () $ read-content (rest messages) d!
+                scroll-view!
         |comp-container $ quote
           defcomp comp-container (reel)
             let
@@ -42,12 +43,21 @@
                   {} $ :content "\""
               div
                 {} $ :style
-                  merge ui/global ui/fullscreen ui/row $ {} (:background-color :white)
+                  merge ui/global ui/fullscreen ui/row $ {} (:background-color :white) (:font-size 16)
                 div
                   {} $ :style
-                    {} (:width "\"34%")
+                    merge ui/column $ {} (:width "\"34%")
                       :border $ str "\"1px solid " (hsl 0 0 80)
                   memof-call comp-menu
+                  div
+                    {} $ :style
+                      {} (:padding "\"0 8px")
+                        :border-top $ str "\"1px solid " (hsl 0 0 90)
+                    a $ {}
+                      :style $ {} (:font-size 14)
+                      :href "\"https://github.com/b-conf/hestory"
+                      :target "\"_blank"
+                      :inner-text "\"源码查看 GitHub."
                 div
                   {} $ :style (merge ui/expand ui/column)
                   memof-call comp-header
@@ -57,15 +67,23 @@
         |comp-menu $ quote
           defcomp comp-menu () $ div
             {} $ :style
-              {} $ :padding 16
+              merge ui/expand $ {} (:padding 16)
             list-> ({})
               -> reading-list $ map
                 fn (info)
                   [] (:id info)
                     div
-                      {} $ :on-click
-                        fn (e d!) (js/window.speechSynthesis.cancel)
+                      {} (:class-name "\"hover-item")
+                        :style $ merge ui/row-middle
+                          {} $ :cursor :pointer
+                        :on-click $ fn (e d!) (js/window.speechSynthesis.cancel)
                           read-content (:messages info) d!
+                      comp-icon :link
+                        {} (:font-size 14)
+                          :color $ hsl 230 70 70
+                          :line-height "\"14px"
+                        , nil
+                      =< 8 nil
                       <> $ :title info
         |speech! $ quote
           defn speech! (text cb)
@@ -74,10 +92,11 @@
               set! (.-lang t) "\"zh-cn"
               set! (.-rate t) 1.1
               let
-                  vs $ .!filter (js/window.speechSynthesis.getVoices)
+                  v0 $ js/window.speechSynthesis.getVoices
+                  vs $ .!filter v0
                     fn (v i a)
                       .!includes (.-lang v) "\"zh"
-                ; js/console.log "\"Voices" vs
+                ; js/console.log "\"Voices" v0 vs
                 set! (.-voice t)
                   wo-js-log $ aget vs 3
               js/window.speechSynthesis.speak t
@@ -98,7 +117,7 @@
                     :border-top $ str "\"1px solid " (hsl 0 0 90)
                 textarea $ {}
                   :value $ :content state
-                  :placeholder "\"Content"
+                  :placeholder "\"Enter to send..."
                   :style $ merge ui/textarea ui/expand
                     {} (:height 40) (:line-height "\"24px") (:border :none)
                   :on-input $ fn (e d!)
@@ -110,27 +129,33 @@
                       when
                         = "\"Enter" $ .-key event
                         .!preventDefault $ :event e
-                        d! :message $ .-value
-                          .-target $ :event e
+                        d! :message $ {} (:author "\"Me")
+                          :text $ .-value
+                            .-target $ :event e
                         d! cursor $ assoc state :content "\""
                         scroll-view!
-                =< 6 nil
-                div $ {}
-                  :style $ {}
-                    :border $ str "\"2px solid " (hsl 200 80 60)
-                    :width 28
-                    :height 28
-                    :border-radius "\"50%"
+                =< 20 nil
+                comp-icon :trash
+                  {} (:font-size 24)
+                    :color $ hsl 200 80 70
+                    :line-height "\"24px"
+                    :cursor :pointer
+                  fn (e d!) (d! :clear nil)
         |comp-messages $ quote
           defcomp comp-messages (ms)
             div
               {} $ :style ui/expand
+              =< nil 8
               list->
                 {} $ :id "\"message-area"
                 -> ms
                   or $ []
                   .map-indexed $ fn (idx m)
                     [] idx $ comp-message m
+              if (empty? ms)
+                div
+                  {} $ :style ui/center
+                  <> "\"Cleared." $ {} (:font-family ui/font-fancy) (:font-weight 100) (:font-style :italic)
               =< nil 80
         |comp-avatar $ quote
           defcomp comp-avatar (label)
@@ -144,22 +169,37 @@
             fn () $ let
                 target $ js/document.querySelector "\"#message-area"
                 last-child $ if (some? target) (.-lastElementChild target)
-              if (some? last-child) (.!scrollIntoViewIfNeeded last-child) (js/console.warn "\"no target")
+              if (some? last-child)
+                if
+                  some? $ .-scrollIntoViewIfNeeded last-child
+                  .!scrollIntoViewIfNeeded last-child
+                js/console.warn "\"no target"
             , 100
         |comp-header $ quote
           defcomp comp-header () $ div
-            {}
-              :style $ merge ui/row-parted
-                {} (:padding "\"4px 6px") (:font-weight :bold) (:font-size 16)
-                  :background-color $ hsl 0 0 97
-                  :border-bottom $ str "\"1px solid " (hsl 0 0 90)
-              :on-click $ fn (e d!) (js/document.body.requestFullscreen)
-            <> "\"<"
-            <> "\"Hestory"
-            <> "\"..."
+            {} $ :style
+              merge ui/row-parted $ {} (:padding "\"4px 6px") (:font-weight 300) (:font-size 16)
+                :background-color $ hsl 0 0 97
+                :border-bottom $ str "\"1px solid " (hsl 0 0 90)
+            span nil
+            span
+              {} $ :on-click
+                fn (e d!) (js/document.body.requestFullscreen)
+              <> "\"Hestory" $ {} (:font-family ui/font-fancy)
+            span nil
         |reading-list $ quote
           def reading-list $ []
             parse-cirru-edn $ slurp "\"data/000-demo.cirru"
+        |santinize-voice $ quote
+          defn santinize-voice (text)
+            .!replace text url-pattern $ fn (url & args)
+              let
+                  url $ new js/URL text
+                if (some? url)
+                  str "\" link to "
+                    .!replace (.-host url) "\"www." "\""
+                    , "\" "
+                  , "\"link. "
         |comp-message $ quote
           defcomp comp-message (content)
             div
@@ -168,7 +208,7 @@
               comp-avatar $ :author content
               =< 8 nil
               div
-                {} $ :style ui/expand
+                {} $ :style ui/flex
                 div
                   {} $ :style
                     {}
@@ -182,7 +222,9 @@
                         :color $ hsl 0 0 40
                         :font-size 16
                         :line-height "\"24px"
-                    <> $ :text content
+                    comp-md $ :text content
+        |url-pattern $ quote
+          def url-pattern $ new js/RegExp "\"https?:\\S+"
         |effect-render-icon $ quote
           defeffect effect-render-icon (label) (action el at?)
             let
@@ -211,6 +253,7 @@
               :hydrate-storage data
               :message $ update store :messages
                 fn (xs) (conj xs data)
+              :clear $ assoc store :messages ([])
     |app.main $ {}
       :ns $ quote
         ns app.main $ :require
