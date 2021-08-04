@@ -96,12 +96,19 @@
                   vs $ .!filter v0
                     fn (v i a)
                       .!includes (.-lang v) "\"zh"
-                ; js/console.log "\"Voices" v0 vs
-                set! (.-voice t)
-                  wo-js-log $ aget vs 3
+                if
+                  some? $ aget vs 3
+                  set! (.-voice t) (aget vs 3)
+                  js/console.warn "\"no voice:" v0
               js/window.speechSynthesis.speak t
               set! (.-onend t)
                 fn (event) (js/setTimeout cb 400)
+              ; set! (.-onerror t)
+                fn (event) (js/console.log "\"speech error:" event) (js/setTimeout cb 400)
+              ; set! (.-onboundary t)
+                fn (event) (js/console.log "\"speech boundary:" event) (js/setTimeout cb 1000)
+              ; set! (.-onpause t)
+                fn (event) (js/console.log "\"speech pause:" event) (js/setTimeout cb 1000)
         |slurp $ quote
           defmacro slurp (path) (; println "\"reading path" path) (read-file path)
         |comp-input $ quote
@@ -189,12 +196,14 @@
             span nil
         |reading-list $ quote
           def reading-list $ []
+            parse-cirru-edn $ slurp "\"data/002-vue-stars.cirru"
+            parse-cirru-edn $ slurp "\"data/001-layered-apis.cirru"
             parse-cirru-edn $ slurp "\"data/000-demo.cirru"
         |santinize-voice $ quote
           defn santinize-voice (text)
-            .!replace text url-pattern $ fn (url & args)
+            .!replace text url-pattern $ fn (target & args)
               let
-                  url $ new js/URL text
+                  url $ new js/URL target
                 if (some? url)
                   str "\" link to "
                     .!replace (.-host url) "\"www." "\""
@@ -224,7 +233,7 @@
                         :line-height "\"24px"
                     comp-md $ :text content
         |url-pattern $ quote
-          def url-pattern $ new js/RegExp "\"https?:\\S+"
+          def url-pattern $ new js/RegExp "\"https?:[\\w\\d\\/_#\\.\\=\\?\\-]+"
         |effect-render-icon $ quote
           defeffect effect-render-icon (label) (action el at?)
             let
