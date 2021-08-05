@@ -90,7 +90,7 @@
             let
                 t $ new js/window.SpeechSynthesisUtterance text
               set! (.-lang t) "\"zh-cn"
-              set! (.-rate t) 1.1
+              set! (.-rate t) 1.2
               let
                   v0 $ js/window.speechSynthesis.getVoices
                   vs $ .!filter v0
@@ -196,6 +196,16 @@
             span nil
         |reading-list $ quote
           def reading-list $ []
+            parse-cirru-edn $ slurp "\"data/012-react-hooks-internals.cirru"
+            parse-cirru-edn $ slurp "\"data/011-react-hooks-wonder.cirru"
+            parse-cirru-edn $ slurp "\"data/010-react-class-syntax.cirru"
+            parse-cirru-edn $ slurp "\"data/009-vue-ts.cirru"
+            parse-cirru-edn $ slurp "\"data/008-worker-dom.cirru"
+            parse-cirru-edn $ slurp "\"data/007-algebraic-interrupts-early.cirru"
+            parse-cirru-edn $ slurp "\"data/006-write-book.cirru"
+            parse-cirru-edn $ slurp "\"data/005-babel-compile.cirru"
+            parse-cirru-edn $ slurp "\"data/004-vue-internals.cirru"
+            parse-cirru-edn $ slurp "\"data/003-babel-parser.cirru"
             parse-cirru-edn $ slurp "\"data/002-vue-stars.cirru"
             parse-cirru-edn $ slurp "\"data/001-layered-apis.cirru"
             parse-cirru-edn $ slurp "\"data/000-demo.cirru"

@@ -867,7 +867,7 @@
                     :by |rJG4IHzWf
                   |wT $ {}
                     :data $ {}
-                      |5 $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628000460279) (:text |;)
+                      |5 $ {} (:text |;) (:type :leaf) (:at 1628000460279) (:by |rJG4IHzWf)
                       |D $ {} (:text |set!) (:type :leaf) (:at 1627815934159) (:by |rJG4IHzWf)
                       |T $ {}
                         :data $ {}
@@ -909,7 +909,7 @@
                     :by |rJG4IHzWf
                   |xD $ {}
                     :data $ {}
-                      |5 $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628000459272) (:text |;)
+                      |5 $ {} (:text |;) (:type :leaf) (:at 1628000459272) (:by |rJG4IHzWf)
                       |D $ {} (:text |set!) (:type :leaf) (:at 1627815934159) (:by |rJG4IHzWf)
                       |T $ {}
                         :data $ {}
@@ -993,7 +993,7 @@
                         :type :expr
                         :at 1627815692802
                         :by |rJG4IHzWf
-                      |r $ {} (:text |1.1) (:type :leaf) (:at 1627901160126) (:by |rJG4IHzWf)
+                      |r $ {} (:text |1.2) (:type :leaf) (:at 1628097741268) (:by |rJG4IHzWf)
                     :type :expr
                     :at 1627815691538
                     :by |rJG4IHzWf
@@ -1067,8 +1067,8 @@
                               |T $ {}
                                 :data $ {}
                                   |T $ {} (:text |aget) (:type :leaf) (:at 1628000893758) (:by |rJG4IHzWf)
-                                  |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628000893758) (:text |vs)
-                                  |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628000893758) (:text |3)
+                                  |j $ {} (:text |vs) (:type :leaf) (:at 1628000893758) (:by |rJG4IHzWf)
+                                  |r $ {} (:text |3) (:type :leaf) (:at 1628000893758) (:by |rJG4IHzWf)
                                 :type :expr
                                 :at 1628000893758
                                 :by |rJG4IHzWf
@@ -1145,7 +1145,7 @@
                     :by |rJG4IHzWf
                   |w $ {}
                     :data $ {}
-                      |5 $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628000470184) (:text |;)
+                      |5 $ {} (:text |;) (:type :leaf) (:at 1628000470184) (:by |rJG4IHzWf)
                       |D $ {} (:text |set!) (:type :leaf) (:at 1627815934159) (:by |rJG4IHzWf)
                       |T $ {}
                         :data $ {}
@@ -2281,24 +2281,160 @@
               |j $ {} (:text |reading-list) (:type :leaf) (:at 1627829702411) (:by |rJG4IHzWf)
               |r $ {}
                 :data $ {}
+                  |b+D $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/011-react-hooks-wonder.cirru") (:type :leaf) (:at 1628100517866) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
+                  |b+T $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/010-react-class-syntax.cirru") (:type :leaf) (:at 1628099962228) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
+                  |b- $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/009-vue-ts.cirru") (:type :leaf) (:at 1628099615856) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
+                  |b/ $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/008-worker-dom.cirru") (:type :leaf) (:at 1628099286143) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
+                  |b1 $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/007-algebraic-interrupts-early.cirru") (:type :leaf) (:at 1628099062590) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
+                  |b5 $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/006-write-book.cirru") (:type :leaf) (:at 1628098833077) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
+                  |bD $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/005-babel-compile.cirru") (:type :leaf) (:at 1628098556575) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
+                  |bT $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/004-vue-internals.cirru") (:type :leaf) (:at 1628098033979) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
                   |T $ {} (:text |[]) (:type :leaf) (:at 1627829829651) (:by |rJG4IHzWf)
                   |b $ {}
                     :data $ {}
-                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628001101527) (:text |parse-cirru-edn)
-                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628001101527)
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
                         :data $ {}
-                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628001101527) (:text |slurp)
-                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628001101527) (:text "|\"data/002-vue-stars.cirru")
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/012-react-hooks-internals.cirru") (:type :leaf) (:at 1628100962919) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
+                  |c $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/003-babel-parser.cirru") (:type :leaf) (:at 1628097423601) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628001101527
+                    :by |rJG4IHzWf
+                  |d $ {}
+                    :data $ {}
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/002-vue-stars.cirru") (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001101527
+                        :by |rJG4IHzWf
                     :type :expr
                     :at 1628001101527
                     :by |rJG4IHzWf
                   |f $ {}
                     :data $ {}
-                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628001103646) (:text |parse-cirru-edn)
-                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628001103646)
+                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001103646) (:by |rJG4IHzWf)
+                      |j $ {}
                         :data $ {}
-                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628001103646) (:text |slurp)
-                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628001103646) (:text "|\"data/001-layered-apis.cirru")
+                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001103646) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"data/001-layered-apis.cirru") (:type :leaf) (:at 1628001103646) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628001103646
+                        :by |rJG4IHzWf
                     :type :expr
                     :at 1628001103646
                     :by |rJG4IHzWf
