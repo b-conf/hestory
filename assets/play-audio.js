@@ -25,7 +25,7 @@ export let requstAudioSpeech = async (host, text, cb)=>{
 
   let audio = new Audio();
   audio.src = url;
-  audio.controls = true
+  // audio.controls = true
   document.body.appendChild(audio)
   audio.onended = function(evt) {
     URL.revokeObjectURL(url);

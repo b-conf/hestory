@@ -39,3 +39,7 @@ body * {
 .hover-item:hover {
   background-color: hsla(0, 100%, 90%, 0.2);
 }
+.hover-item:active, .hover-item:hover {
+  background-color: hsla(0, 100%, 80%, 0.3);
+}
+

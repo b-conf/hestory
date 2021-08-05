@@ -70,7 +70,7 @@
         |comp-menu $ quote
           defcomp comp-menu () $ div
             {} $ :style
-              merge ui/expand $ {} (:padding 16)
+              merge ui/expand $ {} (:padding "\"16px 0") (:line-height "\"36px")
             list-> ({})
               -> reading-list $ map
                 fn (info)
@@ -78,7 +78,7 @@
                     div
                       {} (:class-name "\"hover-item")
                         :style $ merge ui/row-middle
-                          {} $ :cursor :pointer
+                          {} (:cursor :pointer) (:padding "\"0 8px")
                         :on-click $ fn (e d!) (js/window.speechSynthesis.cancel)
                           read-content (:messages info) d!
                       comp-icon :link
@@ -88,6 +88,15 @@
                         , nil
                       =< 8 nil
                       <> $ :title info
+                      =< 8 nil
+                      <>
+                        str $ count (:messages info)
+                        {} (:font-size 12)
+                          :background-color $ hsl 200 70 80
+                          :color :white
+                          :padding "\"0px 4px"
+                          :border-radius "\"8px"
+                          :line-height "\"18px"
         |speech! $ quote
           defn speech! (text cb)
             let
