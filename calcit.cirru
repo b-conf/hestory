@@ -1724,6 +1724,59 @@
                                 :type :expr
                                 :at 1627905080469
                                 :by |rJG4IHzWf
+                              |v $ {}
+                                :data $ {}
+                                  |T $ {} (:text |let) (:type :leaf) (:at 1628161787299) (:by |rJG4IHzWf)
+                                  |j $ {}
+                                    :data $ {}
+                                      |T $ {}
+                                        :data $ {}
+                                          |T $ {} (:text |xs) (:type :leaf) (:at 1628161803197) (:by |rJG4IHzWf)
+                                          |j $ {}
+                                            :data $ {}
+                                              |T $ {} (:text |js/document.querySelectorAll) (:type :leaf) (:at 1628161815449) (:by |rJG4IHzWf)
+                                              |j $ {} (:text "|\"audio") (:type :leaf) (:at 1628161821735) (:by |rJG4IHzWf)
+                                            :type :expr
+                                            :at 1628161804414
+                                            :by |rJG4IHzWf
+                                        :type :expr
+                                        :at 1628161788404
+                                        :by |rJG4IHzWf
+                                    :type :expr
+                                    :at 1628161788158
+                                    :by |rJG4IHzWf
+                                  |r $ {}
+                                    :data $ {}
+                                      |T $ {} (:text |.!forEach) (:type :leaf) (:at 1628161826215) (:by |rJG4IHzWf)
+                                      |j $ {} (:text |xs) (:type :leaf) (:at 1628161826693) (:by |rJG4IHzWf)
+                                      |r $ {}
+                                        :data $ {}
+                                          |T $ {} (:text |fn) (:type :leaf) (:at 1628161828380) (:by |rJG4IHzWf)
+                                          |j $ {}
+                                            :data $ {}
+                                              |T $ {} (:text |x) (:type :leaf) (:at 1628161829808) (:by |rJG4IHzWf)
+                                              |j $ {} (:text |i) (:type :leaf) (:at 1628161861354) (:by |rJG4IHzWf)
+                                              |r $ {} (:text |?) (:type :leaf) (:at 1628161913510) (:by |rJG4IHzWf)
+                                              |v $ {} (:text |n) (:type :leaf) (:at 1628161914596) (:by |rJG4IHzWf)
+                                            :type :expr
+                                            :at 1628161828646
+                                            :by |rJG4IHzWf
+                                          |r $ {}
+                                            :data $ {}
+                                              |T $ {} (:text |.!remove) (:type :leaf) (:at 1628161833347) (:by |rJG4IHzWf)
+                                              |j $ {} (:text |x) (:type :leaf) (:at 1628161833879) (:by |rJG4IHzWf)
+                                            :type :expr
+                                            :at 1628161830368
+                                            :by |rJG4IHzWf
+                                        :type :expr
+                                        :at 1628161827147
+                                        :by |rJG4IHzWf
+                                    :type :expr
+                                    :at 1628161823213
+                                    :by |rJG4IHzWf
+                                :type :expr
+                                :at 1628161785774
+                                :by |rJG4IHzWf
                             :type :expr
                             :at 1627905078001
                             :by |rJG4IHzWf
@@ -1914,7 +1967,7 @@
                     :data $ {}
                       |T $ {} (:text |=<) (:type :leaf) (:at 1627800832615) (:by |rJG4IHzWf)
                       |j $ {} (:text |nil) (:type :leaf) (:at 1627800832615) (:by |rJG4IHzWf)
-                      |r $ {} (:text |80) (:type :leaf) (:at 1627800832615) (:by |rJG4IHzWf)
+                      |r $ {} (:text |80) (:type :leaf) (:at 1628161707538) (:by |rJG4IHzWf)
                     :type :expr
                     :at 1627800832615
                     :by |rJG4IHzWf
@@ -2021,7 +2074,7 @@
                 :by |rJG4IHzWf
               |v $ {}
                 :data $ {}
-                  |T $ {} (:text |js/setTimeout) (:type :leaf) (:at 1627801007512) (:by |rJG4IHzWf)
+                  |T $ {} (:text |js/setTimeout) (:type :leaf) (:at 1628161741513) (:by |rJG4IHzWf)
                   |j $ {}
                     :data $ {}
                       |T $ {} (:text |fn) (:type :leaf) (:at 1627801007512) (:by |rJG4IHzWf)
@@ -2110,6 +2163,13 @@
                                     :type :expr
                                     :at 1627801007512
                                     :by |rJG4IHzWf
+                                  |j $ {}
+                                    :data $ {}
+                                      |T $ {} (:text |.!scrollIntoView) (:type :leaf) (:at 1628161667760) (:by |rJG4IHzWf)
+                                      |j $ {} (:text |last-child) (:type :leaf) (:at 1628161669488) (:by |rJG4IHzWf)
+                                    :type :expr
+                                    :at 1628161663272
+                                    :by |rJG4IHzWf
                                 :type :expr
                                 :at 1627927506060
                                 :by |rJG4IHzWf
@@ -2129,7 +2189,7 @@
                     :type :expr
                     :at 1627801007512
                     :by |rJG4IHzWf
-                  |r $ {} (:text |100) (:type :leaf) (:at 1627801007512) (:by |rJG4IHzWf)
+                  |r $ {} (:text |100) (:type :leaf) (:at 1628161744014) (:by |rJG4IHzWf)
                 :type :expr
                 :at 1627801007512
                 :by |rJG4IHzWf

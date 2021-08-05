@@ -151,6 +151,9 @@
                     :line-height "\"24px"
                     :cursor :pointer
                   fn (e d!) (d! :clear nil)
+                    let
+                        xs $ js/document.querySelectorAll "\"audio"
+                      .!forEach xs $ fn (x i ? n) (.!remove x)
         |comp-messages $ quote
           defcomp comp-messages (ms)
             div
@@ -183,6 +186,7 @@
                 if
                   some? $ .-scrollIntoViewIfNeeded last-child
                   .!scrollIntoViewIfNeeded last-child
+                  .!scrollIntoView last-child
                 js/console.warn "\"no target"
             , 100
         |comp-header $ quote
