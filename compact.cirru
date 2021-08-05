@@ -12,10 +12,11 @@
           respo.comp.space :refer $ =<
           reel.comp.reel :refer $ comp-reel
           respo-md.comp.md :refer $ comp-md
-          app.config :refer $ dev? use-xunfei?
+          app.config :refer $ dev? api-target
           memof.alias :refer $ memof-call
           "\"jdenticon" :as jdenticon
           "\"../xunfei/sdk" :refer $ speakXunfei
+          "\"../assets/play-audio" :refer $ requstAudioSpeech
           feather.core :refer $ comp-icon comp-i
       :defs $ {}
         |read-content $ quote
@@ -27,10 +28,12 @@
                   text $ :text msg
                 d! :message msg
                 ; println "\"read" text
-                if use-xunfei?
-                  speakXunfei (santinize-voice text)
-                    fn () $ read-content (rest messages) d!
+                case-default api-target
                   speech! (santinize-voice text)
+                    fn () $ read-content (rest messages) d!
+                  "\"xunfei" $ speakXunfei (santinize-voice text)
+                    fn () $ read-content (rest messages) d!
+                  "\"audio" $ requstAudioSpeech (get-env "\"audio-host") (santinize-voice text)
                     fn () $ read-content (rest messages) d!
                 scroll-view!
         |comp-container $ quote
@@ -332,9 +335,9 @@
     |app.config $ {}
       :ns $ quote (ns app.config)
       :defs $ {}
+        |api-target $ quote
+          def api-target $ get-env "\"api-target"
         |dev? $ quote
           def dev? $ = "\"dev" (get-env "\"mode")
         |site $ quote
           def site $ {} (:storage-key "\"hestory")
-        |use-xunfei? $ quote
-          def use-xunfei? $ = "\"true" (get-env "\"xunfei")
