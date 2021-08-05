@@ -1,7 +1,7 @@
 
 {}
-  :id |001-layered-apis
-  :title "|章节 1 - 关于 layered apis"
+  :idx |001
+  :title "|关于 layered apis"
   :messages $ []
     {}
       :author "|晋晓炜"

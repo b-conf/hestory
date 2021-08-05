@@ -1,7 +1,7 @@
 
 {}
-  :id |012-react-hooks-internals
-  :title "|章节 12 - React Hooks 内部"
+  :idx |012
+  :title "|React Hooks 内部"
   :messages $ []
     {}
       :author "|chenyong"
@@ -161,10 +161,7 @@
       :text "|整个 FB 前端其实从 Adam Wolff （React、RN、Flux、Reason、GraphQL 共同老大）开始就是 FP 粉（ "
     {}
       :author "|chenyong"
-      :text "|他们这么搞倒是便宜了 clojurescript，reason 代码还没火起来，clojurescript 这边先生了很多工作 "
-    {}
-      :author "|chenyong"
-      :text "|省了 "
+      :text "|他们这么搞倒是便宜了 clojurescript，reason 代码还没火起来，clojurescript 这边先省了很多工作 "
     {}
       :author "|引证"
       :text "|你们现实一点啊 "
@@ -269,7 +266,7 @@
       :text "|当然，从生态的角度是可以理解的。 "
     {}
       :author "|徐飞"
-      :text "|因为看到ng当年吃的亏 "
+      :text "|因为看到 Angular 当年吃的亏 "
     {}
       :author "|Hux"
       :text "|怎么说呢……在 React Core Team 或者前队员的……没有不粉 ML 或者亲属的 （OCaml/Haskell/Elm/Rust/Swift)……Jordan 曾说过 “JS 最多能发展成一个 untyped OCaml （这是对他的表扬）"
