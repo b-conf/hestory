@@ -1,7 +1,7 @@
 
 {}
-  :id |006-write-book
-  :title "|章节 6 - 关于写书"
+  :idx |006
+  :title "|关于写书"
   :messages $ []
     {}
       :author |Evan

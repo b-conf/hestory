@@ -1,7 +1,7 @@
 
 {}
-  :id |010-react-class-syntax
-  :title "|章节 10 - React 和 class 语法"
+  :idx |010
+  :title "|React 和 class 语法"
   :messages $ []
 
     {}

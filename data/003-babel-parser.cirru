@@ -1,7 +1,7 @@
 
 {}
-  :id |003-babel-parser
-  :title "|章节 3 - 关于 babel parser"
+  :idx |003
+  :title "|关于 babel parser"
   :messages $ []
     {}
       :author "|Hax"

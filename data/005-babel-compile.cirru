@@ -1,7 +1,7 @@
 
 {}
-  :id |005-babel-compile
-  :title "|章节 5 - 关于 Babel 编译"
+  :idx |005
+  :title "|关于 Babel 编译"
   :messages $ []
     {}
       :author "|E0"

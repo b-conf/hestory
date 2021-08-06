@@ -1,7 +1,7 @@
 
 {}
-  :id |011-react-hooks-wonder
-  :title "|章节 11 - React Hooks 犹疑"
+  :idx |011
+  :title "|React Hooks 犹疑"
   :messages $ []
 
     {}

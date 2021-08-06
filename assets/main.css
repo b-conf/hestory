@@ -21,7 +21,7 @@ body * {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: hsla(200,100%,76%,0.8);
+  background-color: hsla(200,30%,76%,0.5);
 }
 
 ::-webkit-scrollbar-corner {
@@ -37,5 +37,10 @@ body * {
   transition-duration: 300ms;
 }
 .hover-item:hover {
-  background-color: hsla(0, 100%, 90%, 0.2);
+  background-color: hsla(0, 100%, 100%, 0.9);
 }
+.hover-item:active, .hover-item:hover {
+  background-color: hsla(0, 100%, 100%, 1);
+  box-shadow: 0px 0px 2px hsla(0, 100%, 0%, 0.3);
+}
+

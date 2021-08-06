@@ -1,7 +1,7 @@
 
 {}
-  :id |008-worker-dom
-  :title "|章节 8 - 关于 WorkerDOM"
+  :idx |008
+  :title "|关于 WorkerDOM"
   :messages $ []
     {}
       :author "|nonamesheep"

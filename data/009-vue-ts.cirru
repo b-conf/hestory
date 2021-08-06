@@ -1,7 +1,7 @@
 
 {}
-  :id |009-vue-ts
-  :title "|章节 9 - Vue 和 ts"
+  :idx |009
+  :title "|Vue 和 ts"
   :messages $ []
     {}
       :author "|Hax"
@@ -95,7 +95,7 @@
       :text "|说实话，我觉得逻辑写成 class 都是一样，只是 vue 的 decorator 内容不同，跟ng 的差别是： vue 的 decorator 里面不包含视图，但包含 props ng 的 decorator 里面包含视图 "
     {}
       :author "|徐飞"
-      :text "|class 写法的时候，编写体验不如 ng，比如模板中的提示 "
+      :text "|class 写法的时候，编写体验不如 Angular，比如模板中的提示 "
     {}
       :author "|nonamesheep"
       :text "|Vue3可以比较好的支持 class 了 "
@@ -110,7 +110,7 @@
       :text "|（想想 decorator 那一串 issue 就只能望而却步 "
     {}
       :author "|徐飞"
-      :text "|这是 ng 很久以前的样子了 "
+      :text "|这是 Angular 很久以前的样子了 "
     {}
       :author "|nonamesheep"
       :text "|😢 "

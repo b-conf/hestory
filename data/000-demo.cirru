@@ -1,7 +1,7 @@
 
 {}
-  :id |000-demo
-  :title "|章节 0 - 关于 compile-to-js 语言"
+  :idx |000
+  :title "|关于 compile-to-js 语言"
   :messages $ []
     {}
       :author "|uzen"

@@ -12,26 +12,29 @@
           respo.comp.space :refer $ =<
           reel.comp.reel :refer $ comp-reel
           respo-md.comp.md :refer $ comp-md
-          app.config :refer $ dev? use-xunfei?
+          app.config :refer $ dev? api-target
           memof.alias :refer $ memof-call
           "\"jdenticon" :as jdenticon
           "\"../xunfei/sdk" :refer $ speakXunfei
+          "\"../assets/play-audio" :refer $ requstAudioSpeech
           feather.core :refer $ comp-icon comp-i
       :defs $ {}
         |read-content $ quote
-          defn read-content (messages d!)
+          defn read-content (messages idx d!)
             when
               not $ empty? messages
               let
                   msg $ first messages
                   text $ :text msg
-                d! :message msg
+                d! :message $ assoc msg :floor idx
                 ; println "\"read" text
-                if use-xunfei?
-                  speakXunfei (santinize-voice text)
-                    fn () $ read-content (rest messages) d!
+                case-default api-target
                   speech! (santinize-voice text)
-                    fn () $ read-content (rest messages) d!
+                    fn () $ read-content (rest messages) (inc idx) d!
+                  "\"xunfei" $ speakXunfei (santinize-voice text)
+                    fn () $ read-content (rest messages) (inc idx) d!
+                  "\"audio" $ requstAudioSpeech (get-env "\"audio-host") (santinize-voice text)
+                    fn () $ read-content (rest messages) (inc idx) d!
                 scroll-view!
         |comp-container $ quote
           defcomp comp-container (reel)
@@ -46,8 +49,8 @@
                   merge ui/global ui/fullscreen ui/row $ {} (:background-color :white) (:font-size 16)
                 div
                   {} $ :style
-                    merge ui/column $ {} (:width "\"34%")
-                      :border $ str "\"1px solid " (hsl 0 0 80)
+                    merge ui/column $ {} (:width "\"28%")
+                      :background-color $ hsl 0 0 94
                   memof-call comp-menu
                   div
                     {} $ :style
@@ -67,7 +70,7 @@
         |comp-menu $ quote
           defcomp comp-menu () $ div
             {} $ :style
-              merge ui/expand $ {} (:padding 16)
+              merge ui/expand $ {} (:padding "\"16px 0") (:line-height "\"36px")
             list-> ({})
               -> reading-list $ map
                 fn (info)
@@ -75,16 +78,32 @@
                     div
                       {} (:class-name "\"hover-item")
                         :style $ merge ui/row-middle
-                          {} $ :cursor :pointer
+                          {} (:cursor :pointer) (:padding "\"0 8px")
                         :on-click $ fn (e d!) (js/window.speechSynthesis.cancel)
-                          read-content (:messages info) d!
+                          read-content (:messages info) 0 d!
                       comp-icon :link
                         {} (:font-size 14)
                           :color $ hsl 230 70 70
                           :line-height "\"14px"
                         , nil
+                      =< 2 nil
+                      <> (:idx info)
+                        {}
+                          :color $ hsl 0 0 70
+                          :font-size 12
+                          :font-family ui/font-code
                       =< 8 nil
                       <> $ :title info
+                      =< 8 nil
+                      <>
+                        str $ count (:messages info)
+                        {} (:font-size 12)
+                          :background-color $ hsl 200 60 85
+                          :color :white
+                          :padding "\"0px 5px"
+                          :border-radius "\"8px"
+                          :line-height "\"16px"
+            =< nil 80
         |speech! $ quote
           defn speech! (text cb)
             let
@@ -119,12 +138,12 @@
                   {} $ :content "\""
               div
                 {} $ :style
-                  merge ui/row-middle $ {} (:padding "\"6px 4px")
+                  merge ui/row-middle $ {} (:padding "\"6px 10px")
                     :background-color $ hsl 0 0 97
                     :border-top $ str "\"1px solid " (hsl 0 0 90)
                 textarea $ {}
                   :value $ :content state
-                  :placeholder "\"Enter to send..."
+                  :placeholder "\"Reply..."
                   :style $ merge ui/textarea ui/expand
                     {} (:height 40) (:line-height "\"24px") (:border :none)
                   :on-input $ fn (e d!)
@@ -141,13 +160,6 @@
                             .-target $ :event e
                         d! cursor $ assoc state :content "\""
                         scroll-view!
-                =< 20 nil
-                comp-icon :trash
-                  {} (:font-size 24)
-                    :color $ hsl 200 80 70
-                    :line-height "\"24px"
-                    :cursor :pointer
-                  fn (e d!) (d! :clear nil)
         |comp-messages $ quote
           defcomp comp-messages (ms)
             div
@@ -161,16 +173,19 @@
                     [] idx $ comp-message m
               if (empty? ms)
                 div
-                  {} $ :style ui/center
-                  <> "\"Cleared." $ {} (:font-family ui/font-fancy) (:font-weight 100) (:font-style :italic)
+                  {} $ :style
+                    merge ui/center $ {} (:padding "\"40px")
+                  <> "\"Cleared." $ {} (:font-family ui/font-fancy) (:font-weight 500)
+                    :color $ hsl 0 0 70
+                    :font-style :italic
               =< nil 80
         |comp-avatar $ quote
           defcomp comp-avatar (label)
             [] (effect-render-icon label)
               div $ {}
                 :style $ {} (:width 40) (:height 40)
-                  :background-color $ hsl 0 0 90
-                  :border-radius "\"4px"
+                  :border $ str "\"1px solid " (hsl 0 0 90)
+                  :border-radius "\"2px"
         |scroll-view! $ quote
           defn scroll-view! () $ js/setTimeout
             fn () $ let
@@ -180,6 +195,7 @@
                 if
                   some? $ .-scrollIntoViewIfNeeded last-child
                   .!scrollIntoViewIfNeeded last-child
+                  .!scrollIntoView last-child
                 js/console.warn "\"no target"
             , 100
         |comp-header $ quote
@@ -193,7 +209,16 @@
               {} $ :on-click
                 fn (e d!) (js/document.body.requestFullscreen)
               <> "\"Hestory" $ {} (:font-family ui/font-fancy)
-            span nil
+            comp-icon :trash
+              {} (:font-size 20)
+                :color $ hsl 320 80 70
+                :line-height "\"20px"
+                :vertical-align :middle
+                :cursor :pointer
+              fn (e d!) (d! :clear nil)
+                let
+                    xs $ js/document.querySelectorAll "\"audio"
+                  .!forEach xs $ fn (x i ? n) (.!remove x)
         |reading-list $ quote
           def reading-list $ []
             parse-cirru-edn $ slurp "\"data/012-react-hooks-internals.cirru"
@@ -211,19 +236,22 @@
             parse-cirru-edn $ slurp "\"data/000-demo.cirru"
         |santinize-voice $ quote
           defn santinize-voice (text)
-            .!replace text url-pattern $ fn (target & args)
-              let
-                  url $ new js/URL target
-                if (some? url)
-                  str "\" link to "
-                    .!replace (.-host url) "\"www." "\""
-                    , "\" "
-                  , "\"link. "
+            -> text (.!replace at-pattern "\" at ")
+              .!replace url-pattern $ fn (target & args)
+                let
+                    url $ new js/URL target
+                  if (some? url)
+                    str "\" link to "
+                      .!replace (.-host url) "\"www." "\""
+                      , "\" "
+                    , "\"link. "
+        |at-pattern $ quote
+          def at-pattern $ new js/RegExp "\"@"
         |comp-message $ quote
           defcomp comp-message (content)
             div
               {} $ :style
-                merge ui/row $ {} (:width "\"90%") (:padding "\"4px 6px")
+                merge ui/row $ {} (:width "\"98%") (:padding "\"4px 10px")
               comp-avatar $ :author content
               =< 8 nil
               div
@@ -234,7 +262,14 @@
                       :color $ hsl 0 0 70
                       :font-size 12
                       :line-height "\"18px"
-                  <> $ :author content
+                  div
+                    {} $ :style ui/row-parted
+                    <> $ :author content
+                    <>
+                      str "\"#" $ or (:floor content) "\"_"
+                      {} (:font-size 10)
+                        :color $ hsl 0 0 80
+                        :font-family ui/font-code
                   div
                     {} $ :style
                       {}
@@ -332,9 +367,9 @@
     |app.config $ {}
       :ns $ quote (ns app.config)
       :defs $ {}
+        |api-target $ quote
+          def api-target $ get-env "\"api-target"
         |dev? $ quote
           def dev? $ = "\"dev" (get-env "\"mode")
         |site $ quote
           def site $ {} (:storage-key "\"hestory")
-        |use-xunfei? $ quote
-          def use-xunfei? $ = "\"true" (get-env "\"xunfei")

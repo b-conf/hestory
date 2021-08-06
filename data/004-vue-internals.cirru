@@ -1,7 +1,7 @@
 
 {}
-  :id |004-vue-internals
-  :title "|章节 4 - 一些 vue 内部"
+  :idx |004
+  :title "|一些 vue 内部"
   :messages $ []
     {}
       :author "|Hax"

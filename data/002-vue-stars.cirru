@@ -1,7 +1,7 @@
 
 {}
-  :id |002-vue-stars
-  :title "|章节 2 - vue-stars 超过"
+  :idx |002
+  :title "|vue-stars 超过"
   :messages $ []
     {}
       :author "|Hax"
