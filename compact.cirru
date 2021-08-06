@@ -74,7 +74,7 @@
             list-> ({})
               -> reading-list $ map
                 fn (info)
-                  [] (:id info)
+                  [] (:idx info)
                     div
                       {} (:class-name "\"hover-item")
                         :style $ merge ui/row-middle
@@ -219,6 +219,7 @@
                 let
                     xs $ js/document.querySelectorAll "\"audio"
                   .!forEach xs $ fn (x i ? n) (.!remove x)
+                js/window.speechSynthesis.cancel
         |reading-list $ quote
           def reading-list $ []
             parse-cirru-edn $ slurp "\"data/012-react-hooks-internals.cirru"
@@ -333,12 +334,13 @@
           defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
         |main! $ quote
           defn main! ()
+            if (= config/dev? "\"dev") (load-console-formatter!)
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
             js/window.speechSynthesis.getVoices
             render-app!
             add-watch *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |k dispatch!
-            ; .!addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
+            .!addEventListener js/window |beforeunload $ fn (event) (; persist-storage!) (js/speechSynthesis.cancel)
             ; repeat! 60 persist-storage!
             ; let
                 raw $ .!getItem js/localStorage (:storage-key config/site)
