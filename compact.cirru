@@ -8,7 +8,7 @@
       :ns $ quote
         ns app.comp.container $ :require (respo-ui.core :as ui)
           respo-ui.core :refer $ hsl
-          respo.core :refer $ defcomp defeffect <> >> a div button textarea span input list-> create-element
+          respo.core :refer $ defcomp defeffect <> >> a div button textarea span input list-> create-element pre code
           respo.comp.space :refer $ =<
           reel.comp.reel :refer $ comp-reel
           respo-md.comp.md :refer $ comp-md
@@ -25,7 +25,7 @@
               not $ empty? messages
               let
                   msg $ first messages
-                  text $ :text msg
+                  text $ if (:code? msg) "\"Code" (:text msg)
                 d! :message $ assoc msg :floor idx
                 ; println "\"read" text
                 case-default api-target
@@ -74,7 +74,7 @@
             list-> ({})
               -> reading-list $ map
                 fn (info)
-                  [] (:id info)
+                  [] (:idx info)
                     div
                       {} (:class-name "\"hover-item")
                         :style $ merge ui/row-middle
@@ -219,8 +219,11 @@
                 let
                     xs $ js/document.querySelectorAll "\"audio"
                   .!forEach xs $ fn (x i ? n) (.!remove x)
+                js/window.speechSynthesis.cancel
         |reading-list $ quote
           def reading-list $ []
+            parse-cirru-edn $ slurp "\"data/014-web-comps-templates.cirru"
+            parse-cirru-edn $ slurp "\"data/013-svelte-proposal.cirru"
             parse-cirru-edn $ slurp "\"data/012-react-hooks-internals.cirru"
             parse-cirru-edn $ slurp "\"data/011-react-hooks-wonder.cirru"
             parse-cirru-edn $ slurp "\"data/010-react-class-syntax.cirru"
@@ -276,7 +279,15 @@
                         :color $ hsl 0 0 40
                         :font-size 16
                         :line-height "\"24px"
-                    comp-md $ :text content
+                    if (:code? content)
+                      pre
+                        {} $ :style
+                          {} (:font-size 14) (:margin 0) (:border-radius "\"4px")
+                            :border $ str "\"1px solid " (hsl 0 0 90)
+                            :padding "\"6px 8px"
+                        code $ {}
+                          :innerText $ trim (:text content)
+                      comp-md $ :text content
         |url-pattern $ quote
           def url-pattern $ new js/RegExp "\"https?:[\\w\\d\\/_#\\.\\=\\?\\-]+"
         |effect-render-icon $ quote
@@ -333,12 +344,13 @@
           defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
         |main! $ quote
           defn main! ()
+            if (= config/dev? "\"dev") (load-console-formatter!)
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
             js/window.speechSynthesis.getVoices
             render-app!
             add-watch *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |k dispatch!
-            ; .!addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
+            .!addEventListener js/window |beforeunload $ fn (event) (; persist-storage!) (js/speechSynthesis.cancel)
             ; repeat! 60 persist-storage!
             ; let
                 raw $ .!getItem js/localStorage (:storage-key config/site)
