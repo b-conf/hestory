@@ -222,6 +222,7 @@
                 js/window.speechSynthesis.cancel
         |reading-list $ quote
           def reading-list $ []
+            parse-cirru-edn $ slurp "\"data/015-js-build-speed.cirru"
             parse-cirru-edn $ slurp "\"data/014-web-comps-templates.cirru"
             parse-cirru-edn $ slurp "\"data/013-svelte-proposal.cirru"
             parse-cirru-edn $ slurp "\"data/012-react-hooks-internals.cirru"
