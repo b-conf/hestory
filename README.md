@@ -1,6 +1,4 @@
-
-Hestory
-----
+## Hestory
 
 > Some history from WeChat
 
@@ -19,11 +17,14 @@ Demo http://r.tiye.me/b-conf/hestory .
 申请地址 https://console.xfyun.cn/services/tts
 
 ```js
-localStorage.setItem("xunfei-secrets", JSON.stringify({
-  id: '<TODO>',
-  secret: '<TODO>',
-  key: '<TODO>'
-}))
+localStorage.setItem(
+  "xunfei-secrets",
+  JSON.stringify({
+    id: "<TODO>",
+    secret: "<TODO>",
+    key: "<TODO>",
+  })
+);
 ```
 
 `?api-get=audio&audio-host=<地址>` 切换到本地提供的语音服务,
@@ -34,6 +35,23 @@ localStorage.setItem("xunfei-secrets", JSON.stringify({
 运行项目具体参考: https://github.com/calcit-lang/respo-calcit-workflow
 
 需要安装 Rust 以及 calcit_runner, 然后才是 Node.js 以及 calcit-editor.
+
+To develop:
+
+```
+calcit_runner --emit-js # watching
+
+yarn # to install vite
+yarn vite # watching and running on localhost:3000
+calcit-js is using Calcit Editor.
+```
+
+To build:
+
+```
+yarn vite build
+http-server dist/
+```
 
 ##### 目录结构
 
