@@ -19,6 +19,7 @@
           "\"../assets/play-audio" :refer $ requstAudioSpeech
           feather.core :refer $ comp-icon comp-i
           "\"../adaptors/toml" :refer $ parseTOML
+          "\"toml" :as toml
       :defs $ {}
         |read-content $ quote
           defn read-content (messages idx d!)
@@ -233,7 +234,7 @@
         |reading-list $ quote
           def reading-list $ []
             keywordize-edn $ to-calcit-data
-              parseTOML $ slurp "\"data/016-template-stringify.toml"
+              toml/parse $ slurp "\"data/016-template-stringify.toml"
             parse-cirru-edn $ slurp "\"data/015-js-build-speed.cirru"
             parse-cirru-edn $ slurp "\"data/014-web-comps-templates.cirru"
             parse-cirru-edn $ slurp "\"data/013-svelte-proposal.cirru"
