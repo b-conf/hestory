@@ -18,6 +18,7 @@
           "\"../xunfei/sdk" :refer $ speakXunfei
           "\"../assets/play-audio" :refer $ requstAudioSpeech
           feather.core :refer $ comp-icon comp-i
+          "\"../adaptors/toml" :refer $ parseTOML
       :defs $ {}
         |read-content $ quote
           defn read-content (messages idx d!)
@@ -220,8 +221,19 @@
                     xs $ js/document.querySelectorAll "\"audio"
                   .!forEach xs $ fn (x i ? n) (.!remove x)
                 js/window.speechSynthesis.cancel
+        |keywordize-edn $ quote
+          defn keywordize-edn (data)
+            cond
+                list? data
+                map data keywordize-edn
+              (map? data)
+                map-kv data $ fn (k v)
+                  [] (turn-keyword k) (keywordize-edn v)
+              true data
         |reading-list $ quote
           def reading-list $ []
+            keywordize-edn $ to-calcit-data
+              parseTOML $ slurp "\"data/016-template-stringify.toml"
             parse-cirru-edn $ slurp "\"data/015-js-build-speed.cirru"
             parse-cirru-edn $ slurp "\"data/014-web-comps-templates.cirru"
             parse-cirru-edn $ slurp "\"data/013-svelte-proposal.cirru"
