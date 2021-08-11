@@ -1,3 +1,4 @@
+
 import { parse } from '@ltd/j-toml';
 
 const BOM = '\uFEFF';
