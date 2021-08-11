@@ -1,0 +1,38 @@
+
+idx = '016'
+title = '模板渲染或可拯救 TOML 没有 stringify 无能的局面'
+
+[[messages]]
+author = '天猪'
+text = '''
+yaml 的模板渲染，有啥方案么？
+
+看到后端那边的一些实践， k8s 类似的 yaml 配置越来越多，如何配置某些变量，然后生成一份 yaml，好像没看到很好的方案。'''
+
+[[messages]]
+author = '龙腾道'
+text = '难点是什么，引用重用语法吗？别的想不出 stringify 的阻碍……不像 toml，我大概有生之年想不出 general stringify 方案了……'
+
+[[messages]]
+author = '天猪'
+text = '当你需要经常生成一个又臭又长的 yaml，每次只需要改变里面的一些配置时，这个配置不仅仅是值替换，还可能是根据一个数组动态生成一个片段列表'
+
+[[messages]]
+author = '龙腾道'
+text = '对象就“:”，数组就“-”，基础值就该怎么 literal 怎么 literal 呀……我是不是没 get 到需求点'
+
+[[messages]]
+author = '天猪'
+text = '你理解为模板渲染就好了'
+
+[[messages]]
+author = '龙腾道'
+text = '如果没有现成库，只能写一个了……主要根据上下文，统一处理一下缩进吧……别的应该和普通 stringify 一样'
+
+[[messages]]
+author = '天猪'
+text = '你似乎没理解我的需求场景'
+
+[[messages]]
+author = '龙腾道'
+text = '有这个可能……'
