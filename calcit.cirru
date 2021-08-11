@@ -2738,244 +2738,160 @@
             :data $ {}
               |T $ {} (:text |def) (:type :leaf) (:at 1627814822309) (:by |rJG4IHzWf)
               |j $ {} (:text |reading-list) (:type :leaf) (:at 1627829702411) (:by |rJG4IHzWf)
-              |r $ {}
+              |v $ {}
                 :data $ {}
-                  |b+- $ {}
+                  |yyT $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/015-js-build-speed.cirru") (:type :leaf) (:at 1628524056761) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |b+/ $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-07-13-vue-internals.cirru")
+                  |yyj $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/014-web-comps-templates.cirru") (:type :leaf) (:at 1628344286979) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |b+1 $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-07-04-babel-parser.cirru")
+                  |yyr $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/013-svelte-proposal.cirru") (:type :leaf) (:at 1628343672002) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |b+5 $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-06-15-vue-stars.cirru")
+                  |yyv $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/012-react-hooks-internals.cirru") (:type :leaf) (:at 1628100962919) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |b+D $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-05-11-layered-apis.cirru")
+                  |yyx $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/011-react-hooks-wonder.cirru") (:type :leaf) (:at 1628100517866) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |b+T $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-07-23-demo.cirru")
+                  |yT $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/010-react-class-syntax.cirru") (:type :leaf) (:at 1628099962228) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |b- $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-10-21-react-class-syntax.cirru")
+                  |yj $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/009-vue-ts.cirru") (:type :leaf) (:at 1628099615856) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |b/ $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-09-27-vue-ts.cirru")
+                  |yr $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/008-worker-dom.cirru") (:type :leaf) (:at 1628099286143) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |b1 $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-08-23-worker-dom.cirru")
+                  |yv $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/007-algebraic-interrupts-early.cirru") (:type :leaf) (:at 1628099062590) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |b5 $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-07-21-algebraic-interrupts-early.cirru")
+                  |yx $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/006-write-book.cirru") (:type :leaf) (:at 1628098833077) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |bD $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-08-10-write-book.cirru")
+                  |yy $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                     :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/005-babel-compile.cirru") (:type :leaf) (:at 1628098556575) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |bT $ {}
-                    :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
-                        :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/004-vue-internals.cirru") (:type :leaf) (:at 1628098033979) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |T $ {} (:text |[]) (:type :leaf) (:at 1627829829651) (:by |rJG4IHzWf)
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-08-18-babel-compile.cirru")
+                  |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |[])
                   |b $ {}
                     :data $ {}
-                      |D $ {} (:text |keywordize-edn) (:type :leaf) (:at 1628683460912) (:by |rJG4IHzWf)
-                      |T $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702779762) (:text |keywordize-edn)
+                      |j $ {}
                         :data $ {}
-                          |D $ {} (:text |to-calcit-data) (:type :leaf) (:at 1628683252962) (:by |rJG4IHzWf)
-                          |T $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702779762) (:text |to-calcit-data)
+                          |j $ {}
                             :data $ {}
-                              |T $ {} (:text |toml/parse) (:type :leaf) (:at 1628690403318) (:by |rJG4IHzWf)
+                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702779762) (:text |toml/parse)
                               |j $ {}
                                 :data $ {}
-                                  |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                                  |j $ {} (:text "|\"data/016-template-stringify.toml") (:type :leaf) (:at 1628683138766) (:by |rJG4IHzWf)
+                                  |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702779762) (:text |slurp)
+                                  |j $ {} (:text "|\"data/2020-08-12-template-stringify.toml") (:type :leaf) (:at 1628702884040) (:by |rJG4IHzWf)
                                 :type :expr
-                                :at 1628001101527
+                                :at 1628702779762
                                 :by |rJG4IHzWf
                             :type :expr
-                            :at 1628001101527
+                            :at 1628702779762
                             :by |rJG4IHzWf
                         :type :expr
-                        :at 1628683221752
+                        :at 1628702779762
                         :by |rJG4IHzWf
                     :type :expr
-                    :at 1628683457862
-                    :by |rJG4IHzWf
-                  |c $ {}
-                    :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
-                        :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/003-babel-parser.cirru") (:type :leaf) (:at 1628097423601) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |d $ {}
-                    :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                      |j $ {}
-                        :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/002-vue-stars.cirru") (:type :leaf) (:at 1628001101527) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001101527
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001101527
-                    :by |rJG4IHzWf
-                  |f $ {}
-                    :data $ {}
-                      |T $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1628001103646) (:by |rJG4IHzWf)
-                      |j $ {}
-                        :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1628001103646) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/001-layered-apis.cirru") (:type :leaf) (:at 1628001103646) (:by |rJG4IHzWf)
-                        :type :expr
-                        :at 1628001103646
-                        :by |rJG4IHzWf
-                    :type :expr
-                    :at 1628001103646
+                    :at 1628702779762
                     :by |rJG4IHzWf
                   |j $ {}
                     :data $ {}
-                      |D $ {} (:text |parse-cirru-edn) (:type :leaf) (:at 1627815548879) (:by |rJG4IHzWf)
-                      |T $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {}
                         :data $ {}
-                          |T $ {} (:text |slurp) (:type :leaf) (:at 1627814852232) (:by |rJG4IHzWf)
-                          |j $ {} (:text "|\"data/000-demo.cirru") (:type :leaf) (:at 1627814840742) (:by |rJG4IHzWf)
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:text "|\"data/2018-11-14-js-build-speed.cirru") (:type :leaf) (:at 1628702851949) (:by |rJG4IHzWf)
                         :type :expr
-                        :at 1627814830186
+                        :at 1628702775482
                         :by |rJG4IHzWf
                     :type :expr
-                    :at 1627815545181
+                    :at 1628702775482
                     :by |rJG4IHzWf
+                  |r $ {}
+                    :data $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {}
+                        :data $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:text "|\"data/2018-11-06-web-comps-templates.cirru") (:type :leaf) (:at 1628702816535) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1628702775482
+                        :by |rJG4IHzWf
+                    :type :expr
+                    :at 1628702775482
+                    :by |rJG4IHzWf
+                  |v $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
+                    :data $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
+                        :data $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-11-06-svelte-proposal.cirru")
+                  |x $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
+                    :data $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
+                        :data $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-11-01-react-hooks-internals.cirru")
+                  |y $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
+                    :data $ {}
+                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |parse-cirru-edn)
+                      |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1628702775482)
+                        :data $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text |slurp)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1628702775482) (:text "|\"data/2018-10-26-react-hooks-wonder.cirru")
                 :type :expr
-                :at 1627814822309
+                :at 1628702775482
                 :by |rJG4IHzWf
             :type :expr
             :at 1627814822309
