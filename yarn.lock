@@ -26,6 +26,11 @@
   resolved "https://registry.npmjs.org/@cirru/writer.ts/-/writer.ts-0.1.3.tgz#5f54bdecaa20ba3dab16cbe6da711854138a9c0a"
   integrity sha512-vJnhmhm7we5UfQIwmZfQpF3bAFbVybzT6LbmkbQHxgijaQg3gPfNVsnSIa3g3KpmWVtvkzEx+nUy5aMwsJiV1A==
 
+"@ltd/j-toml@^1.12.2":
+  version "1.12.2"
+  resolved "https://registry.npmjs.org/@ltd/j-toml/-/j-toml-1.12.2.tgz#994c1792d07ca21421d4a75fef0dd0b60f7a1c8b"
+  integrity sha512-mGbbuiYwnBBBfkupwGbRH9qkOuT40RoPvzbSStAy57PfTWG6nRYOLAB6lplOafIIqBM3wzDPF9/64n3tfO0how==
+
 "@types/node@*":
   version "16.4.10"
   resolved "https://registry.npmjs.org/@types/node/-/node-16.4.10.tgz#e57e2a54fc6da58da94b3571b1cb456d39f88597"
@@ -223,6 +228,11 @@ string-template@~0.2.0:
   version "0.2.1"
   resolved "https://registry.npmjs.org/string-template/-/string-template-0.2.1.tgz#42932e598a352d01fc22ec3367d9d84eec6c9add"
   integrity sha1-QpMuWYo1LQH8IuwzZ9nYTuxsmt0=
+
+toml@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/toml/-/toml-3.0.0.tgz#342160f1af1904ec9d204d03a5d61222d762c5ee"
+  integrity sha512-y/mWCZinnvxjTKYhJ+pYxwD0mRLVvOtdS2Awbgxln6iEnt4rk0yBxeSBHkGJcPucRiG0e55mwWp+g/05rsrd6w==
 
 virtual-dom@^2.1.1:
   version "2.1.1"
