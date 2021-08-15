@@ -1,6 +1,6 @@
 {}
   :idx |020
-  :title "|top-evel await"
+  :title "|top-level await"
   :messages $ []
     {}
       :author |Bot
