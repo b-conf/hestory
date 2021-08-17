@@ -244,6 +244,10 @@
           defn swap-messages (messages d!) (d! :swap-messages messages)
         |reading-list $ quote
           def reading-list $ []
+            parse-cirru-edn $ slurp "\"data/2019-06-06-top-level-await.cirru"
+            parse-cirru-edn $ slurp "\"data/2019-03-21-decorator-change.cirru"
+            parse-cirru-edn $ slurp "\"data/2018-12-07-chrome-ie.cirru"
+            parse-cirru-edn $ slurp "\"data/2018-11-19-private-field-problem.cirru"
             keywordize-edn $ to-calcit-data
               toml/parse $ slurp "\"data/2020-08-12-template-stringify.toml"
             parse-cirru-edn $ slurp "\"data/2018-11-14-js-build-speed.cirru"

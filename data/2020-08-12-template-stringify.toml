@@ -1,6 +1,6 @@
 
 idx = '016'
-title = '模板渲染或可拯救 TOML 没有 stringify 无能的局面'
+title = '拯救 TOML 没有 stringify'
 
 [[messages]]
 author = '天猪'
