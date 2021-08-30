@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "@calcit/procs": "^0.4.13",
+    "@calcit/procs": "^0.4.24",
     "@ltd/j-toml": "^1.12.2",
-    "jdenticon": "^3.1.0",
+    "jdenticon": "^3.1.1",
     "toml": "^3.0.0"
   },
   "devDependencies": {
@@ -10,7 +10,7 @@
     "crypto-js": "^4.1.1",
     "feather-icons": "^4.28.0",
     "js-base64": "^3.6.1",
-    "vite": "^2.4.4"
+    "vite": "^2.5.1"
   },
   "version": "0.0.1"
 }

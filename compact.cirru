@@ -18,7 +18,6 @@
           "\"../xunfei/sdk" :refer $ speakXunfei
           "\"../assets/play-audio" :refer $ requstAudioSpeech
           feather.core :refer $ comp-icon comp-i
-          "\"../adaptors/toml" :refer $ parseTOML
           "\"toml" :as toml
       :defs $ {}
         |read-content $ quote
@@ -244,6 +243,9 @@
           defn swap-messages (messages d!) (d! :swap-messages messages)
         |reading-list $ quote
           def reading-list $ []
+            parse-cirru-edn $ slurp "\"data/2019-07-22-http2-perf.cirru"
+            parse-cirru-edn $ slurp "\"data/2019-07-10-deps-lock.cirru"
+            parse-cirru-edn $ slurp "\"data/2019-07-02-yield-syntax.cirru"
             parse-cirru-edn $ slurp "\"data/2019-06-06-top-level-await.cirru"
             parse-cirru-edn $ slurp "\"data/2019-03-21-decorator-change.cirru"
             parse-cirru-edn $ slurp "\"data/2018-12-07-chrome-ie.cirru"
@@ -318,7 +320,7 @@
                           :innerText $ trim (:text content)
                       comp-md $ :text content
         |url-pattern $ quote
-          def url-pattern $ new js/RegExp "\"https?:[\\w\\d\\/_#\\.\\=\\?\\-]+"
+          def url-pattern $ new js/RegExp "\"https?:[\\w\\d\\/_#\\.\\=\\?\\-\\%]+"
         |effect-render-icon $ quote
           defeffect effect-render-icon (label) (action el at?)
             case-default action nil
