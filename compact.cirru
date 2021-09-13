@@ -243,6 +243,7 @@
           defn swap-messages (messages d!) (d! :swap-messages messages)
         |reading-list $ quote
           def reading-list $ []
+            parse-cirru-edn $ slurp "\"data/2019-08-15-serverless.cirru"
             parse-cirru-edn $ slurp "\"data/2019-07-22-http2-perf.cirru"
             parse-cirru-edn $ slurp "\"data/2019-07-10-deps-lock.cirru"
             parse-cirru-edn $ slurp "\"data/2019-07-02-yield-syntax.cirru"
