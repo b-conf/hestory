@@ -3,6 +3,7 @@
   :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru |respo-feather.calcit/
     :version |0.0.1
+  :entries $ {}
   :files $ {}
     |app.comp.container $ {}
       :ns $ quote
@@ -16,7 +17,8 @@
           memof.alias :refer $ memof-call
           "\"jdenticon" :as jdenticon
           "\"../xunfei/sdk" :refer $ speakXunfei
-          "\"../assets/play-audio" :refer $ requstAudioSpeech
+          "\"../assets/play-azure" :refer $ synthesizeAzureSpeech
+          "\"../assets/play-audio" :refer $ requestAudioSpeech
           feather.core :refer $ comp-icon comp-i
           "\"toml" :as toml
       :defs $ {}
@@ -34,7 +36,9 @@
                     fn () $ read-content (rest messages) (inc idx) d!
                   "\"xunfei" $ speakXunfei (santinize-voice text)
                     fn () $ read-content (rest messages) (inc idx) d!
-                  "\"audio" $ requstAudioSpeech (get-env "\"audio-host") (santinize-voice text)
+                  "\"azure" $ synthesizeAzureSpeech (santinize-voice text) (get-env "\"azure-key")
+                    fn () $ read-content (rest messages) (inc idx) d!
+                  "\"audio" $ requestAudioSpeech (get-env "\"audio-host") (santinize-voice text)
                     fn () $ read-content (rest messages) (inc idx) d!
                 scroll-view!
         |comp-container $ quote
@@ -56,16 +60,11 @@
                   div
                     {} $ :style
                       merge ui/row-parted $ {} (:padding "\"0 8px") (:user-select :none)
-                    a $ {}
+                    a $ {} (:href "\"https://github.com/b-conf/hestory") (:target "\"_blank") (:inner-text "\"源码查看 GitHub.")
                       :style $ {} (:font-size 14)
-                      :href "\"https://github.com/b-conf/hestory"
-                      :target "\"_blank"
-                      :inner-text "\"源码查看 GitHub."
                     span $ {} (:inner-text "\"Voice")
-                      :style $ {}
+                      :style $ {} (:cursor :pointer) (:font-family ui/font-fancy)
                         :color $ if (:voice? state) (hsl 240 60 60) (hsl 0 0 80)
-                        :cursor :pointer
-                        :font-family ui/font-fancy
                       :on-click $ fn (e d!)
                         d! cursor $ update state :voice? not
                 div
@@ -387,10 +386,10 @@
             render-app!
             add-watch *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |k dispatch!
-            .!addEventListener js/window |beforeunload $ fn (event) (; persist-storage!) (js/speechSynthesis.cancel)
+            js/window.addEventListener |beforeunload $ fn (event) (; persist-storage!) (js/speechSynthesis.cancel)
             ; repeat! 60 persist-storage!
             ; let
-                raw $ .!getItem js/localStorage (:storage-key config/site)
+                raw $ js/localStorage.getItem (:storage-key config/site)
               when (some? raw)
                 dispatch! :hydrate-storage $ parse-cirru-edn raw
             println "|App started."

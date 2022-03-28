@@ -1,5 +1,5 @@
 
-export let requstAudioSpeech = async (host, text, cb)=>{
+export let requestAudioSpeech = async (host, text, cb)=>{
   let response = await fetch(`${host}/audio.json`, {
     method: 'POST',
     body: JSON.stringify({
