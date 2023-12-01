@@ -134,7 +134,7 @@
       :text "|我能想到的就是一个parser的例子。 `function *parse() { for(;;) { dealwith(function.sent); yield /*wait for next token*/ } }`"
     {}
       :author "|引证"
-      :text "[囧]这个我就爱莫能助了"
+      :text "|[囧]这个我就爱莫能助了"
     {}
       :author "|小问"
       :text "|真想不到啥…"
