@@ -827,7 +827,7 @@ __metadata:
     js-base64: "npm:^3.7.5"
     microsoft-cognitiveservices-speech-sdk: "npm:^1.33.1"
     toml: "npm:^3.0.0"
-    vite: "npm:^8.2.2"
+    vite: "npm:8.2.2"
   languageName: unknown
   linkType: soft
 
@@ -923,7 +923,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^8.2.2":
+"vite@npm:8.2.2":
   version: 8.2.2
   resolution: "vite@npm:8.2.2"
   dependencies:

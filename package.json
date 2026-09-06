@@ -15,7 +15,7 @@
     "feather-icons": "^4.29.1",
     "js-base64": "^3.7.5",
     "microsoft-cognitiveservices-speech-sdk": "^1.33.1",
-    "vite": "^8.2.2"
+    "vite": "8.2.2"
   },
   "version": "0.0.1"
 }
