@@ -24,11 +24,13 @@
           :code $ quote
             defcomp comp-container (reel)
               let
-                  store $ :store reel
-                  states $ :states store
-                  cursor $ either (:cursor states) ([])
-                  state $ either (:data states)
+                  store $ option:unwrap (get reel :store)
+                  states $ option:unwrap (get store :states)
+                  cursor $ option:unwrap-or (get states :cursor) ([])
+                  state $ option:unwrap-or (get states :data)
                     {} (:content |) (:voice? false)
+                  voice? $ option:unwrap-or (get state :voice?) false
+                  messages $ option:unwrap-or (get store :messages) ([])
                 div
                   {}
                     :class-name $ str-spaced css/global css/fullscreen css/row
@@ -37,7 +39,7 @@
                     {} (:class-name css/column)
                       :style $ {} (:width |28%)
                         :background-color $ hsl 0 0 94
-                    memof1-call comp-menu $ :voice? state
+                    memof1-call comp-menu voice?
                     div
                       {} (:class-name css/row-parted)
                         :style $ {} (:padding "|0 8px") (:user-select :none)
@@ -45,13 +47,13 @@
                         :style $ {} (:font-size 14)
                       span $ {} (:inner-text |Voice)
                         :style $ {} (:cursor :pointer) (:font-family ui/font-fancy)
-                          :color $ if (:voice? state) (hsl 240 60 60) (hsl 0 0 80)
+                          :color $ if voice? (hsl 240 60 60) (hsl 0 0 80)
                         :on-click $ fn (e d!)
                           d! cursor $ update state :voice? not
                   div
                     {} $ :class-name (str-spaced css/expand css/column)
                     memof1-call comp-header
-                    comp-messages $ :messages store
+                    comp-messages messages
                     memof1-call comp-input $ >> states :input
                     when dev? $ comp-reel (>> states :reel) reel ({})
           :examples $ []
@@ -60,7 +62,7 @@
           :code $ quote
             defcomp comp-header () $ div
               {} $ :class-name (str-spaced css/row-parted style-header)
-              span nil
+              span $ {}
               span
                 {} $ :on-click
                   fn (e d!) (js/document.body.requestFullscreen)
@@ -73,44 +75,51 @@
                   :cursor :pointer
                 fn (e d!) (d! :clear nil)
                   let
-                      xs $ js/document.querySelectorAll |audio
-                    .!forEach xs $ fn (x i ? n) (.!remove x)
+                      nodes $ unsafe-coerce (js/document.querySelectorAll |audio) 'JsObject
+                    .!forEach nodes $ fn (node i a)
+                      .!remove $ unsafe-coerce node 'JsObject
                   js/window.speechSynthesis.cancel
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Dynamic)
+              :args $ []
+              :features $ #{} :js-ffi
         'comp-input $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-input (states)
               let
-                  cursor $ :cursor states
-                  state $ either (:data states)
+                  cursor $ option:unwrap-or (get states :cursor) ([])
+                  state $ option:unwrap-or (get states :data)
                     {} $ :content |
+                  content $ option:unwrap-or (get state :content) |
                 div
                   {} $ :style
                     merge ui/row-middle $ {} (:padding "|6px 10px")
                       :background-color $ hsl 0 0 97
                       :border-top $ str "|1px solid " (hsl 0 0 90)
-                  textarea $ {}
-                    :value $ :content state
-                    :placeholder |Reply...
+                  textarea $ {} (:value content) (:placeholder |Reply...)
                     :style $ merge ui/textarea ui/expand
                       {} (:height 40) (:line-height |24px) (:border :none)
                     :on-input $ fn (e d!)
-                      d! cursor $ assoc state :content (:value e)
+                      d! cursor $ assoc state :content
+                        option:unwrap-or (get e :value) |
                     :autofocus true
                     :on-keydown $ fn (e d!)
                       let
-                          event $ :event e
-                        when
-                          = |Enter $ .-key event
-                          .!preventDefault $ :event e
-                          d! :message $ {} (:author |Me)
-                            :text $ .-value
-                              .-target $ :event e
+                          event $ option:unwrap (get e :event)
+                          key $ unsafe-coerce (.-key event) 'String
+                        when (= |Enter key) (.!preventDefault event)
+                          let
+                              target $ unsafe-coerce (.-target event) 'JsObject
+                            d! :message $ {} (:author |Me)
+                              :text $ unsafe-coerce (.-value target) 'String
                           d! cursor $ assoc state :content |
                           scroll-view!
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Dynamic)
+              :args $ [] 'Dynamic
+              :features $ #{} :js-ffi
         'comp-menu $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-menu (voice?)
@@ -121,26 +130,27 @@
                 list-> ({})
                   -> reading-list $ map
                     fn (info)
-                      [] (:idx info)
-                        div
+                      let
+                          idx $ option:unwrap (get info :idx)
+                          title $ option:unwrap (get info :title)
+                          messages $ option:unwrap (get info :messages)
+                        [] idx $ div
                           {}
                             :class-name $ str-spaced css/row-middle |hover-item style-entry
                             :on-click $ fn (e d!) (js/window.speechSynthesis.cancel)
-                              if voice?
-                                read-content (:messages info) 0 d!
-                                swap-messages (:messages info) d!
+                              if voice? (read-content messages 0 d!) (swap-messages messages d!)
                           comp-icon :link
                             {} (:font-size 14)
                               :color $ hsl 230 70 70
                               :line-height |14px
                             , nil
                           =< 2 nil
-                          <> (:idx info) style-ep-no
+                          <> (str idx) style-ep-no
                           =< 8 nil
-                          <> $ :title info
+                          <> title
                           =< 8 nil
                           <>
-                            str $ count (:messages info)
+                            str $ count messages
                             , style-message-count
                 =< nil 80
           :examples $ []
@@ -148,44 +158,45 @@
         'comp-message $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-message (content)
-              div
-                {} (:class-name css/row)
-                  :style $ {} (:width |98%) (:padding "|4px 10px")
-                comp-avatar $ :author content
-                =< 8 nil
+              let
+                  author $ option:unwrap-or (get content :author) |
+                  floor-label $ option:unwrap-or (get content :floor) |_
+                  code? $ option:unwrap-or (get content :code?) false
+                  text $ option:unwrap-or (get content :text) |
                 div
-                  {} $ :class-name css/flex
+                  {} (:class-name css/row)
+                    :style $ {} (:width |98%) (:padding "|4px 10px")
+                  comp-avatar author
+                  =< 8 nil
                   div
-                    {} $ :class-name style-message-area
+                    {} $ :class-name css/flex
                     div
-                      {} $ :class-name css/row-parted
-                      <> $ :author content
-                      <>
-                        str |# $ or (:floor content) |_
-                        , style-floor
-                    div
-                      {} $ :class-name style-message
-                      if (:code? content)
-                        pre
-                          {} $ :class-name style-message-code
-                          code $ {}
-                            :innerText $ trim (:text content)
-                        comp-md $ :text content
+                      {} $ :class-name style-message-area
+                      div
+                        {} $ :class-name css/row-parted
+                        <> author
+                        <> (str |# floor-label) style-floor
+                      div
+                        {} $ :class-name style-message
+                        if code?
+                          pre
+                            {} $ :class-name style-message-code
+                            code ({})
+                              <> $ trim text
+                          comp-md text
           :examples $ []
           :schema $ :: 'Dynamic
         'comp-messages $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            defcomp comp-messages (ms)
+            defcomp comp-messages (messages)
               div
                 {} $ :class-name css/expand
                 =< nil 8
                 list->
                   {} $ :id |message-area
-                  -> ms
-                    or $ []
-                    .map-indexed $ fn (idx m)
-                      [] idx $ comp-message m
-                if (empty? ms)
+                  map-indexed messages $ fn (idx message)
+                    [] idx $ comp-message message
+                if (empty? messages)
                   div
                     {} (:class-name css/center)
                       :style $ {} (:padding |40px)
@@ -194,7 +205,9 @@
                       :font-style :italic
                 =< nil 80
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Dynamic)
+              :args $ [] 'List
         'effect-render-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defeffect effect-render-icon (label) (action el at?)
@@ -209,10 +222,21 @@
                   jdenticon/update svg label
           :examples $ []
           :schema $ :: 'Dynamic
+        'js-replace $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defn js-replace (text pattern replacement)
+              unsafe-coerce (.!replace text pattern replacement) 'String
+          :examples $ []
+          :schema $ :: 'Fn
+            {} (:return 'String)
+              :args $ [] 'String 'Dynamic 'Dynamic
+              :features $ #{} :js-ffi
         'load-data $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            defmacro load-data (path) (; println "|reading path" path)
-              &data-to-code $ parse-cirru-edn (read-file path)
+            defmacro load-data (path)
+              let
+                  path-text $ assert-type path 'String
+                &data-to-code $ parse-cirru-edn (read-file path-text)
           :examples $ []
           :schema $ :: 'Macro
             {}
@@ -225,10 +249,11 @@
               when
                 not $ empty? messages
                 let
-                    msg $ first messages
-                    text $ if (:code? msg) |Code (:text msg)
+                    msg $ option:unwrap (first messages)
+                    code? $ option:unwrap-or (get msg :code?) false
+                    body $ option:unwrap-or (get msg :text) |
+                    text $ if code? |Code body
                   d! :message $ assoc msg :floor idx
-                  ; println |read text
                   case-default api-target
                     speech! (santinize-voice text)
                       fn () $ read-content (rest messages) (inc idx) d!
@@ -276,35 +301,39 @@
         'santinize-voice $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn santinize-voice (text)
-              -> text (.!replace at-pattern "| at ")
-                .!replace url-pattern $ fn (target & args)
-                  let
-                      url $ new js/URL target
-                    if (some? url)
-                      str "| link to "
-                        .!replace (.-host url) |www. |
-                        , "| "
-                      , "|link. "
+              js-replace (js-replace text at-pattern "| at ") url-pattern $ fn (target & args)
+                let
+                    url $ unsafe-coerce (new js/URL target) 'JsObject
+                    host $ unsafe-coerce (.-host url) 'String
+                  str "| link to " (js-replace host |www. |) "| "
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'String)
+              :args $ [] 'String
+              :features $ #{} :js-ffi
         'scroll-view! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn scroll-view! () $ js/setTimeout
               fn () $ let
-                  target $ js/document.querySelector |#message-area
-                  last-child $ if (some? target) (.-lastElementChild target)
-                if (some? last-child)
-                  if
-                    some? $ .-scrollIntoViewIfNeeded last-child
-                    .!scrollIntoViewIfNeeded last-child
-                    .!scrollIntoView last-child
-                  js/console.warn "|no target"
+                  target-raw $ js/document.querySelector |#message-area
+                when (js-present? target-raw)
+                  let
+                      target $ unsafe-coerce target-raw 'JsObject
+                      child-raw $ .-lastElementChild target
+                    when (js-present? child-raw)
+                      let
+                          child $ unsafe-coerce child-raw 'JsObject
+                        .!scrollIntoView child
               , 100
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Dynamic)
+              :args $ []
+              :features $ #{} :js-ffi
         'slurp $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            defmacro slurp (path) (read-file path)
+            defmacro slurp (path)
+              read-file $ assert-type path 'String
           :examples $ []
           :schema $ :: 'Macro
             {}
@@ -315,29 +344,29 @@
           :code $ quote
             defn speech! (text cb)
               let
-                  t $ new js/window.SpeechSynthesisUtterance text
+                  t $ unsafe-coerce (new js/window.SpeechSynthesisUtterance text) 'JsObject
                 set! (.-lang t) |zh-cn
                 set! (.-rate t) 1.2
                 let
-                    v0 $ js/window.speechSynthesis.getVoices
-                    vs $ .!filter v0
-                      fn (v i a)
-                        .!includes (.-lang v) |zh
-                  if
-                    some? $ aget vs 3
-                    set! (.-voice t) (aget vs 3)
-                    js/console.warn "|no voice:" v0
+                    voices $ unsafe-coerce (js/window.speechSynthesis.getVoices) 'JsObject
+                    filtered $ unsafe-coerce
+                      .!filter voices $ fn (voice i a)
+                        includes?
+                          unsafe-coerce (.-lang voice) 'String
+                          , |zh
+                      , 'JsObject
+                    voice-raw $ aget filtered 3
+                  if (js-present? voice-raw)
+                    set! (.-voice t) (unsafe-coerce voice-raw 'JsObject)
+                    js/console.warn "|no voice:" voices
                 js/window.speechSynthesis.speak t
                 set! (.-onend t)
                   fn (event) (js/setTimeout cb 400)
-                ; set! (.-onerror t)
-                  fn (event) (js/console.log "|speech error:" event) (js/setTimeout cb 400)
-                ; set! (.-onboundary t)
-                  fn (event) (js/console.log "|speech boundary:" event) (js/setTimeout cb 1000)
-                ; set! (.-onpause t)
-                  fn (event) (js/console.log "|speech pause:" event) (js/setTimeout cb 1000)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Dynamic)
+              :args $ [] 'String 'Dynamic
+              :features $ #{} :js-ffi
         'style-avatar $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-avatar $ {}
@@ -445,12 +474,13 @@
       :defs $ {}
         'api-target $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def api-target $ get-env |api-target
+            def api-target $ option:unwrap-or (get-env |api-target) |speech
           :examples $ []
           :schema $ :: 'Dynamic
         'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def dev? $ = |dev (get-env |mode)
+            def dev? $ = |dev
+              option:unwrap-or (get-env |mode) |dev
           :examples $ []
           :schema $ :: 'Dynamic
         'site $ %{} 'CodeEntry (:doc |)
@@ -471,7 +501,7 @@
           :code $ quote
             defn dispatch! (op)
               when
-                and config/dev? $ not= (nth op 0) :states
+                and config/dev? $ not= op :states
                 js/console.log |Dispatch: op
               reset! *reel $ reel-updater updater @*reel op
           :examples $ []
@@ -479,24 +509,19 @@
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn main! ()
-              if (= config/dev? |dev) (load-console-formatter!)
               println "|Running mode:" $ if config/dev? |dev |release
+              if config/dev? $ load-console-formatter!
               js/window.speechSynthesis.getVoices
               render-app!
               add-watch *reel :changes $ fn (reel prev) (render-app!)
               listen-devtools! |k dispatch!
-              js/window.addEventListener |beforeunload $ fn (event) (; persist-storage!) (js/speechSynthesis.cancel)
-              ; repeat! 60 persist-storage!
-              ; let
-                (raw (js/localStorage.getItem (:storage-key config/site)))
-                when (some? raw)
-                  dispatch! :hydrate-storage $ parse-cirru-edn raw
+              js/window.addEventListener |beforeunload $ fn (event) (js/speechSynthesis.cancel)
               println "|App started."
           :examples $ []
           :schema $ :: 'Dynamic
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def mount-target $ .!querySelector js/document |.app
+            def mount-target $ js/document.querySelector |.app
           :examples $ []
           :schema $ :: 'Dynamic
         'persist-storage! $ %{} 'CodeEntry (:doc |)
@@ -559,7 +584,7 @@
         'updater $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn updater (store op op-id op-time)
-              tag-match op
+              match op
                 (:states cursor s) (update-states store cursor s)
                 (:hydrate-storage data) data
                 (:message data)
