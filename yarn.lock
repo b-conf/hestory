@@ -276,10 +276,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cirru-color@npm:^0.2.4":
+  version: 0.2.4
+  resolution: "cirru-color@npm:0.2.4"
+  checksum: 10c0/2c4e0e1f01d2304aaa7bffe9c75aea04be7c6ea3f45bc03c86bc50efa9c03bf7d4611d1ec2f613610491bd288adb298f7942bfedcb14595dc4c8bde8dfb77104
+  languageName: node
+  linkType: hard
+
 "classnames@npm:^2.2.5":
   version: 2.3.2
   resolution: "classnames@npm:2.3.2"
   checksum: 10c0/cd50ead57b4f97436aaa9f9885c6926323efc7c2bea8e3d4eb10e4e972aa6a1cfca1c7a0e06f8a199ca7498d4339e30bb6002e589e61c9f21248cbf3e8b0b18d
+  languageName: node
+  linkType: hard
+
+"copy-text-to-clipboard@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "copy-text-to-clipboard@npm:3.2.2"
+  checksum: 10c0/451796734a380f7da7b0af27c4d94e449719d3a2f2170e99c7e46eeee54cf3c4b4fdeabc185f6d6e8cbdf932e350831d05e8387c4bae8dcedb7fb961c600ddd4
   languageName: node
   linkType: hard
 
@@ -294,6 +308,13 @@ __metadata:
   version: 4.2.0
   resolution: "crypto-js@npm:4.2.0"
   checksum: 10c0/8fbdf9d56f47aea0794ab87b0eb9833baf80b01a7c5c1b0edc7faf25f662fb69ab18dc2199e2afcac54670ff0cd9607a9045a3f7a80336cccd18d77a55b9fdf0
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.11.13":
+  version: 1.11.23
+  resolution: "dayjs@npm:1.11.23"
+  checksum: 10c0/69ab04bf19c676e44ab50cc2fca223d265f3dafd107151ef3b0f3ad74d360c37caa602abe62f87cb25d90bd9f6bee003698af47df5b0dbf10a998b7b5f3bb3f1
   languageName: node
   linkType: hard
 
@@ -797,7 +818,10 @@ __metadata:
     "@calcit/procs": "npm:0.13.77"
     "@ltd/j-toml": "npm:^1.38.0"
     bottom-tip: "npm:^0.1.5"
+    cirru-color: "npm:^0.2.4"
+    copy-text-to-clipboard: "npm:^3.2.2"
     crypto-js: "npm:^4.2.0"
+    dayjs: "npm:^1.11.13"
     feather-icons: "npm:^4.29.1"
     jdenticon: "npm:^3.2.0"
     js-base64: "npm:^3.7.5"
