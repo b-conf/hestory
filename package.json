@@ -1,6 +1,7 @@
 {
+  "packageManager": "yarn@4.12.0",
   "dependencies": {
-    "@calcit/procs": "^0.8.13",
+    "@calcit/procs": "0.13.77",
     "@ltd/j-toml": "^1.38.0",
     "jdenticon": "^3.2.0",
     "toml": "^3.0.0"
@@ -11,7 +12,7 @@
     "feather-icons": "^4.29.1",
     "js-base64": "^3.7.5",
     "microsoft-cognitiveservices-speech-sdk": "^1.33.1",
-    "vite": "^5.0.3"
+    "vite": "^8.2.2"
   },
   "version": "0.0.1"
 }
