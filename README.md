@@ -56,9 +56,9 @@ http-server dist/
 ##### 目录结构
 
 - `data/` 目录存放整理出来的消息数据.
-- `main.js` 是 Vite 的 js 代码入口, 但是业务主题代码在 `compact.cirru` 当中.
-- `calcit.cirru` 和 `compact.cirru` 是由 calcit-editor 生成的, 不需要手动改.
-- `compact.cirru` 编译生成的文件会在 `js-out/` 里边.
+- `main.js` 是 Vite 的 JS 代码入口，业务代码保存在 `calcit.cirru` 中.
+- `calcit.cirru` 是项目唯一的 Calcit 源码快照；请使用 Calcit CLI 或编辑器进行结构化修改，不要直接手改生成内容.
+- `calcit.cirru` 编译生成的文件会在 `js-out/` 里边.
 
 其他配置还有资源目录, 应该接近平常的 js 项目了.
 
