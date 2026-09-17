@@ -320,27 +320,26 @@
             :features $ #{} :js-ffi
         'read-content $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn read-content (messages idx d!)
-            do
-              when
-                not $ empty? messages
-                let
-                    msg $ option:unwrap $ first messages
-                    code? $ option:unwrap-or (get msg :code?) false
-                    body $ option:unwrap-or (get msg :text) |
-                    text $ if code? |Code body
-                  d! :message $ assoc msg :floor idx
-                  case-default api-target
-                    speech! (santinize-voice text)
-                      fn () $ read-content (rest messages) (inc idx) d!
-                    |xunfei $ speakXunfei (santinize-voice text)
-                      fn () $ read-content (rest messages) (inc idx) d!
-                    |azure $ synthesizeAzureSpeech (santinize-voice text) (get-env |azure-key)
-                      fn $
-                      fn () $ read-content (rest messages) (inc idx) d!
-                    |audio $ requestAudioSpeech (get-env |audio-host) (santinize-voice text)
-                      fn () $ read-content (rest messages) (inc idx) d!
-                  scroll-view!
-              , &unit
+            when
+              not $ empty? messages
+              let
+                  msg $ option:unwrap $ first messages
+                  code? $ option:unwrap-or (get msg :code?) false
+                  body $ option:unwrap-or (get msg :text) |
+                  text $ if code? |Code body
+                d! :message $ assoc msg :floor idx
+                case-default api-target
+                  speech! (santinize-voice text)
+                    fn () $ read-content (rest messages) (inc idx) d!
+                  |xunfei $ speakXunfei (santinize-voice text)
+                    fn () $ read-content (rest messages) (inc idx) d!
+                  |azure $ synthesizeAzureSpeech (santinize-voice text) (get-env |azure-key)
+                    fn $
+                    fn () $ read-content (rest messages) (inc idx) d!
+                  |audio $ requestAudioSpeech (get-env |audio-host) (santinize-voice text)
+                    fn () $ read-content (rest messages) (inc idx) d!
+                scroll-view!
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] (:: 'List 'Dynamic) 'Number $ :: 'Fn
@@ -392,20 +391,19 @@
             :features $ #{} :js-ffi
         'scroll-view! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn scroll-view! ()
-            do
-              js/setTimeout
-                fn () $ let
-                    target-raw $ js/document.querySelector |#message-area
-                  when (js-present? target-raw)
-                    let
-                        target $ unsafe-coerce target-raw 'app.comp.container/ScrollTargetHost
-                        child-raw $ .-lastElementChild target
-                      when (js-present? child-raw)
-                        let
-                            child $ unsafe-coerce child-raw 'app.comp.container/ScrollChildHost
-                          .scroll-into-view! child
-                , 100
-              , &unit
+            js/setTimeout
+              fn () $ let
+                  target-raw $ js/document.querySelector |#message-area
+                when (js-present? target-raw)
+                  let
+                      target $ unsafe-coerce target-raw 'app.comp.container/ScrollTargetHost
+                      child-raw $ .-lastElementChild target
+                    when (js-present? child-raw)
+                      let
+                          child $ unsafe-coerce child-raw 'app.comp.container/ScrollChildHost
+                        .scroll-into-view! child
+              , 100
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
@@ -596,11 +594,10 @@
             :return $ :: 'JsNullish 'JsObject
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
-            do
-              js-ffi.browser/storage-set!
-                option:unwrap $ get config/site :storage-key
-                format-cirru-edn $ :store @*reel
-              , &unit
+            js-ffi.browser/storage-set!
+              option:unwrap $ get config/site :storage-key
+              format-cirru-edn $ option:unwrap $ get @*reel :store
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
@@ -625,12 +622,11 @@
             :args $ []
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
-            do
-              js/setTimeout
-                fn () (cb)
-                  repeat! (* 1000 duration) cb
-                * 1000 duration
-              , &unit
+            js/setTimeout
+              fn () (cb)
+                repeat! (* 1000 duration) cb
+              * 1000 duration
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] 'Number $ :: 'Fn
