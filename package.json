@@ -1,7 +1,13 @@
 {
-  "packageManager": "yarn@4.12.0",
+  "packageManager": "yarn@4.18.0",
+  "scripts": {
+    "compile": "calcit calcit.cirru js",
+    "build": "vite build",
+    "release": "yarn compile && yarn build",
+    "dev": "calcit calcit.cirru js && vite"
+  },
   "dependencies": {
-    "@calcit/procs": "0.22.0-alpha.3",
+    "@calcit/procs": "0.27.0",
     "@ltd/j-toml": "^1.38.0",
     "cirru-color": "^0.2.4",
     "copy-text-to-clipboard": "^3.2.2",
@@ -15,7 +21,7 @@
     "feather-icons": "^4.29.1",
     "js-base64": "^3.7.5",
     "microsoft-cognitiveservices-speech-sdk": "^1.33.1",
-    "vite": "8.2.2"
+    "vite": "8.3.1"
   },
-  "version": "0.0.4"
+  "version": "0.0.5"
 }
