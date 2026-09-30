@@ -125,7 +125,7 @@
                       :style $ {} (:cursor :pointer) (:font-family ui/font-fancy)
                         :color $ if voice? (hsl 240 60 60) (hsl 0 0 80)
                       :on-click $ fn (e d!)
-                        d! cursor $ update state :voice? not
+                        d! $ :: :states cursor $ update state :voice? not
                 div
                   {} $ :class-name $ str-spaced css/expand css/column
                   memof1-call comp-header
@@ -149,7 +149,8 @@
                   :line-height |20px
                   :vertical-align :middle
                   :cursor :pointer
-                fn (e d!) (d! :clear nil)
+                fn (e d!)
+                  d! $ :: :clear
                   let
                       nodes $ unsafe-coerce (js/document.querySelectorAll |audio) 'app.comp.container/AudioNodeListHost
                     .for-each! nodes $ fn (node i a)
@@ -174,20 +175,25 @@
                 textarea $ {} (:value content) (:placeholder |Reply...)
                   :style $ merge ui/textarea ui/expand $ {} (:height 40) (:line-height |24px) (:border :none)
                   :on-input $ fn (e d!)
-                    d! cursor $ assoc state :content $ option:unwrap-or (get e :value) |
+                    hint-fn $ {}
+                      :args $ [] (quote respo.schema/RespoEvent) (quote Dynamic)
+                      :return $ quote Unit
+                    d! $ :: :states cursor $ assoc state :content
+                      expect-string |input.value $ :value e
                   :autofocus true
                   :on-keydown $ fn (e d!)
+                    hint-fn $ {}
+                      :args $ [] (quote respo.schema/RespoEvent) (quote Dynamic)
+                      :return $ quote Unit
                     let
-                        event $ unsafe-coerce
-                          option:unwrap $ get e :event
-                          , 'app.comp.container/InputKeyboardEventHost
+                        event $ unsafe-coerce (:event e) 'app.comp.container/InputKeyboardEventHost
                         key $ .-key event
                       when (= |Enter key) (.prevent-default! event)
                         let
                             target $ option:unwrap $ js-nullish->option (.-target event)
-                          d! :message $ {} (:author |Me)
+                          d! $ :: :message $ {} (:author |Me)
                             :text $ .-value target
-                        d! cursor $ assoc state :content |
+                        d! $ :: :states cursor $ assoc state :content |
                         scroll-view!
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
@@ -327,7 +333,7 @@
                   code? $ option:unwrap-or (get msg :code?) false
                   body $ option:unwrap-or (get msg :text) |
                   text $ if code? |Code body
-                d! :message $ assoc msg :floor idx
+                d! $ :: :message $ assoc msg :floor idx
                 case-default api-target
                   speech! (santinize-voice text)
                     fn () $ read-content (rest messages) (inc idx) d!
@@ -344,7 +350,7 @@
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] (:: 'List 'Dynamic) 'Number $ :: 'Fn
               {} (:return 'Unit)
-                :args $ [] 'Tag 'Dynamic
+                :args $ [] 'Enum
         'reading-list $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def reading-list
             []
@@ -505,12 +511,13 @@
           :examples $ []
           :schema $ :: 'String
         'swap-messages $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn swap-messages (messages d!) (d! :swap-messages messages)
+          :code $ quote $ defn swap-messages (messages d!)
+            d! $ :: :swap-messages messages
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] (:: 'List 'Dynamic)
               :: 'Fn $ {} (:return 'Unit)
-                :args $ [] 'Tag 'Dynamic
+                :args $ [] 'Enum
         'url-pattern $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn url-pattern () (new js/RegExp |https?:[\w\d\/_#\.\=\?\-\%]+)
           :examples $ []
@@ -534,6 +541,7 @@
             |../assets/play-audio :refer $ requestAudioSpeech
             feather.core :refer $ comp-icon comp-i
             |toml :as toml
+            js-ffi.contract :refer $ [] expect-string
     'app.config $ %{} 'FileEntry
       :defs $ {}
         'api-target $ %{} 'CodeEntry (:doc |)
