@@ -48,16 +48,15 @@ yarn dev
 To build:
 
 ```
-yarn compile
-VITE_BASE_URL=https://cos-sh.tiye.me/b-conf/hestory/pr/27/ yarn build
+VITE_BASE_URL=https://cos-sh.tiye.me/b-conf/hestory/ yarn build
 node --test test/runtime.test.mjs
 ```
 
 ##### 目录结构
 
-未设置 `VITE_BASE_URL` 时保持相对资源路径。上传及公开访问验证使用 COS Action 内置 verify 配置，不添加额外 CDN 校验脚本。原语音模式、存储键、共享字体和服务器部署路径不变。依赖仍有已发布 Markdown 与 UI/js-ffi 的版本请求冲突，不宣称严格 Caps 通过。
+dev 先生成初始 JS，再共同运行 Calcit watch 和 Vite；任一进程退出时停止另一。build 包含一次编译。未设置 `VITE_BASE_URL` 时保持相对资源路径，每次 PR 上传按 PR/run/attempt 隔离。上传及公开访问验证仅使用 COS Action 内置 verify 配置，删除独立 CDN 校验脚本。CI 保留严格入口/公共合同、原质量基线和真实业务测试，不重复运行迁移诊断。原语音模式、存储键、共享字体和服务器部署路径不变。
 
-已知运行时阻塞：Markdown 0.4.46 在 `data/2018-07-13-vue-internals.cirru` 的行内代码消息中触发 `Invalid data in elements tree`，等待 [上游修复 #61](https://github.com/Respo/respo-markdown.calcit/pull/61) 合并并发布。现有检查不代表所有历史 Markdown 内容兼容完成。运行测试使用真实编译组件及 SDK 导入，浏览器 Worker/DOM/语音宿主使用 fixture，不会请求付费 TTS。
+Markdown 0.4.46 的行内代码渲染修复 [上游 #61](https://github.com/Respo/respo-markdown.calcit/pull/61) 已合并；在正式版本发布前固定完整提交 `1256d550445bf69573bc9e53bbccbea1ddcb0530`，不把该提交冒充已发布版本。运行测试使用真实编译组件及 SDK 导入，浏览器 Worker/DOM/语音宿主使用 fixture，不会请求付费 TTS，也不代表现场语音服务验收。
 
 - `data/` 目录存放整理出来的消息数据.
 - `main.js` 是 Vite 的 JS 代码入口，业务代码保存在 `calcit.cirru` 中.
