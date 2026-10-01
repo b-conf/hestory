@@ -49,7 +49,7 @@ To build:
 
 ```
 yarn compile
-VITE_BASE_URL=https://cos-sh.tiye.me/b-conf/hestory/pr/ yarn build
+VITE_BASE_URL=https://cos-sh.tiye.me/b-conf/hestory/pr/27/ yarn build
 node --test test/runtime.test.mjs
 ```
 

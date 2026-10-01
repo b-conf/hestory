@@ -571,7 +571,9 @@
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when
-              and config/dev? $ not= op :states
+              and config/dev? $ match op
+                (:states _ _) false
+                _ true
               js/console.log |Dispatch: op
             reset! *reel $ reel-updater updater @*reel op
           :examples $ []
