@@ -132,15 +132,19 @@ test('real sanitization preserves speech text and replaces mentions and URLs', (
 test('actual menu callback preserves the selected history without enabling speech', () => {
   const priorWindow = globalThis.window;
   let cancelled = 0;
-  const { operations, dispatch } = capture();
   try {
     globalThis.window = { speechSynthesis: { cancel() { cancelled++; } } };
     const callbacks = handlers(app.comp_menu(false), t.click);
     assert.equal(callbacks.length, c.count(app.reading_list));
-    callbacks[0](null, dispatch);
-    const next = updater(store, operations[0], 'fixture', 0);
-    assert.equal(read(next, 'messages'), read(c.option_$o_unwrap(c.first(app.reading_list)), 'messages'));
-    assert.equal(cancelled, 1);
+    callbacks.forEach((callback, index) => {
+      const { operations, dispatch } = capture();
+      callback(null, dispatch);
+      const next = updater(store, operations[0], 'fixture', 0);
+      const messages = read(c.option_$o_unwrap(c.nth(app.reading_list, index)), 'messages');
+      assert.equal(read(next, 'messages'), messages);
+      assert.doesNotThrow(() => make_string(app.comp_messages(messages)));
+    });
+    assert.equal(cancelled, callbacks.length);
   } finally { if (priorWindow === undefined) delete globalThis.window; else globalThis.window = priorWindow; }
 });
 test('actual clear callback removes audio nodes and cancels speech with a zero-payload Enum', () => {
