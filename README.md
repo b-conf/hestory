@@ -54,7 +54,7 @@ node --test test/runtime.test.mjs
 
 ##### 目录结构
 
-dev 先生成初始 JS，再共同运行 Calcit watch 和 Vite；任一进程退出时停止另一。build 包含一次编译。未设置 `VITE_BASE_URL` 时保持相对资源路径，每次 PR 上传按 PR/run/attempt 隔离。上传及公开访问验证仅使用 COS Action 内置 verify 配置，删除独立 CDN 校验脚本。CI 保留严格入口/公共合同、原质量基线和真实业务测试，不重复运行迁移诊断。原语音模式、存储键、共享字体和服务器部署路径不变。
+dev 先生成初始 JS，再启动 Vite；修改 Calcit 时在另一终端运行 `yarn watch`，无需进程管理依赖。build 包含一次编译。未设置 `VITE_BASE_URL` 时保持相对资源路径，每次 PR 上传按 PR/run/attempt 隔离。上传及公开访问验证仅使用 COS Action v1.2.0 内置 verify 配置，不添加独立 CDN 校验脚本。生产部署排队执行，上传前检查仍为当前 main，过期构建跳过 COS 和原服务器同步。CI 保留严格入口/公共合同、原质量基线和真实业务测试，不重复运行迁移诊断。原语音模式、存储键、共享字体和服务器部署路径不变。
 
 Markdown 0.4.46 的行内代码渲染修复 [上游 #61](https://github.com/Respo/respo-markdown.calcit/pull/61) 已合并；在正式版本发布前固定完整提交 `1256d550445bf69573bc9e53bbccbea1ddcb0530`，不把该提交冒充已发布版本。运行测试使用真实编译组件及 SDK 导入，浏览器 Worker/DOM/语音宿主使用 fixture，不会请求付费 TTS，也不代表现场语音服务验收。
 
