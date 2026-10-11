@@ -100,13 +100,19 @@
         'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-container (reel)
             let
-                store $ option:unwrap $ get reel :store
-                states $ option:unwrap $ get store :states
-                cursor $ option:unwrap-or (get states :cursor) ([])
-                state $ option:unwrap-or (get states :data)
-                  {} (:content |) (:voice? false)
-                voice? $ option:unwrap-or (get state :voice?) false
-                messages $ option:unwrap-or (get store :messages) ([])
+                store $ :store reel
+                states $ :states store
+                cursor $ decode-map-as
+                  option:unwrap-or (get states :cursor) ([])
+                  :: 'List 'Dynamic
+                state $ decode-map-as
+                  option:unwrap-or (get states :data)
+                    {} (:content |) (:voice? false)
+                  :: 'Map 'Tag 'Dynamic
+                voice? $ decode-map-as
+                  option:unwrap-or (get state :voice?) false
+                  , 'Bool
+                messages $ :messages store
               div
                 {}
                   :class-name $ str-spaced css/global css/fullscreen css/row
@@ -125,16 +131,16 @@
                       :style $ {} (:cursor :pointer) (:font-family ui/font-fancy)
                         :color $ if voice? (hsl 240 60 60) (hsl 0 0 80)
                       :on-click $ fn (e d!)
-                        d! $ :: :states cursor $ update state :voice? not
+                        d! $ schema/Op :states cursor $ assoc state :voice? (not voice?)
                 div
                   {} $ :class-name $ str-spaced css/expand css/column
                   memof1-call comp-header
                   comp-messages messages
                   memof1-call comp-input $ >> states :input
-                  when dev? $ comp-reel (>> states :reel) reel $ {}
+                  when dev? $ comp-typed-reel (>> states :reel) reel $ {}
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] $ :: 'Map 'Tag 'Dynamic
+            :args $ [] $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
         'comp-header $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-header ()
             div
@@ -150,7 +156,7 @@
                   :vertical-align :middle
                   :cursor :pointer
                 fn (e d!)
-                  d! $ :: :clear
+                  d! $ schema/Op :clear
                   let
                       nodes $ unsafe-coerce (js/document.querySelectorAll |audio) 'app.comp.container/AudioNodeListHost
                     .for-each! nodes $ fn (node i a)
@@ -163,10 +169,16 @@
         'comp-input $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-input (states)
             let
-                cursor $ option:unwrap-or (get states :cursor) ([])
-                state $ option:unwrap-or (get states :data)
-                  {} $ :content |
-                content $ option:unwrap-or (get state :content) |
+                cursor $ decode-map-as
+                  option:unwrap-or (get states :cursor) ([])
+                  :: 'List 'Dynamic
+                state $ decode-map-as
+                  option:unwrap-or (get states :data)
+                    {} $ :content |
+                  :: 'Map 'Tag 'Dynamic
+                content $ decode-map-as
+                  option:unwrap-or (get state :content) |
+                  , 'String
               div
                 {} $ :style $ merge ui/row-middle
                   {} (:padding "|6px 10px")
@@ -176,28 +188,39 @@
                   :style $ merge ui/textarea ui/expand $ {} (:height 40) (:line-height |24px) (:border :none)
                   :on-input $ fn (e d!)
                     hint-fn $ {}
-                      :args $ [] (quote respo.schema/RespoEvent) (quote Dynamic)
-                      :return $ quote Unit
-                    d! $ :: :states cursor $ assoc state :content
-                      expect-string |input.value $ :value e
+                      :args $ [] (:: 'Map 'Tag 'Dynamic)
+                        :: 'Fn $ {}
+                          :args $ [] 'Enum
+                          :return 'Unit
+                      :return 'Unit
+                    d! $ schema/Op :states cursor $ assoc state :content
+                      expect-string |input.value $ option:unwrap $ get e :value
                   :autofocus true
                   :on-keydown $ fn (e d!)
                     hint-fn $ {}
-                      :args $ [] (quote respo.schema/RespoEvent) (quote Dynamic)
-                      :return $ quote Unit
+                      :args $ [] (:: 'Map 'Tag 'Dynamic)
+                        :: 'Fn $ {}
+                          :args $ [] 'Enum
+                          :return 'Unit
+                      :return 'Unit
                     let
-                        event $ unsafe-coerce (:event e) 'app.comp.container/InputKeyboardEventHost
+                        event $ unsafe-coerce
+                          option:unwrap $ get e :event
+                          , 'app.comp.container/InputKeyboardEventHost
                         key $ .-key event
                       when (= |Enter key) (.prevent-default! event)
                         let
                             target $ option:unwrap $ js-nullish->option (.-target event)
-                          d! $ :: :message $ {} (:author |Me)
+                          d! $ schema/Op :message $ %{} schema/Message (:author |Me)
                             :text $ .-value target
-                        d! $ :: :states cursor $ assoc state :content |
+                            :code? false
+                            :floor $ Option :none
+                        d! $ schema/Op :states cursor $ assoc state :content |
                         scroll-view!
+                    , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'Dynamic
+            :args $ [] $ :: 'Map 'Dynamic 'Dynamic
             :features $ #{} :js-ffi
         'comp-menu $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-menu (voice?)
@@ -208,9 +231,9 @@
               list-> ({})
                 -> reading-list $ map $ fn (info)
                   let
-                      idx $ option:unwrap $ get info :idx
-                      title $ option:unwrap $ get info :title
-                      messages $ option:unwrap $ get info :messages
+                      idx $ :idx info
+                      title $ :title info
+                      messages $ :messages info
                     [] idx $ div
                       {}
                         :class-name $ str-spaced css/row-middle |hover-item style-entry
@@ -237,10 +260,12 @@
         'comp-message $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-message (content)
             let
-                author $ option:unwrap-or (get content :author) |
-                floor-label $ option:unwrap-or (get content :floor) |_
-                code? $ option:unwrap-or (get content :code?) false
-                text $ option:unwrap-or (get content :text) |
+                author $ :author content
+                floor-label $ match (:floor content)
+                  (:some message-floor) (str message-floor)
+                  (:none) |_
+                code? $ :code? content
+                text $ :text content
               div
                 {} (:class-name css/row)
                   :style $ {} (:width |98%) (:padding "|4px 10px")
@@ -264,7 +289,7 @@
                         comp-md text $ {}
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'Dynamic
+            :args $ [] 'app.schema/Message
         'comp-messages $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-messages (messages)
             div
@@ -284,10 +309,10 @@
               =< nil 80
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] $ :: 'List 'Dynamic
+            :args $ [] $ :: 'List 'app.schema/Message
         'effect-render-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defeffect effect-render-icon (label) (action el at?)
-            case-default action nil
+            match action
               :mount $ let
                   svg-ns |http://www.w3.org/2000/svg
                   svg $ js/document.createElementNS svg-ns |svg
@@ -296,6 +321,7 @@
               :update $ let
                   svg $ .!querySelector el |svg
                 jdenticon/update svg label
+              _ &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Effect)
             :args $ [] 'String
@@ -330,57 +356,57 @@
               not $ empty? messages
               let
                   msg $ option:unwrap $ first messages
-                  code? $ option:unwrap-or (get msg :code?) false
-                  body $ option:unwrap-or (get msg :text) |
-                  text $ if code? |Code body
-                d! $ :: :message $ assoc msg :floor idx
-                case-default api-target
-                  speech! (santinize-voice text)
-                    fn () $ read-content (rest messages) (inc idx) d!
-                  |xunfei $ speakXunfei (santinize-voice text)
-                    fn () $ read-content (rest messages) (inc idx) d!
-                  |azure $ synthesizeAzureSpeech (santinize-voice text) (get-env |azure-key)
+                  text $ if (:code? msg) |Code $ :text msg
+                  next! $ fn () $ read-content (rest messages) (inc idx) d!
+                d! $ schema/Op :message $ assoc msg :floor (Option :some idx)
+                match api-target
+                  |xunfei $ speakXunfei (santinize-voice text) next!
+                  |azure $ synthesizeAzureSpeech (santinize-voice text)
+                    option:unwrap-or (get-env |azure-key) |
                     fn $
-                    fn () $ read-content (rest messages) (inc idx) d!
-                  |audio $ requestAudioSpeech (get-env |audio-host) (santinize-voice text)
-                    fn () $ read-content (rest messages) (inc idx) d!
+                    , next!
+                  |audio $ requestAudioSpeech
+                    option:unwrap-or (get-env |audio-host) |
+                    santinize-voice text
+                    , next!
+                  _ $ speech! (santinize-voice text) next!
                 scroll-view!
             , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] (:: 'List 'Dynamic) 'Number $ :: 'Fn
+            :args $ [] (:: 'List 'app.schema/Message) 'Number $ :: 'Fn
               {} (:return 'Unit)
                 :args $ [] 'Enum
         'reading-list $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def reading-list
             []
-              identity $ load-data |data/2019-08-15-serverless.cirru
-              identity $ load-data |data/2019-07-22-http2-perf.cirru
-              identity $ load-data |data/2019-07-10-deps-lock.cirru
-              identity $ load-data |data/2019-07-02-yield-syntax.cirru
-              identity $ load-data |data/2019-06-06-top-level-await.cirru
-              identity $ load-data |data/2019-03-21-decorator-change.cirru
-              identity $ load-data |data/2018-12-07-chrome-ie.cirru
-              identity $ load-data |data/2018-11-19-private-field-problem.cirru
-              load-toml-data
-              identity $ load-data |data/2018-11-14-js-build-speed.cirru
-              identity $ load-data |data/2018-11-06-web-comps-templates.cirru
-              identity $ load-data |data/2018-11-06-svelte-proposal.cirru
-              identity $ load-data |data/2018-11-01-react-hooks-internals.cirru
-              identity $ load-data |data/2018-10-26-react-hooks-wonder.cirru
-              identity $ load-data |data/2018-10-21-react-class-syntax.cirru
-              identity $ load-data |data/2018-09-27-vue-ts.cirru
-              identity $ load-data |data/2018-08-23-worker-dom.cirru
-              identity $ load-data |data/2018-07-21-algebraic-interrupts-early.cirru
-              identity $ load-data |data/2018-08-10-write-book.cirru
-              identity $ load-data |data/2018-08-18-babel-compile.cirru
-              identity $ load-data |data/2018-07-13-vue-internals.cirru
-              identity $ load-data |data/2018-07-04-babel-parser.cirru
-              identity $ load-data |data/2018-06-15-vue-stars.cirru
-              identity $ load-data |data/2018-05-11-layered-apis.cirru
-              identity $ load-data |data/2018-07-23-demo.cirru
+              schema/decode-story $ load-data |data/2019-08-15-serverless.cirru
+              schema/decode-story $ load-data |data/2019-07-22-http2-perf.cirru
+              schema/decode-story $ load-data |data/2019-07-10-deps-lock.cirru
+              schema/decode-story $ load-data |data/2019-07-02-yield-syntax.cirru
+              schema/decode-story $ load-data |data/2019-06-06-top-level-await.cirru
+              schema/decode-story $ load-data |data/2019-03-21-decorator-change.cirru
+              schema/decode-story $ load-data |data/2018-12-07-chrome-ie.cirru
+              schema/decode-story $ load-data |data/2018-11-19-private-field-problem.cirru
+              schema/decode-story $ load-toml-data
+              schema/decode-story $ load-data |data/2018-11-14-js-build-speed.cirru
+              schema/decode-story $ load-data |data/2018-11-06-web-comps-templates.cirru
+              schema/decode-story $ load-data |data/2018-11-06-svelte-proposal.cirru
+              schema/decode-story $ load-data |data/2018-11-01-react-hooks-internals.cirru
+              schema/decode-story $ load-data |data/2018-10-26-react-hooks-wonder.cirru
+              schema/decode-story $ load-data |data/2018-10-21-react-class-syntax.cirru
+              schema/decode-story $ load-data |data/2018-09-27-vue-ts.cirru
+              schema/decode-story $ load-data |data/2018-08-23-worker-dom.cirru
+              schema/decode-story $ load-data |data/2018-07-21-algebraic-interrupts-early.cirru
+              schema/decode-story $ load-data |data/2018-08-10-write-book.cirru
+              schema/decode-story $ load-data |data/2018-08-18-babel-compile.cirru
+              schema/decode-story $ load-data |data/2018-07-13-vue-internals.cirru
+              schema/decode-story $ load-data |data/2018-07-04-babel-parser.cirru
+              schema/decode-story $ load-data |data/2018-06-15-vue-stars.cirru
+              schema/decode-story $ load-data |data/2018-05-11-layered-apis.cirru
+              schema/decode-story $ load-data |data/2018-07-23-demo.cirru
           :examples $ []
-          :schema $ :: 'List 'Dynamic
+          :schema $ :: 'List 'app.schema/Story
         'santinize-voice $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn santinize-voice (text)
             js-replace
@@ -439,9 +465,12 @@
               js/window.speechSynthesis.speak t
               set! (.-onend t)
                 fn (event) (js/setTimeout cb 400)
+            , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Dynamic)
-            :args $ [] 'String 'Dynamic
+          :schema $ :: 'Fn $ {} (:return 'Unit)
+            :args $ [] 'String $ :: 'Fn
+              {} (:return 'Unit)
+                :args $ []
             :features $ #{} :js-ffi
         'style-avatar $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-avatar
@@ -512,10 +541,10 @@
           :schema $ :: 'String
         'swap-messages $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn swap-messages (messages d!)
-            d! $ :: :swap-messages messages
+            d! $ schema/Op :swap-messages messages
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] (:: 'List 'Dynamic)
+            :args $ [] (:: 'List 'app.schema/Message)
               :: 'Fn $ {} (:return 'Unit)
                 :args $ [] 'Enum
         'url-pattern $ %{} 'CodeEntry (:doc |)
@@ -531,7 +560,6 @@
             respo-ui.core :refer $ hsl
             respo.core :refer $ defcomp defeffect <> >> a div button textarea span input list-> create-element pre code
             respo.comp.space :refer $ =<
-            reel.comp.reel :refer $ comp-reel
             respo-md.comp.md :refer $ comp-md
             app.config :refer $ dev? api-target
             memof.once :refer $ memof1-call
@@ -542,6 +570,8 @@
             feather.core :refer $ comp-icon comp-i
             |toml :as toml
             js-ffi.contract :refer $ [] expect-string
+            app.schema :as schema
+            reel.comp.reel :refer $ comp-typed-reel
     'app.config $ %{} 'FileEntry
       :defs $ {}
         'api-target $ %{} 'CodeEntry (:doc |)
@@ -564,21 +594,24 @@
     'app.main $ %{} 'FileEntry
       :defs $ {}
         '*reel $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defatom *reel
-            -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
+          :code $ quote $ defatom *reel (typed/new-reel schema/store)
           :examples $ []
-          :schema $ :: 'Ref 'Dynamic
+          :schema $ :: 'Ref $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when
-              and config/dev? $ match op
-                (:states _ _) false
-                _ true
+              and config/dev? $ not= :states $ &enum:nth op 0
               js/console.log |Dispatch: op
-            reset! *reel $ reel-updater updater @*reel op
+            match (typed/decode-control op)
+              (:some control)
+                reset! *reel $ typed/apply-control updater @*reel control
+              (:none)
+                reset! *reel $ typed/record-op updater @*reel (assert-type op 'app.schema/Op) (generate-id!)
+                  :timestamp $ date-now-snapshot
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Dynamic
+            :args $ [] 'Enum
             :features $ #{} :js-ffi
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
@@ -586,7 +619,7 @@
             if config/dev? $ load-console-formatter!
             js/window.speechSynthesis.getVoices
             render-app!
-            add-watch *reel :changes $ fn (reel prev) (render-app!)
+            add-watch! *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |k dispatch!
             js/window.addEventListener |beforeunload $ fn (event) (js/speechSynthesis.cancel)
             println "|App started."
@@ -595,18 +628,18 @@
             :args $ []
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn mount-target () (js/document.querySelector |.app)
+          :code $ quote $ defn mount-target ()
+            narrow-element $ option:unwrap $ query-selector |.app
           :examples $ []
           :ffi $ {} (:backend :js) (:target :browser)
-          :schema $ :: 'Fn $ {}
+          :schema $ :: 'Fn $ {} (:return 'respo.dom/DomElement)
             :args $ []
             :features $ #{} :js-ffi
-            :return $ :: 'JsNullish 'JsObject
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             js-ffi.browser/storage-set!
               option:unwrap $ get config/site :storage-key
-              format-cirru-edn $ option:unwrap $ get @*reel :store
+              format-cirru-edn $ :store @*reel
             , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
@@ -615,9 +648,9 @@
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
-              do (remove-watch *reel :changes) (clear-cache!)
-                add-watch *reel :changes $ fn (reel prev) (render-app!)
-                reset! *reel $ refresh-reel @*reel schema/store updater
+              do (remove-watch! *reel :changes) (clear-cache!)
+                add-watch! *reel :changes $ fn (reel prev) (render-app!)
+                reset! *reel $ typed/refresh updater @*reel schema/store
                 hud! |ok~ |Ok
               hud! |error build-errors
           :examples $ []
@@ -651,20 +684,78 @@
             app.updater :refer $ updater
             app.schema :as schema
             reel.util :refer $ listen-devtools!
-            reel.core :refer $ reel-updater refresh-reel
-            reel.schema :as reel-schema
             app.config :as config
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
+            reel.typed :as typed
+            js-ffi.shared :refer $ date-now-snapshot
+            respo.ffi.browser :refer $ narrow-element
+            js-ffi.browser :refer $ query-selector
     'app.schema $ %{} 'FileEntry
-      :defs $ {} $ 'store
-        %{} 'CodeEntry (:doc |)
+      :defs $ {}
+        'Message $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstruct Message (:author 'String) (:text 'String) (:code? 'Bool)
+            :floor $ :: 'Option 'Number
+          :examples $ []
+          :schema $ :: 'StructDef
+        'Op $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defenum Op
+            :states (:: 'List 'Dynamic) 'Dynamic
+            :message 'app.schema/Message
+            :swap-messages $ :: 'List 'app.schema/Message
+            :clear
+            :hydrate-storage 'app.schema/Store
+          :examples $ []
+          :schema $ :: 'EnumDef
+        'Store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstruct Store
+            :states $ :: 'Map 'Dynamic 'Dynamic
+            :messages $ :: 'List 'app.schema/Message
+          :examples $ []
+          :schema $ :: 'StructDef
+        'Story $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstruct Story (:idx 'String) (:title 'String)
+            :messages $ :: 'List 'app.schema/Message
+          :examples $ []
+          :schema $ :: 'StructDef
+        'decode-message $ %{} 'CodeEntry
+          :doc "|Checked legacy Map-to-Message decoder. Wrong field types are rejected rather than assumed from a schema."
+          :code $ quote $ defn decode-message (data)
+            decode-map-as (message-input data) Message
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'app.schema/Message)
+            :args $ [] 'Dynamic
+        'decode-story $ %{} 'CodeEntry
+          :doc "|Checked history decoder; normalize missing message code flags before recursively decoding Story and Message."
+          :code $ quote $ defn decode-story (data)
+            let
+                fields $ decode-map-as data $ :: 'Map 'Tag 'Dynamic
+                messages $ decode-map-as
+                  option:unwrap $ get fields :messages
+                  :: 'List 'Dynamic
+              decode-map-as
+                assoc fields :messages $ map messages message-input
+                , Story
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'app.schema/Story)
+            :args $ [] 'Dynamic
+        'message-input $ %{} 'CodeEntry
+          :doc "|Normalize legacy message defaults only at the Cirru/TOML data boundary; checked nominal decoding happens afterwards."
+          :code $ quote $ defn message-input (data)
+            merge
+              {} (:author |) (:text |) (:code? false)
+              decode-map-as data $ :: 'Map 'Tag 'Dynamic
+          :examples $ []
+          :schema $ :: 'Fn $ {}
+            :args $ [] 'Dynamic
+            :return $ :: 'Map 'Tag 'Dynamic
+        'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
-            {}
+            %{} Store
               :states $ {} $ :cursor ([])
               :messages $ []
           :examples $ []
-          :schema $ :: 'Map 'Tag 'Dynamic
+          :schema $ :: 'app.schema/Store
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
     'app.updater $ %{} 'FileEntry
@@ -672,19 +763,21 @@
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defn updater (store op op-id op-time)
             match op
-              (:states cursor s) (update-states store cursor s)
+              (:states cursor s)
+                assoc store :states $ assert-type
+                  update-state-tree (:states store) cursor s
+                  :: 'Map 'Dynamic 'Dynamic
               (:hydrate-storage data) data
               (:message data)
-                update store :messages $ fn (xs)
-                  if (list? xs) (conj xs data) ([] data)
+                assoc store :messages $ append (:messages store) data
               (:clear)
                 assoc store :messages $ []
               (:swap-messages data) (assoc store :messages data)
-              _ $ do (eprintln "|unknown op:" op) store
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :args $ [] (:: 'Map 'Tag 'Dynamic) 'Dynamic 'Dynamic 'Dynamic
-            :return $ :: 'Map 'Tag 'Dynamic
+          :schema $ :: 'Fn $ {} (:return 'app.schema/Store)
+            :args $ [] 'app.schema/Store 'app.schema/Op 'String 'Number
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
-          :require $ respo.cursor :refer $ update-states
+          :require
+            respo.cursor :refer $ update-state-tree
+            app.schema :as schema

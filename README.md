@@ -34,14 +34,15 @@ localStorage.setItem(
 
 运行项目具体参考: https://github.com/calcit-lang/respo-calcit-workflow
 
-使用 Calcit 0.27.0、Node.js 24 与 Yarn 4.18.0。源码仅维护 `calcit.cirru` / `deps.cirru`，不恢复 `compact.cirru` / `package.cirru`；CI 禁止两个旧文件回流。
+使用 Calcit/procs 0.29.0、Caps 0.1.1、Node.js 24 与 Yarn 4.18.0。源码仅维护 `calcit.cirru` / `deps.cirru`，不恢复 `compact.cirru` / `package.cirru`；CI 禁止两个旧文件回流。
 
 To develop:
 
 ```
-caps --ci
+caps --strict --ci
 yarn install --immutable
-calcit calcit.cirru --check-only
+caps verify --toolchain
+calcit --check-only --all-defs
 yarn dev
 ```
 
@@ -54,9 +55,9 @@ node --test test/runtime.test.mjs
 
 ##### 目录结构
 
-dev 先生成初始 JS，再启动 Vite；修改 Calcit 时在另一终端运行 `yarn watch`，无需进程管理依赖。build 包含一次编译。未设置 `VITE_BASE_URL` 时保持相对资源路径，每次 PR 上传按 PR/run/attempt 隔离。上传及公开访问验证仅使用 COS Action v1.2.0 内置 verify 配置，不添加独立 CDN 校验脚本。生产部署排队执行，上传前检查仍为当前 main，过期构建跳过 COS 和原服务器同步。CI 保留严格入口/公共合同、原质量基线和真实业务测试，不重复运行迁移诊断。原语音模式、存储键、共享字体和服务器部署路径不变。
+dev 先生成初始 JS，再启动 Vite；修改 Calcit 时在另一终端运行 `yarn watch`，无需进程管理依赖。build 包含一次编译。未设置 `VITE_BASE_URL` 时保持相对资源路径，每次 PR 上传按 PR/run/attempt 隔离。上传及公开访问验证仅使用 COS Action v1.2.0 内置 verify 配置，不添加独立 CDN 校验脚本。生产部署排队执行，上传前检查仍为当前 main，过期构建跳过 COS 和原服务器同步。CI 检查所有定义、禁止 deprecated 调用并运行原有真实业务测试；退休旧的 `analyze quality` 数量基线，不新增校验脚本。原语音模式、存储键、共享字体和服务器部署路径不变。
 
-Markdown 0.4.46 的行内代码渲染修复 [上游 #61](https://github.com/Respo/respo-markdown.calcit/pull/61) 已合并；在正式版本发布前固定完整提交 `1256d550445bf69573bc9e53bbccbea1ddcb0530`，不把该提交冒充已发布版本。运行测试使用真实编译组件及 SDK 导入，浏览器 Worker/DOM/语音宿主使用 fixture，不会请求付费 TTS，也不代表现场语音服务验收。
+Markdown 使用包含行内代码修复的正式 0.4.48，不再固定未发布提交。其余 Calcit 模块也使用正式版本。业务数据采用 Message、Story、Store、Op 与 typed Reel；历史 Cirru/TOML Map 仅在加载入口规范化和解码，Respo 通用 UI 状态保留开放边界。运行测试使用真实编译组件及 SDK 导入，浏览器 Worker/DOM/语音宿主使用 fixture，不会请求付费 TTS，也不代表现场语音服务验收。
 
 - `data/` 目录存放整理出来的消息数据.
 - `main.js` 是 Vite 的 JS 代码入口，业务代码保存在 `calcit.cirru` 中.
