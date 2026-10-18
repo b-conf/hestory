@@ -57,10 +57,12 @@
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
           :schema $ :: 'Trait
         'SpeechUtteranceHost $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ deftrait SpeechUtteranceHost (:lang 'String) (:rate 'Number) (:voice 'app.comp.container/SpeechVoiceHost)
-            :on-end $ :: 'Fn $ {}
-              :args $ [] 'JsObject
-              :return 'Unit
+          :code $ quote $ deftrait SpeechUtteranceHost (:lang 'String) (:rate 'Number)
+            :voice $ :: 'JsNullish 'app.comp.container/SpeechVoiceHost
+            :on-end $ :: 'JsNullish $ :: 'Fn
+              {}
+                :args $ [] 'JsObject
+                :return 'Unit
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
             :names $ {} (:lang |lang) (:on-end |onend) (:rate |rate) (:voice |voice)
@@ -131,7 +133,8 @@
                       :style $ {} (:cursor :pointer) (:font-family ui/font-fancy)
                         :color $ if voice? (hsl 240 60 60) (hsl 0 0 80)
                       :on-click $ fn (e d!)
-                        d! $ schema/Op :states cursor $ assoc state :voice? (not voice?)
+                        d! $ schema/app-event $ schema/Op :states cursor
+                          assoc state :voice? $ not voice?
                 div
                   {} $ :class-name $ str-spaced css/expand css/column
                   memof1-call comp-header
@@ -156,11 +159,11 @@
                   :vertical-align :middle
                   :cursor :pointer
                 fn (e d!)
-                  d! $ schema/Op :clear
+                  d! $ schema/app-event $ schema/Op :clear
                   let
-                      nodes $ unsafe-coerce (js/document.querySelectorAll |audio) 'app.comp.container/AudioNodeListHost
+                      nodes $ js-cast (js/document.querySelectorAll |audio) 'app.comp.container/AudioNodeListHost
                     .for-each! nodes $ fn (node i a)
-                      .remove! $ unsafe-coerce node 'app.comp.container/AudioNodeHost
+                      .remove! $ js-cast node 'app.comp.container/AudioNodeHost
                   js/window.speechSynthesis.cancel
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
@@ -193,8 +196,8 @@
                           :args $ [] 'Enum
                           :return 'Unit
                       :return 'Unit
-                    d! $ schema/Op :states cursor $ assoc state :content
-                      expect-string |input.value $ option:unwrap $ get e :value
+                    d! $ schema/app-event $ schema/Op :states cursor
+                      assoc state :content $ expect-string |input.value $ option:unwrap (get e :value)
                   :autofocus true
                   :on-keydown $ fn (e d!)
                     hint-fn $ {}
@@ -204,18 +207,18 @@
                           :return 'Unit
                       :return 'Unit
                     let
-                        event $ unsafe-coerce
+                        event $ js-cast
                           option:unwrap $ get e :event
                           , 'app.comp.container/InputKeyboardEventHost
                         key $ .-key event
                       when (= |Enter key) (.prevent-default! event)
                         let
                             target $ option:unwrap $ js-nullish->option (.-target event)
-                          d! $ schema/Op :message $ %{} schema/Message (:author |Me)
-                            :text $ .-value target
-                            :code? false
-                            :floor $ Option :none
-                        d! $ schema/Op :states cursor $ assoc state :content |
+                          d! $ schema/app-event $ schema/Op :message
+                            schema/Message :author |Me :text
+                              expect-string |input.target.value $ .-value target
+                              , :code? false :floor $ Option :none
+                        d! $ schema/app-event $ schema/Op :states cursor (assoc state :content |)
                         scroll-view!
                     , &unit
           :examples $ []
@@ -237,7 +240,15 @@
                     [] idx $ div
                       {}
                         :class-name $ str-spaced css/row-middle |hover-item style-entry
-                        :on-click $ fn (e d!) (js/window.speechSynthesis.cancel)
+                        :on-click $ fn (e d!)
+                          hint-fn $ {}
+                            :args $ [] (:: 'Map 'Tag 'Dynamic)
+                              :: 'Fn $ {}
+                                :args $ [] 'Enum
+                                :return 'Unit
+                            :return 'Unit
+                            :features $ #{} :js-ffi
+                          js/window.speechSynthesis.cancel
                           if voice? (read-content messages 0 d!) (swap-messages messages d!)
                       comp-icon :link
                         {} (:font-size 14)
@@ -328,7 +339,7 @@
             :features $ #{} :js-ffi
         'js-replace $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn js-replace (text pattern replacement)
-            unsafe-coerce (.!replace text pattern replacement) 'String
+            expect-string "|String.replace result" $ .!replace text pattern replacement
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'String)
             :args $ [] 'String 'Dynamic 'Dynamic
@@ -358,7 +369,8 @@
                   msg $ option:unwrap $ first messages
                   text $ if (:code? msg) |Code $ :text msg
                   next! $ fn () $ read-content (rest messages) (inc idx) d!
-                d! $ schema/Op :message $ assoc msg :floor (Option :some idx)
+                d! $ schema/app-event $ schema/Op :message
+                  assoc msg :floor $ Option :some idx
                 match api-target
                   |xunfei $ speakXunfei (santinize-voice text) next!
                   |azure $ synthesizeAzureSpeech (santinize-voice text)
@@ -414,7 +426,7 @@
               url-pattern
               fn (target & args)
                 let
-                    url $ unsafe-coerce (new js/URL target) 'js-ffi.shared/UrlHost
+                    url $ js-cast (new js/URL target) 'js-ffi.shared/UrlHost
                     host $ .-host url
                   str "| link to " (js-replace host |www. |) "| "
           :examples $ []
@@ -428,11 +440,11 @@
                   target-raw $ js/document.querySelector |#message-area
                 when (js-present? target-raw)
                   let
-                      target $ unsafe-coerce target-raw 'app.comp.container/ScrollTargetHost
+                      target $ js-cast target-raw 'app.comp.container/ScrollTargetHost
                       child-raw $ .-lastElementChild target
                     when (js-present? child-raw)
                       let
-                          child $ unsafe-coerce child-raw 'app.comp.container/ScrollChildHost
+                          child $ js-cast child-raw 'app.comp.container/ScrollChildHost
                         .scroll-into-view! child
               , 100
             , &unit
@@ -451,20 +463,26 @@
         'speech! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn speech! (text cb)
             let
-                t $ unsafe-coerce (new js/window.SpeechSynthesisUtterance text) 'app.comp.container/SpeechUtteranceHost
+                t $ js-cast (new js/window.SpeechSynthesisUtterance text) 'app.comp.container/SpeechUtteranceHost
               set! (.-lang t) |zh-cn
               set! (.-rate t) 1.2
               let
-                  voices $ unsafe-coerce (js/window.speechSynthesis.getVoices) 'app.comp.container/SpeechVoiceListHost
+                  voices $ js-cast (js/window.speechSynthesis.getVoices) 'app.comp.container/SpeechVoiceListHost
                   filtered $ .filter voices $ fn (voice i a)
                     includes? (.-lang voice) |zh
                   voice-raw $ aget filtered 3
                 if (js-present? voice-raw)
-                  set! (.-voice t) (unsafe-coerce voice-raw 'app.comp.container/SpeechVoiceHost)
+                  set! (.-voice t) (js-cast voice-raw 'app.comp.container/SpeechVoiceHost)
                   js/console.warn "|no voice:" voices
               js/window.speechSynthesis.speak t
-              set! (.-onend t)
-                fn (event) (js/setTimeout cb 400)
+              set! (.-on-end t)
+                fn (event)
+                  hint-fn $ {}
+                    :args $ [] 'JsObject
+                    :return 'Unit
+                    :features $ #{} :js-ffi
+                  js/setTimeout cb 400
+                  , &unit
             , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
@@ -541,7 +559,7 @@
           :schema $ :: 'String
         'swap-messages $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn swap-messages (messages d!)
-            d! $ schema/Op :swap-messages messages
+            d! $ schema/app-event $ schema/Op :swap-messages messages
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] (:: 'List 'app.schema/Message)
@@ -569,7 +587,7 @@
             |../assets/play-audio :refer $ requestAudioSpeech
             feather.core :refer $ comp-icon comp-i
             |toml :as toml
-            js-ffi.contract :refer $ [] expect-string
+            js-ffi.contract :refer $ expect-string
             app.schema :as schema
             reel.comp.reel :refer $ comp-typed-reel
     'app.config $ %{} 'FileEntry
@@ -594,24 +612,28 @@
     'app.main $ %{} 'FileEntry
       :defs $ {}
         '*reel $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defatom *reel (typed/new-reel schema/store)
+          :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
           :schema $ :: 'Ref $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
         'dispatch! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn dispatch! (op)
-            when
-              and config/dev? $ not= :states $ &enum:nth op 0
-              js/console.log |Dispatch: op
-            match (typed/decode-control op)
-              (:some control)
-                reset! *reel $ typed/apply-control updater @*reel control
-              (:none)
-                reset! *reel $ typed/record-op updater @*reel (assert-type op 'app.schema/Op) (generate-id!)
-                  :timestamp $ date-now-snapshot
-            , &unit
+          :code $ quote $ defn dispatch! (event)
+            if (enum? event)
+              let
+                  op event
+                when
+                  and config/dev? $ not= :states $ &enum:nth op 0
+                  js/console.log |Dispatch: op
+                match (typed/decode-control op)
+                  (:some control)
+                    reset! *reel $ typed/apply-control updater @*reel control
+                  (:none)
+                    reset! *reel $ typed/record-op updater @*reel (schema/read-app-event op) (generate-id!)
+                      :timestamp $ date-now-snapshot
+                , &unit
+              raise "|Expected a UI event enum"
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Enum
+            :args $ [] 'Dynamic
             :features $ #{} :js-ffi
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
@@ -653,6 +675,7 @@
                 reset! *reel $ typed/refresh updater @*reel schema/store
                 hud! |ok~ |Ok
               hud! |error build-errors
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
@@ -707,6 +730,10 @@
             :hydrate-storage 'app.schema/Store
           :examples $ []
           :schema $ :: 'EnumDef
+        'OpEnvelope $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstruct OpEnvelope (:op 'app.schema/Op)
+          :examples $ []
+          :schema $ :: 'StructDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
             :states $ :: 'Map 'Dynamic 'Dynamic
@@ -718,6 +745,12 @@
             :messages $ :: 'List 'app.schema/Message
           :examples $ []
           :schema $ :: 'StructDef
+        'app-event $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn app-event (op)
+            :: :app/event $ OpEnvelope :op op
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'Enum)
+            :args $ [] 'app.schema/Op
         'decode-message $ %{} 'CodeEntry
           :doc "|Checked legacy Map-to-Message decoder. Wrong field types are rejected rather than assumed from a schema."
           :code $ quote $ defn decode-message (data)
@@ -749,11 +782,24 @@
           :schema $ :: 'Fn $ {}
             :args $ [] 'Dynamic
             :return $ :: 'Map 'Tag 'Dynamic
+        'read-app-event $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn read-app-event (event)
+            match event
+              (:app/event envelope)
+                if (struct? envelope)
+                  struct-match envelope
+                    OpEnvelope checked $ :op checked
+                    _ other $ raise "|Expected an app OpEnvelope"
+                  raise "|Expected an app OpEnvelope"
+              _ $ raise "|Unknown UI event; reload after upgrading the application"
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'app.schema/Op)
+            :args $ [] 'Enum
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
-            %{} Store
-              :states $ {} $ :cursor ([])
-              :messages $ []
+            Store :states
+              {} $ :cursor $ []
+              , :messages $ []
           :examples $ []
           :schema $ :: 'app.schema/Store
       :ns $ %{} 'NsEntry (:doc |)
@@ -764,7 +810,7 @@
           :code $ quote $ defn updater (store op op-id op-time)
             match op
               (:states cursor s)
-                assoc store :states $ assert-type
+                assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor s
                   :: 'Map 'Dynamic 'Dynamic
               (:hydrate-storage data) data
