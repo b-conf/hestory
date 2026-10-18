@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { registerHooks } from 'node:module';
 import * as c from '../js-out/calcit.core.mjs';
-import { store, Op, decode_message } from '../js-out/app.schema.mjs';
+import { store, Op, decode_message, read_app_event } from '../js-out/app.schema.mjs';
 import { updater } from '../js-out/app.updater.mjs';
 import { new_reel } from '../js-out/reel.typed.mjs';
 import { component_$q_, component_tree } from '../js-out/respo.util.detect.mjs';
@@ -69,7 +69,7 @@ function handlers(node, kind, found = []) {
 }
 const capture = () => {
   const operations = [];
-  return { operations, dispatch(...args) { assert.equal(args.length, 1); assert.ok(c.enum_$q_(args[0])); operations.push(args[0]); } };
+  return { operations, dispatch(...args) { assert.equal(args.length, 1); assert.ok(c.enum_$q_(args[0])); operations.push(read_app_event(args[0])); } };
 };
 test('actual initial app renders original history menu and empty message area', () => {
   assert.equal(workers, 1);
@@ -104,7 +104,7 @@ test('Enter uses the actual keyboard host, prevents default and sends/clears wit
     assert.equal(read(message, 'text'), 'Reply from target');
     assert.equal(read(read(read(read(next, 'states'), 'input'), 'data'), 'content'), '');
     assert.deepEqual(delays, [100]);
-    callback(event({ event: { key: 'Escape' } }), dispatch);
+    callback(event({ event: { key: 'Escape', target: null, preventDefault() { prevented++; } } }), dispatch);
     assert.equal(operations.length, 2);
   } finally { globalThis.setTimeout = timer; }
 });
@@ -192,7 +192,7 @@ test('actual native speech queues messages with one Enum and retains Chinese spe
   const utterances = [], delays = [], { operations, dispatch } = capture();
   try {
     globalThis.window = {
-      SpeechSynthesisUtterance: class { constructor(text) { this.text = text; } },
+      SpeechSynthesisUtterance: class { constructor(text) { this.text = text; this.lang = ''; this.rate = 1; this.voice = null; this.onend = null; } },
       speechSynthesis: { getVoices() { return Array.from({ length: 4 }, (_, i) => ({ lang: 'zh-CN', i })); }, speak(value) { utterances.push(value); } },
     };
     globalThis.setTimeout = (fn, delay) => { delays.push(delay); if (delay === 400) fn(); return 1; };
