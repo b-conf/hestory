@@ -6,5 +6,5 @@
     |Respo/respo-markdown.calcit |0.4.56
     |Respo/respo-ui.calcit |0.7.41
     |Respo/respo.calcit |0.16.122
-    |calcit-lang/memof |0.0.38
+    |calcit-lang/memof |0.0.39
     |calcit-lang/js-ffi |0.2.3
