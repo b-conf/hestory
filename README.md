@@ -37,6 +37,12 @@ localStorage.setItem(
 使用者影响：本轮从 alpha.4 配对升级到正式 Calcit/procs **0.30.1**、Caps 0.1.1、Node.js 24 与 Yarn 4.18.0，并使用正式 Memof 0.0.40 / Markdown 0.4.58。Snapshot 与现有 main 不变；历史消息数据、语音模式/语言/速率/延时、存储键、公共资源及部署路径不变。不合并或部署业务应用，验收状态以 PR 的精确提交结果为准。
 此前 main 已使用具名 OpEnvelope 和正式 Memof 0.0.39 修复缓存合同；需要完整刷新页面，不能保留旧回调。业务 Op 和 typed Reel 的记录格式不变，不迁移或清空历史数据。Memof 0.0.40 不改 0.0.39 的源码/API；Anchor `.deref` 返回 Option，后续新增调用需处理缺失值，本项目当前不使用 Anchor。源码仅维护 `calcit.cirru` / `deps.cirru`，不恢复 `compact.cirru` / `package.cirru`；CI 禁止两个旧文件回流。
 
+本轮正式产物验收发现：HTML 与 COS 不同源时，启动阶段创建 CDN Worker 会抛出
+SecurityError 并白屏。讯飞转码 Worker 改用 Vite `?worker&inline`，避免跨域入口，
+不修改转码算法、语音参数或部署路径。原 Node 业务 fixture 仅同步导入 query，不放宽断言。
+未设置讯飞凭据的原提示保留，不使用付费语音或读取已有浏览器密钥；若部署站点另设 CSP，
+需独立确认其 Worker 策略，本 PR 不自动放宽 CSP。
+
 To develop:
 
 ```
