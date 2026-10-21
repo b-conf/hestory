@@ -26,7 +26,8 @@ import { Base64 } from 'js-base64'
 // 没看懂, 为什么, 其实没用到
 // import Enc from './enc'
 
-import TransWorker from './transcode.worker.js?worker'
+// HTML and bundled assets are deployed on different origins.
+import TransWorker from './transcode.worker.js?worker&inline'
 
 let transWorker = new TransWorker()
 

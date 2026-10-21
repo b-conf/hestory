@@ -25,7 +25,7 @@ const hooks = registerHooks({
   load(url, context, nextLoad) {
     // Vite's ?worker constructor is a browser host boundary, not an SDK mock.
     // Do not execute paid TTS or start a real worker in the Node fixture.
-    if (url.endsWith('/transcode.worker.js?worker')) {
+    if (url.endsWith('/transcode.worker.js?worker&inline')) {
       return { format: 'module', source: 'export default globalThis.Worker;', shortCircuit: true };
     }
     return nextLoad(url, context);
