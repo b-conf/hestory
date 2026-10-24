@@ -1,0 +1,5189 @@
+[
+  {
+    "code": [
+      "def",
+      "calcit-dirname",
+      "|"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.$meta/calcit-dirname",
+    "js_ffi": null,
+    "schema": null,
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "def",
+      "calcit-filename",
+      "|calcit.cirru"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.$meta/calcit-filename",
+    "js_ffi": null,
+    "schema": null,
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "deftrait",
+      "AudioNodeHost",
+      [
+        ".remove!",
+        [
+          "::",
+          "'Fn",
+          [
+            "{}",
+            [
+              ":args",
+              [
+                "[]",
+                "'app.comp.container/AudioNodeHost"
+              ]
+            ],
+            [
+              ":return",
+              "'Unit"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": {
+      ":backend": {
+        "__edn_tag": "js"
+      },
+      ":kind": {
+        "__edn_tag": "external-object"
+      },
+      ":names": {
+        ":remove!": "remove"
+      },
+      ":target": {
+        "__edn_tag": "browser"
+      }
+    },
+    "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)\n  :names $ {} $ :remove! |remove",
+    "id": "app.comp.container/AudioNodeHost",
+    "js_ffi": null,
+    "schema": "'Trait",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "deftrait",
+      "AudioNodeListHost",
+      [
+        ".for-each!",
+        [
+          "::",
+          "'Fn",
+          [
+            "{}",
+            [
+              ":args",
+              [
+                "[]",
+                "'app.comp.container/AudioNodeListHost",
+                [
+                  "::",
+                  "'Fn",
+                  [
+                    "{}",
+                    [
+                      ":args",
+                      [
+                        "[]",
+                        "'app.comp.container/AudioNodeHost",
+                        "'Number",
+                        "'app.comp.container/AudioNodeListHost"
+                      ]
+                    ],
+                    [
+                      ":return",
+                      "'Unit"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              ":return",
+              "'Unit"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": {
+      ":backend": {
+        "__edn_tag": "js"
+      },
+      ":kind": {
+        "__edn_tag": "external-object"
+      },
+      ":names": {
+        ":for-each!": "forEach"
+      },
+      ":target": {
+        "__edn_tag": "browser"
+      }
+    },
+    "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)\n  :names $ {} $ :for-each! |forEach",
+    "id": "app.comp.container/AudioNodeListHost",
+    "js_ffi": null,
+    "schema": "'Trait",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "deftrait",
+      "InputKeyboardEventHost",
+      [
+        ":key",
+        "'String"
+      ],
+      [
+        ":target",
+        [
+          "::",
+          "'JsNullish",
+          "'js-ffi.browser/DomInputHost"
+        ]
+      ],
+      [
+        ".prevent-default!",
+        [
+          "::",
+          "'Fn",
+          [
+            "{}",
+            [
+              ":args",
+              [
+                "[]",
+                "'app.comp.container/InputKeyboardEventHost"
+              ]
+            ],
+            [
+              ":return",
+              "'Unit"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": {
+      ":backend": {
+        "__edn_tag": "js"
+      },
+      ":kind": {
+        "__edn_tag": "external-object"
+      },
+      ":names": {
+        ":prevent-default!": "preventDefault"
+      },
+      ":target": {
+        "__edn_tag": "browser"
+      }
+    },
+    "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)\n  :names $ {} $ :prevent-default! |preventDefault",
+    "id": "app.comp.container/InputKeyboardEventHost",
+    "js_ffi": null,
+    "schema": "'Trait",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "deftrait",
+      "ScrollChildHost",
+      [
+        ".scroll-into-view!",
+        [
+          "::",
+          "'Fn",
+          [
+            "{}",
+            [
+              ":args",
+              [
+                "[]",
+                "'app.comp.container/ScrollChildHost"
+              ]
+            ],
+            [
+              ":return",
+              "'Unit"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": {
+      ":backend": {
+        "__edn_tag": "js"
+      },
+      ":kind": {
+        "__edn_tag": "external-object"
+      },
+      ":names": {
+        ":scroll-into-view!": "scrollIntoView"
+      },
+      ":target": {
+        "__edn_tag": "browser"
+      }
+    },
+    "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)\n  :names $ {} $ :scroll-into-view! |scrollIntoView",
+    "id": "app.comp.container/ScrollChildHost",
+    "js_ffi": null,
+    "schema": "'Trait",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "deftrait",
+      "ScrollTargetHost",
+      [
+        ":lastElementChild",
+        [
+          "::",
+          "'JsNullish",
+          "'app.comp.container/ScrollChildHost"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": {
+      ":backend": {
+        "__edn_tag": "js"
+      },
+      ":kind": {
+        "__edn_tag": "external-object"
+      },
+      ":target": {
+        "__edn_tag": "browser"
+      }
+    },
+    "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)",
+    "id": "app.comp.container/ScrollTargetHost",
+    "js_ffi": null,
+    "schema": "'Trait",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "deftrait",
+      "SpeechUtteranceHost",
+      [
+        ":lang",
+        "'String"
+      ],
+      [
+        ":rate",
+        "'Number"
+      ],
+      [
+        ":voice",
+        [
+          "::",
+          "'JsNullish",
+          "'app.comp.container/SpeechVoiceHost"
+        ]
+      ],
+      [
+        ":on-end",
+        [
+          "::",
+          "'JsNullish",
+          [
+            "::",
+            "'Fn",
+            [
+              "{}",
+              [
+                ":args",
+                [
+                  "[]",
+                  "'JsObject"
+                ]
+              ],
+              [
+                ":return",
+                "'Unit"
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": {
+      ":backend": {
+        "__edn_tag": "js"
+      },
+      ":kind": {
+        "__edn_tag": "external-object"
+      },
+      ":names": {
+        ":lang": "lang",
+        ":on-end": "onend",
+        ":rate": "rate",
+        ":voice": "voice"
+      },
+      ":target": {
+        "__edn_tag": "browser"
+      },
+      ":writable": {
+        "__edn_set": [
+          {
+            "__edn_tag": "rate"
+          },
+          {
+            "__edn_tag": "lang"
+          },
+          {
+            "__edn_tag": "on-end"
+          },
+          {
+            "__edn_tag": "voice"
+          }
+        ]
+      }
+    },
+    "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)\n  :names $ {} (:lang |lang) (:on-end |onend) (:rate |rate) (:voice |voice)\n  :writable $ #{} :lang :on-end :rate :voice",
+    "id": "app.comp.container/SpeechUtteranceHost",
+    "js_ffi": null,
+    "schema": "'Trait",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "deftrait",
+      "SpeechVoiceHost",
+      [
+        ":lang",
+        "'String"
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": {
+      ":backend": {
+        "__edn_tag": "js"
+      },
+      ":kind": {
+        "__edn_tag": "external-object"
+      },
+      ":names": {
+        ":lang": "lang"
+      },
+      ":target": {
+        "__edn_tag": "browser"
+      }
+    },
+    "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)\n  :names $ {} $ :lang |lang",
+    "id": "app.comp.container/SpeechVoiceHost",
+    "js_ffi": null,
+    "schema": "'Trait",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "deftrait",
+      "SpeechVoiceListHost",
+      [
+        ".filter",
+        [
+          "::",
+          "'Fn",
+          [
+            "{}",
+            [
+              ":args",
+              [
+                "[]",
+                "'app.comp.container/SpeechVoiceListHost",
+                [
+                  "::",
+                  "'Fn",
+                  [
+                    "{}",
+                    [
+                      ":args",
+                      [
+                        "[]",
+                        "'app.comp.container/SpeechVoiceHost",
+                        "'Number",
+                        "'app.comp.container/SpeechVoiceListHost"
+                      ]
+                    ],
+                    [
+                      ":return",
+                      "'Bool"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              ":return",
+              "'app.comp.container/SpeechVoiceListHost"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": {
+      ":backend": {
+        "__edn_tag": "js"
+      },
+      ":kind": {
+        "__edn_tag": "external-object"
+      },
+      ":names": {
+        ":filter": "filter"
+      },
+      ":target": {
+        "__edn_tag": "browser"
+      }
+    },
+    "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)\n  :names $ {} $ :filter |filter",
+    "id": "app.comp.container/SpeechVoiceListHost",
+    "js_ffi": null,
+    "schema": "'Trait",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "at-pattern",
+      [],
+      [
+        "new",
+        "js/RegExp",
+        "|@"
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/at-pattern",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'JsObject"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defcomp",
+      "comp-avatar",
+      [
+        "label"
+      ],
+      [
+        "[]",
+        [
+          "effect-render-icon",
+          "label"
+        ],
+        [
+          "div",
+          [
+            "{}",
+            [
+              ":class-name",
+              "style-avatar"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/comp-avatar",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.schema/Component"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'String"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defcomp",
+      "comp-container",
+      [
+        "reel"
+      ],
+      [
+        "let",
+        [
+          [
+            "store",
+            [
+              ":store",
+              "reel"
+            ]
+          ],
+          [
+            "states",
+            [
+              ":states",
+              "store"
+            ]
+          ],
+          [
+            "cursor",
+            [
+              "decode-map-as",
+              [
+                "option:unwrap-or",
+                [
+                  "get",
+                  "states",
+                  ":cursor"
+                ],
+                [
+                  "[]"
+                ]
+              ],
+              [
+                "::",
+                "'List",
+                "'Dynamic"
+              ]
+            ]
+          ],
+          [
+            "state",
+            [
+              "decode-map-as",
+              [
+                "option:unwrap-or",
+                [
+                  "get",
+                  "states",
+                  ":data"
+                ],
+                [
+                  "{}",
+                  [
+                    ":content",
+                    "|"
+                  ],
+                  [
+                    ":voice?",
+                    "false"
+                  ]
+                ]
+              ],
+              [
+                "::",
+                "'Map",
+                "'Tag",
+                "'Dynamic"
+              ]
+            ]
+          ],
+          [
+            "voice?",
+            [
+              "decode-map-as",
+              [
+                "option:unwrap-or",
+                [
+                  "get",
+                  "state",
+                  ":voice?"
+                ],
+                "false"
+              ],
+              "'Bool"
+            ]
+          ],
+          [
+            "messages",
+            [
+              ":messages",
+              "store"
+            ]
+          ]
+        ],
+        [
+          "div",
+          [
+            "{}",
+            [
+              ":class-name",
+              [
+                "str-spaced",
+                "css/global",
+                "css/fullscreen",
+                "css/row"
+              ]
+            ],
+            [
+              ":style",
+              [
+                "{}",
+                [
+                  ":background-color",
+                  ":white"
+                ],
+                [
+                  ":font-size",
+                  "16"
+                ]
+              ]
+            ]
+          ],
+          [
+            "div",
+            [
+              "{}",
+              [
+                ":class-name",
+                "css/column"
+              ],
+              [
+                ":style",
+                [
+                  "{}",
+                  [
+                    ":width",
+                    "|28%"
+                  ],
+                  [
+                    ":background-color",
+                    [
+                      "hsl",
+                      "0",
+                      "0",
+                      "94"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              "memof1-call",
+              "comp-menu",
+              "voice?"
+            ],
+            [
+              "div",
+              [
+                "{}",
+                [
+                  ":class-name",
+                  "css/row-parted"
+                ],
+                [
+                  ":style",
+                  [
+                    "{}",
+                    [
+                      ":padding",
+                      "|0 8px"
+                    ],
+                    [
+                      ":user-select",
+                      ":none"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "a",
+                [
+                  "{}",
+                  [
+                    ":href",
+                    "|https://github.com/b-conf/hestory"
+                  ],
+                  [
+                    ":target",
+                    "|_blank"
+                  ],
+                  [
+                    ":inner-text",
+                    "|源码查看 GitHub."
+                  ],
+                  [
+                    ":style",
+                    [
+                      "{}",
+                      [
+                        ":font-size",
+                        "14"
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "span",
+                [
+                  "{}",
+                  [
+                    ":inner-text",
+                    "|Voice"
+                  ],
+                  [
+                    ":style",
+                    [
+                      "{}",
+                      [
+                        ":cursor",
+                        ":pointer"
+                      ],
+                      [
+                        ":font-family",
+                        "ui/font-fancy"
+                      ],
+                      [
+                        ":color",
+                        [
+                          "if",
+                          "voice?",
+                          [
+                            "hsl",
+                            "240",
+                            "60",
+                            "60"
+                          ],
+                          [
+                            "hsl",
+                            "0",
+                            "0",
+                            "80"
+                          ]
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    ":on-click",
+                    [
+                      "fn",
+                      [
+                        "e",
+                        "d!"
+                      ],
+                      [
+                        "d!",
+                        [
+                          "schema/app-event",
+                          [
+                            "schema/Op",
+                            ":states",
+                            "cursor",
+                            [
+                              "assoc",
+                              "state",
+                              ":voice?",
+                              [
+                                "not",
+                                "voice?"
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [
+            "div",
+            [
+              "{}",
+              [
+                ":class-name",
+                [
+                  "str-spaced",
+                  "css/expand",
+                  "css/column"
+                ]
+              ]
+            ],
+            [
+              "memof1-call",
+              "comp-header"
+            ],
+            [
+              "comp-messages",
+              "messages"
+            ],
+            [
+              "memof1-call",
+              "comp-input",
+              [
+                ">>",
+                "states",
+                ":input"
+              ]
+            ],
+            [
+              "when",
+              "dev?",
+              [
+                "comp-typed-reel",
+                [
+                  ">>",
+                  "states",
+                  ":reel"
+                ],
+                "reel",
+                [
+                  "{}"
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/comp-container",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.schema/Component"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          [
+            "::",
+            "'reel.typed/State",
+            "'app.schema/Op",
+            "'app.schema/Store"
+          ]
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defcomp",
+      "comp-header",
+      [],
+      [
+        "div",
+        [
+          "{}",
+          [
+            ":class-name",
+            [
+              "str-spaced",
+              "css/row-parted",
+              "style-header"
+            ]
+          ]
+        ],
+        [
+          "span",
+          [
+            "{}"
+          ]
+        ],
+        [
+          "span",
+          [
+            "{}",
+            [
+              ":on-click",
+              [
+                "fn",
+                [
+                  "e",
+                  "d!"
+                ],
+                [
+                  "js/document.body.requestFullscreen"
+                ]
+              ]
+            ]
+          ],
+          [
+            "<>",
+            "|Hestory",
+            [
+              "{}",
+              [
+                ":font-family",
+                "ui/font-fancy"
+              ]
+            ]
+          ]
+        ],
+        [
+          "comp-icon",
+          ":trash",
+          [
+            "{}",
+            [
+              ":font-size",
+              "20"
+            ],
+            [
+              ":color",
+              [
+                "hsl",
+                "320",
+                "80",
+                "70"
+              ]
+            ],
+            [
+              ":line-height",
+              "|20px"
+            ],
+            [
+              ":vertical-align",
+              ":middle"
+            ],
+            [
+              ":cursor",
+              ":pointer"
+            ]
+          ],
+          [
+            "fn",
+            [
+              "e",
+              "d!"
+            ],
+            [
+              "d!",
+              [
+                "schema/app-event",
+                [
+                  "schema/Op",
+                  ":clear"
+                ]
+              ]
+            ],
+            [
+              "let",
+              [
+                [
+                  "nodes",
+                  [
+                    "js-cast",
+                    [
+                      "js/document.querySelectorAll",
+                      "|audio"
+                    ],
+                    "'app.comp.container/AudioNodeListHost"
+                  ]
+                ]
+              ],
+              [
+                ".for-each!",
+                "nodes",
+                [
+                  "fn",
+                  [
+                    "node",
+                    "i",
+                    "a"
+                  ],
+                  [
+                    ".remove!",
+                    [
+                      "js-cast",
+                      "node",
+                      "'app.comp.container/AudioNodeHost"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              "js/window.speechSynthesis.cancel"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/comp-header",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.schema/Component"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defcomp",
+      "comp-input",
+      [
+        "states"
+      ],
+      [
+        "let",
+        [
+          [
+            "cursor",
+            [
+              "decode-map-as",
+              [
+                "option:unwrap-or",
+                [
+                  "get",
+                  "states",
+                  ":cursor"
+                ],
+                [
+                  "[]"
+                ]
+              ],
+              [
+                "::",
+                "'List",
+                "'Dynamic"
+              ]
+            ]
+          ],
+          [
+            "state",
+            [
+              "decode-map-as",
+              [
+                "option:unwrap-or",
+                [
+                  "get",
+                  "states",
+                  ":data"
+                ],
+                [
+                  "{}",
+                  [
+                    ":content",
+                    "|"
+                  ]
+                ]
+              ],
+              [
+                "::",
+                "'Map",
+                "'Tag",
+                "'Dynamic"
+              ]
+            ]
+          ],
+          [
+            "content",
+            [
+              "decode-map-as",
+              [
+                "option:unwrap-or",
+                [
+                  "get",
+                  "state",
+                  ":content"
+                ],
+                "|"
+              ],
+              "'String"
+            ]
+          ]
+        ],
+        [
+          "div",
+          [
+            "{}",
+            [
+              ":style",
+              [
+                "merge",
+                "ui/row-middle",
+                [
+                  "{}",
+                  [
+                    ":padding",
+                    "|6px 10px"
+                  ],
+                  [
+                    ":background-color",
+                    [
+                      "hsl",
+                      "0",
+                      "0",
+                      "97"
+                    ]
+                  ],
+                  [
+                    ":border-top",
+                    [
+                      "str",
+                      "|1px solid ",
+                      [
+                        "hsl",
+                        "0",
+                        "0",
+                        "90"
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [
+            "textarea",
+            [
+              "{}",
+              [
+                ":value",
+                "content"
+              ],
+              [
+                ":placeholder",
+                "|Reply..."
+              ],
+              [
+                ":style",
+                [
+                  "merge",
+                  "ui/textarea",
+                  "ui/expand",
+                  [
+                    "{}",
+                    [
+                      ":height",
+                      "40"
+                    ],
+                    [
+                      ":line-height",
+                      "|24px"
+                    ],
+                    [
+                      ":border",
+                      ":none"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                ":on-input",
+                [
+                  "fn",
+                  [
+                    "e",
+                    "d!"
+                  ],
+                  [
+                    "hint-fn",
+                    [
+                      "{}",
+                      [
+                        ":args",
+                        [
+                          "[]",
+                          [
+                            "::",
+                            "'Map",
+                            "'Tag",
+                            "'Dynamic"
+                          ],
+                          [
+                            "::",
+                            "'Fn",
+                            [
+                              "{}",
+                              [
+                                ":args",
+                                [
+                                  "[]",
+                                  "'Enum"
+                                ]
+                              ],
+                              [
+                                ":return",
+                                "'Unit"
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        ":return",
+                        "'Unit"
+                      ]
+                    ]
+                  ],
+                  [
+                    "d!",
+                    [
+                      "schema/app-event",
+                      [
+                        "schema/Op",
+                        ":states",
+                        "cursor",
+                        [
+                          "assoc",
+                          "state",
+                          ":content",
+                          [
+                            "expect-string",
+                            "|input.value",
+                            [
+                              "option:unwrap",
+                              [
+                                "get",
+                                "e",
+                                ":value"
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                ":autofocus",
+                "true"
+              ],
+              [
+                ":on-keydown",
+                [
+                  "fn",
+                  [
+                    "e",
+                    "d!"
+                  ],
+                  [
+                    "hint-fn",
+                    [
+                      "{}",
+                      [
+                        ":args",
+                        [
+                          "[]",
+                          [
+                            "::",
+                            "'Map",
+                            "'Tag",
+                            "'Dynamic"
+                          ],
+                          [
+                            "::",
+                            "'Fn",
+                            [
+                              "{}",
+                              [
+                                ":args",
+                                [
+                                  "[]",
+                                  "'Enum"
+                                ]
+                              ],
+                              [
+                                ":return",
+                                "'Unit"
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        ":return",
+                        "'Unit"
+                      ]
+                    ]
+                  ],
+                  [
+                    "let",
+                    [
+                      [
+                        "event",
+                        [
+                          "js-cast",
+                          [
+                            "option:unwrap",
+                            [
+                              "get",
+                              "e",
+                              ":event"
+                            ]
+                          ],
+                          "'app.comp.container/InputKeyboardEventHost"
+                        ]
+                      ],
+                      [
+                        "key",
+                        [
+                          ".-key",
+                          "event"
+                        ]
+                      ]
+                    ],
+                    [
+                      "when",
+                      [
+                        "=",
+                        "|Enter",
+                        "key"
+                      ],
+                      [
+                        ".prevent-default!",
+                        "event"
+                      ],
+                      [
+                        "let",
+                        [
+                          [
+                            "target",
+                            [
+                              "option:unwrap",
+                              [
+                                "js-nullish->option",
+                                [
+                                  ".-target",
+                                  "event"
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        [
+                          "d!",
+                          [
+                            "schema/app-event",
+                            [
+                              "schema/Op",
+                              ":message",
+                              [
+                                "schema/Message",
+                                ":author",
+                                "|Me",
+                                ":text",
+                                [
+                                  "expect-string",
+                                  "|input.target.value",
+                                  [
+                                    ".-value",
+                                    "target"
+                                  ]
+                                ],
+                                ":code?",
+                                "false",
+                                ":floor",
+                                [
+                                  "Option",
+                                  ":none"
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "d!",
+                        [
+                          "schema/app-event",
+                          [
+                            "schema/Op",
+                            ":states",
+                            "cursor",
+                            [
+                              "assoc",
+                              "state",
+                              ":content",
+                              "|"
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "scroll-view!"
+                      ]
+                    ]
+                  ],
+                  "&unit"
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/comp-input",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.schema/Component"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          [
+            "::",
+            "'Map",
+            "'Dynamic",
+            "'Dynamic"
+          ]
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defcomp",
+      "comp-menu",
+      [
+        "voice?"
+      ],
+      [
+        "div",
+        [
+          "{}",
+          [
+            ":style",
+            [
+              "{}",
+              [
+                ":padding",
+                "|16px 0"
+              ],
+              [
+                ":line-height",
+                "|36px"
+              ]
+            ]
+          ],
+          [
+            ":class-name",
+            "css/expand"
+          ]
+        ],
+        [
+          "list->",
+          [
+            "{}"
+          ],
+          [
+            "->",
+            "reading-list",
+            [
+              "map",
+              [
+                "fn",
+                [
+                  "info"
+                ],
+                [
+                  "let",
+                  [
+                    [
+                      "idx",
+                      [
+                        ":idx",
+                        "info"
+                      ]
+                    ],
+                    [
+                      "title",
+                      [
+                        ":title",
+                        "info"
+                      ]
+                    ],
+                    [
+                      "messages",
+                      [
+                        ":messages",
+                        "info"
+                      ]
+                    ]
+                  ],
+                  [
+                    "[]",
+                    "idx",
+                    [
+                      "div",
+                      [
+                        "{}",
+                        [
+                          ":class-name",
+                          [
+                            "str-spaced",
+                            "css/row-middle",
+                            "|hover-item",
+                            "style-entry"
+                          ]
+                        ],
+                        [
+                          ":on-click",
+                          [
+                            "fn",
+                            [
+                              "e",
+                              "d!"
+                            ],
+                            [
+                              "hint-fn",
+                              [
+                                "{}",
+                                [
+                                  ":args",
+                                  [
+                                    "[]",
+                                    [
+                                      "::",
+                                      "'Map",
+                                      "'Tag",
+                                      "'Dynamic"
+                                    ],
+                                    [
+                                      "::",
+                                      "'Fn",
+                                      [
+                                        "{}",
+                                        [
+                                          ":args",
+                                          [
+                                            "[]",
+                                            "'Enum"
+                                          ]
+                                        ],
+                                        [
+                                          ":return",
+                                          "'Unit"
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ],
+                                [
+                                  ":return",
+                                  "'Unit"
+                                ],
+                                [
+                                  ":features",
+                                  [
+                                    "#{}",
+                                    ":js-ffi"
+                                  ]
+                                ]
+                              ]
+                            ],
+                            [
+                              "js/window.speechSynthesis.cancel"
+                            ],
+                            [
+                              "if",
+                              "voice?",
+                              [
+                                "read-content",
+                                "messages",
+                                "0",
+                                "d!"
+                              ],
+                              [
+                                "swap-messages",
+                                "messages",
+                                "d!"
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "comp-icon",
+                        ":link",
+                        [
+                          "{}",
+                          [
+                            ":font-size",
+                            "14"
+                          ],
+                          [
+                            ":color",
+                            [
+                              "hsl",
+                              "230",
+                              "70",
+                              "70"
+                            ]
+                          ],
+                          [
+                            ":line-height",
+                            "|14px"
+                          ]
+                        ],
+                        "nil"
+                      ],
+                      [
+                        "=<",
+                        "2",
+                        "nil"
+                      ],
+                      [
+                        "<>",
+                        [
+                          "str",
+                          "idx"
+                        ],
+                        "style-ep-no"
+                      ],
+                      [
+                        "=<",
+                        "8",
+                        "nil"
+                      ],
+                      [
+                        "<>",
+                        "title"
+                      ],
+                      [
+                        "=<",
+                        "8",
+                        "nil"
+                      ],
+                      [
+                        "<>",
+                        [
+                          "str",
+                          [
+                            "count",
+                            "messages"
+                          ]
+                        ],
+                        "style-message-count"
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "=<",
+          "nil",
+          "80"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/comp-menu",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.schema/Component"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'Bool"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defcomp",
+      "comp-message",
+      [
+        "content"
+      ],
+      [
+        "let",
+        [
+          [
+            "author",
+            [
+              ":author",
+              "content"
+            ]
+          ],
+          [
+            "floor-label",
+            [
+              "match",
+              [
+                ":floor",
+                "content"
+              ],
+              [
+                [
+                  ":some",
+                  "message-floor"
+                ],
+                [
+                  "str",
+                  "message-floor"
+                ]
+              ],
+              [
+                [
+                  ":none"
+                ],
+                "|_"
+              ]
+            ]
+          ],
+          [
+            "code?",
+            [
+              ":code?",
+              "content"
+            ]
+          ],
+          [
+            "text",
+            [
+              ":text",
+              "content"
+            ]
+          ]
+        ],
+        [
+          "div",
+          [
+            "{}",
+            [
+              ":class-name",
+              "css/row"
+            ],
+            [
+              ":style",
+              [
+                "{}",
+                [
+                  ":width",
+                  "|98%"
+                ],
+                [
+                  ":padding",
+                  "|4px 10px"
+                ]
+              ]
+            ]
+          ],
+          [
+            "comp-avatar",
+            "author"
+          ],
+          [
+            "=<",
+            "8",
+            "nil"
+          ],
+          [
+            "div",
+            [
+              "{}",
+              [
+                ":class-name",
+                "css/flex"
+              ]
+            ],
+            [
+              "div",
+              [
+                "{}",
+                [
+                  ":class-name",
+                  "style-message-area"
+                ]
+              ],
+              [
+                "div",
+                [
+                  "{}",
+                  [
+                    ":class-name",
+                    "css/row-parted"
+                  ]
+                ],
+                [
+                  "<>",
+                  "author"
+                ],
+                [
+                  "<>",
+                  [
+                    "str",
+                    "|#",
+                    "floor-label"
+                  ],
+                  "style-floor"
+                ]
+              ],
+              [
+                "div",
+                [
+                  "{}",
+                  [
+                    ":class-name",
+                    "style-message"
+                  ]
+                ],
+                [
+                  "if",
+                  "code?",
+                  [
+                    "pre",
+                    [
+                      "{}",
+                      [
+                        ":class-name",
+                        "style-message-code"
+                      ]
+                    ],
+                    [
+                      "code",
+                      [
+                        "{}"
+                      ],
+                      [
+                        "<>",
+                        [
+                          "trim",
+                          "text"
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "comp-md",
+                    "text",
+                    [
+                      "{}"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/comp-message",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.schema/Component"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'app.schema/Message"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defcomp",
+      "comp-messages",
+      [
+        "messages"
+      ],
+      [
+        "div",
+        [
+          "{}",
+          [
+            ":class-name",
+            "css/expand"
+          ]
+        ],
+        [
+          "=<",
+          "nil",
+          "8"
+        ],
+        [
+          "list->",
+          [
+            "{}",
+            [
+              ":id",
+              "|message-area"
+            ]
+          ],
+          [
+            "map-indexed",
+            "messages",
+            [
+              "fn",
+              [
+                "idx",
+                "message"
+              ],
+              [
+                "[]",
+                "idx",
+                [
+                  "comp-message",
+                  "message"
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "if",
+          [
+            "empty?",
+            "messages"
+          ],
+          [
+            "div",
+            [
+              "{}",
+              [
+                ":class-name",
+                "css/center"
+              ],
+              [
+                ":style",
+                [
+                  "{}",
+                  [
+                    ":padding",
+                    "|40px"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "<>",
+              "|Cleared.",
+              [
+                "{}",
+                [
+                  ":font-family",
+                  "ui/font-fancy"
+                ],
+                [
+                  ":font-weight",
+                  "500"
+                ],
+                [
+                  ":color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "70"
+                  ]
+                ],
+                [
+                  ":font-style",
+                  ":italic"
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "=<",
+          "nil",
+          "80"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/comp-messages",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.schema/Component"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          [
+            "::",
+            "'List",
+            "'app.schema/Message"
+          ]
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defeffect",
+      "effect-render-icon",
+      [
+        "label"
+      ],
+      [
+        "action",
+        "el",
+        "at?"
+      ],
+      [
+        "match",
+        "action",
+        [
+          ":mount",
+          [
+            "let",
+            [
+              [
+                "svg-ns",
+                "|http://www.w3.org/2000/svg"
+              ],
+              [
+                "svg",
+                [
+                  "js/document.createElementNS",
+                  "svg-ns",
+                  "|svg"
+                ]
+              ]
+            ],
+            [
+              ".!appendChild",
+              "el",
+              "svg"
+            ],
+            [
+              "jdenticon/update",
+              "svg",
+              "label"
+            ]
+          ]
+        ],
+        [
+          ":update",
+          [
+            "let",
+            [
+              [
+                "svg",
+                [
+                  ".!querySelector",
+                  "el",
+                  "|svg"
+                ]
+              ]
+            ],
+            [
+              "jdenticon/update",
+              "svg",
+              "label"
+            ]
+          ]
+        ],
+        [
+          "_",
+          "&unit"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/effect-render-icon",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.schema/Effect"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'String"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "js-replace",
+      [
+        "text",
+        "pattern",
+        "replacement"
+      ],
+      [
+        "expect-string",
+        "|String.replace result",
+        [
+          ".!replace",
+          "text",
+          "pattern",
+          "replacement"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/js-replace",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'String"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'String",
+          "'Dynamic",
+          "'Dynamic"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defmacro",
+      "load-data",
+      [
+        "path"
+      ],
+      [
+        "let",
+        [
+          [
+            "path-text",
+            [
+              "assert-type",
+              "path",
+              "'String"
+            ]
+          ]
+        ],
+        [
+          "&data-to-code",
+          [
+            "parse-cirru-edn",
+            [
+              "read-file",
+              "path-text"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/load-data",
+    "js_ffi": null,
+    "schema": [
+      "::",
+      "'Macro",
+      [
+        "{}",
+        [
+          ":capabilities",
+          [
+            "#{}",
+            ":fs-read"
+          ]
+        ],
+        [
+          ":expansion",
+          [
+            "::",
+            "'Expr",
+            "'Dynamic"
+          ]
+        ],
+        [
+          ":required",
+          [
+            "[]",
+            "'Syntax"
+          ]
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "load-toml-data",
+      [],
+      [
+        "tagging-edn",
+        [
+          "to-calcit-data",
+          [
+            "toml/parse",
+            [
+              "slurp",
+              "|data/2020-08-12-template-stringify.toml"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/load-toml-data",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Dynamic"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "read-content",
+      [
+        "messages",
+        "idx",
+        "d!"
+      ],
+      [
+        "when",
+        [
+          "not",
+          [
+            "empty?",
+            "messages"
+          ]
+        ],
+        [
+          "let",
+          [
+            [
+              "msg",
+              [
+                "option:unwrap",
+                [
+                  "first",
+                  "messages"
+                ]
+              ]
+            ],
+            [
+              "text",
+              [
+                "if",
+                [
+                  ":code?",
+                  "msg"
+                ],
+                "|Code",
+                [
+                  ":text",
+                  "msg"
+                ]
+              ]
+            ],
+            [
+              "next!",
+              [
+                "fn",
+                [],
+                [
+                  "read-content",
+                  [
+                    "rest",
+                    "messages"
+                  ],
+                  [
+                    "inc",
+                    "idx"
+                  ],
+                  "d!"
+                ]
+              ]
+            ]
+          ],
+          [
+            "d!",
+            [
+              "schema/app-event",
+              [
+                "schema/Op",
+                ":message",
+                [
+                  "assoc",
+                  "msg",
+                  ":floor",
+                  [
+                    "Option",
+                    ":some",
+                    "idx"
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [
+            "match",
+            "api-target",
+            [
+              "|xunfei",
+              [
+                "speakXunfei",
+                [
+                  "santinize-voice",
+                  "text"
+                ],
+                "next!"
+              ]
+            ],
+            [
+              "|azure",
+              [
+                "synthesizeAzureSpeech",
+                [
+                  "santinize-voice",
+                  "text"
+                ],
+                [
+                  "option:unwrap-or",
+                  [
+                    "get-env",
+                    "|azure-key"
+                  ],
+                  "|"
+                ],
+                [
+                  "fn",
+                  []
+                ],
+                "next!"
+              ]
+            ],
+            [
+              "|audio",
+              [
+                "requestAudioSpeech",
+                [
+                  "option:unwrap-or",
+                  [
+                    "get-env",
+                    "|audio-host"
+                  ],
+                  "|"
+                ],
+                [
+                  "santinize-voice",
+                  "text"
+                ],
+                "next!"
+              ]
+            ],
+            [
+              "_",
+              [
+                "speech!",
+                [
+                  "santinize-voice",
+                  "text"
+                ],
+                "next!"
+              ]
+            ]
+          ],
+          [
+            "scroll-view!"
+          ]
+        ]
+      ],
+      "&unit"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/read-content",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          [
+            "::",
+            "'List",
+            "'app.schema/Message"
+          ],
+          "'Number",
+          [
+            "::",
+            "'Fn",
+            [
+              "{}",
+              [
+                ":return",
+                "'Unit"
+              ],
+              [
+                ":args",
+                [
+                  "[]",
+                  "'Enum"
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "def",
+      "reading-list",
+      [
+        "[]",
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2019-08-15-serverless.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2019-07-22-http2-perf.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2019-07-10-deps-lock.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2019-07-02-yield-syntax.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2019-06-06-top-level-await.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2019-03-21-decorator-change.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-12-07-chrome-ie.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-11-19-private-field-problem.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-toml-data"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-11-14-js-build-speed.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-11-06-web-comps-templates.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-11-06-svelte-proposal.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-11-01-react-hooks-internals.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-10-26-react-hooks-wonder.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-10-21-react-class-syntax.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-09-27-vue-ts.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-08-23-worker-dom.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-07-21-algebraic-interrupts-early.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-08-10-write-book.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-08-18-babel-compile.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-07-13-vue-internals.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-07-04-babel-parser.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-06-15-vue-stars.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-05-11-layered-apis.cirru"
+          ]
+        ],
+        [
+          "schema/decode-story",
+          [
+            "load-data",
+            "|data/2018-07-23-demo.cirru"
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/reading-list",
+    "js_ffi": null,
+    "schema": [
+      "::",
+      "'List",
+      "'app.schema/Story"
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "santinize-voice",
+      [
+        "text"
+      ],
+      [
+        "js-replace",
+        [
+          "js-replace",
+          "text",
+          [
+            "at-pattern"
+          ],
+          "| at "
+        ],
+        [
+          "url-pattern"
+        ],
+        [
+          "fn",
+          [
+            "target",
+            "&",
+            "args"
+          ],
+          [
+            "let",
+            [
+              [
+                "url",
+                [
+                  "js-cast",
+                  [
+                    "new",
+                    "js/URL",
+                    "target"
+                  ],
+                  "'js-ffi.shared/UrlHost"
+                ]
+              ],
+              [
+                "host",
+                [
+                  ".-host",
+                  "url"
+                ]
+              ]
+            ],
+            [
+              "str",
+              "| link to ",
+              [
+                "js-replace",
+                "host",
+                "|www.",
+                "|"
+              ],
+              "| "
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/santinize-voice",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'String"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'String"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "scroll-view!",
+      [],
+      [
+        "js/setTimeout",
+        [
+          "fn",
+          [],
+          [
+            "let",
+            [
+              [
+                "target-raw",
+                [
+                  "js/document.querySelector",
+                  "|#message-area"
+                ]
+              ]
+            ],
+            [
+              "when",
+              [
+                "js-present?",
+                "target-raw"
+              ],
+              [
+                "let",
+                [
+                  [
+                    "target",
+                    [
+                      "js-cast",
+                      "target-raw",
+                      "'app.comp.container/ScrollTargetHost"
+                    ]
+                  ],
+                  [
+                    "child-raw",
+                    [
+                      ".-lastElementChild",
+                      "target"
+                    ]
+                  ]
+                ],
+                [
+                  "when",
+                  [
+                    "js-present?",
+                    "child-raw"
+                  ],
+                  [
+                    "let",
+                    [
+                      [
+                        "child",
+                        [
+                          "js-cast",
+                          "child-raw",
+                          "'app.comp.container/ScrollChildHost"
+                        ]
+                      ]
+                    ],
+                    [
+                      ".scroll-into-view!",
+                      "child"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "100"
+      ],
+      "&unit"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/scroll-view!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defmacro",
+      "slurp",
+      [
+        "path"
+      ],
+      [
+        "read-file",
+        [
+          "assert-type",
+          "path",
+          "'String"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/slurp",
+    "js_ffi": null,
+    "schema": [
+      "::",
+      "'Macro",
+      [
+        "{}",
+        [
+          ":capabilities",
+          [
+            "#{}",
+            ":fs-read"
+          ]
+        ],
+        [
+          ":expansion",
+          [
+            "::",
+            "'Expr",
+            "'Dynamic"
+          ]
+        ],
+        [
+          ":required",
+          [
+            "[]",
+            "'Syntax"
+          ]
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "speech!",
+      [
+        "text",
+        "cb"
+      ],
+      [
+        "let",
+        [
+          [
+            "t",
+            [
+              "js-cast",
+              [
+                "new",
+                "js/window.SpeechSynthesisUtterance",
+                "text"
+              ],
+              "'app.comp.container/SpeechUtteranceHost"
+            ]
+          ]
+        ],
+        [
+          "set!",
+          [
+            ".-lang",
+            "t"
+          ],
+          "|zh-cn"
+        ],
+        [
+          "set!",
+          [
+            ".-rate",
+            "t"
+          ],
+          "1.2"
+        ],
+        [
+          "let",
+          [
+            [
+              "voices",
+              [
+                "js-cast",
+                [
+                  "js/window.speechSynthesis.getVoices"
+                ],
+                "'app.comp.container/SpeechVoiceListHost"
+              ]
+            ],
+            [
+              "filtered",
+              [
+                ".filter",
+                "voices",
+                [
+                  "fn",
+                  [
+                    "voice",
+                    "i",
+                    "a"
+                  ],
+                  [
+                    "includes?",
+                    [
+                      ".-lang",
+                      "voice"
+                    ],
+                    "|zh"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "voice-raw",
+              [
+                "aget",
+                "filtered",
+                "3"
+              ]
+            ]
+          ],
+          [
+            "if",
+            [
+              "js-present?",
+              "voice-raw"
+            ],
+            [
+              "set!",
+              [
+                ".-voice",
+                "t"
+              ],
+              [
+                "js-cast",
+                "voice-raw",
+                "'app.comp.container/SpeechVoiceHost"
+              ]
+            ],
+            [
+              "js/console.warn",
+              "|no voice:",
+              "voices"
+            ]
+          ]
+        ],
+        [
+          "js/window.speechSynthesis.speak",
+          "t"
+        ],
+        [
+          "set!",
+          [
+            ".-on-end",
+            "t"
+          ],
+          [
+            "fn",
+            [
+              "event"
+            ],
+            [
+              "hint-fn",
+              [
+                "{}",
+                [
+                  ":args",
+                  [
+                    "[]",
+                    "'JsObject"
+                  ]
+                ],
+                [
+                  ":return",
+                  "'Unit"
+                ],
+                [
+                  ":features",
+                  [
+                    "#{}",
+                    ":js-ffi"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "js/setTimeout",
+              "cb",
+              "400"
+            ],
+            "&unit"
+          ]
+        ]
+      ],
+      "&unit"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/speech!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'String",
+          [
+            "::",
+            "'Fn",
+            [
+              "{}",
+              [
+                ":return",
+                "'Unit"
+              ],
+              [
+                ":args",
+                [
+                  "[]"
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstyle",
+      "style-avatar",
+      [
+        "{}",
+        [
+          "|&",
+          [
+            "{}",
+            [
+              ":width",
+              "40"
+            ],
+            [
+              ":height",
+              "40"
+            ],
+            [
+              ":border",
+              [
+                "str",
+                "|1px solid ",
+                [
+                  "hsl",
+                  "0",
+                  "0",
+                  "90"
+                ]
+              ]
+            ],
+            [
+              ":border-radius",
+              "|2px"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/style-avatar",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstyle",
+      "style-entry",
+      [
+        "{}",
+        [
+          "|&",
+          [
+            "{}",
+            [
+              ":cursor",
+              ":pointer"
+            ],
+            [
+              ":padding",
+              "|0 8px"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/style-entry",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstyle",
+      "style-ep-no",
+      [
+        "{}",
+        [
+          "|&",
+          [
+            "{}",
+            [
+              ":color",
+              [
+                "hsl",
+                "0",
+                "0",
+                "70"
+              ]
+            ],
+            [
+              ":font-size",
+              "12"
+            ],
+            [
+              ":font-family",
+              "ui/font-code"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/style-ep-no",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstyle",
+      "style-floor",
+      [
+        "{}",
+        [
+          "|&",
+          [
+            "{}",
+            [
+              ":font-size",
+              "10"
+            ],
+            [
+              ":color",
+              [
+                "hsl",
+                "0",
+                "0",
+                "80"
+              ]
+            ],
+            [
+              ":font-family",
+              "ui/font-code"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/style-floor",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstyle",
+      "style-header",
+      [
+        "{}",
+        [
+          "|&",
+          [
+            "{}",
+            [
+              ":padding",
+              "|4px 6px"
+            ],
+            [
+              ":font-weight",
+              "300"
+            ],
+            [
+              ":font-size",
+              "16"
+            ],
+            [
+              ":background-color",
+              [
+                "hsl",
+                "0",
+                "0",
+                "97"
+              ]
+            ],
+            [
+              ":border-bottom",
+              [
+                "str",
+                "|1px solid ",
+                [
+                  "hsl",
+                  "0",
+                  "0",
+                  "90"
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/style-header",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstyle",
+      "style-message",
+      [
+        "{}",
+        [
+          "|&",
+          [
+            "{}",
+            [
+              ":color",
+              [
+                "hsl",
+                "0",
+                "0",
+                "40"
+              ]
+            ],
+            [
+              ":font-size",
+              "16"
+            ],
+            [
+              ":line-height",
+              "|24px"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/style-message",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstyle",
+      "style-message-area",
+      [
+        "{}",
+        [
+          "|&",
+          [
+            "{}",
+            [
+              ":color",
+              [
+                "hsl",
+                "0",
+                "0",
+                "70"
+              ]
+            ],
+            [
+              ":font-size",
+              "12"
+            ],
+            [
+              ":line-height",
+              "|18px"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/style-message-area",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstyle",
+      "style-message-code",
+      [
+        "{}",
+        [
+          "|&",
+          [
+            "{}",
+            [
+              ":font-size",
+              "14"
+            ],
+            [
+              ":margin",
+              "0"
+            ],
+            [
+              ":border-radius",
+              "|4px"
+            ],
+            [
+              ":border",
+              [
+                "str",
+                "|1px solid ",
+                [
+                  "hsl",
+                  "0",
+                  "0",
+                  "90"
+                ]
+              ]
+            ],
+            [
+              ":padding",
+              "|6px 8px"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/style-message-code",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstyle",
+      "style-message-count",
+      [
+        "{}",
+        [
+          "|&",
+          [
+            "{}",
+            [
+              ":font-size",
+              "12"
+            ],
+            [
+              ":background-color",
+              [
+                "hsl",
+                "200",
+                "60",
+                "85"
+              ]
+            ],
+            [
+              ":color",
+              ":white"
+            ],
+            [
+              ":padding",
+              "|0px 5px"
+            ],
+            [
+              ":border-radius",
+              "|8px"
+            ],
+            [
+              ":line-height",
+              "|16px"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/style-message-count",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "swap-messages",
+      [
+        "messages",
+        "d!"
+      ],
+      [
+        "d!",
+        [
+          "schema/app-event",
+          [
+            "schema/Op",
+            ":swap-messages",
+            "messages"
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/swap-messages",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          [
+            "::",
+            "'List",
+            "'app.schema/Message"
+          ],
+          [
+            "::",
+            "'Fn",
+            [
+              "{}",
+              [
+                ":return",
+                "'Unit"
+              ],
+              [
+                ":args",
+                [
+                  "[]",
+                  "'Enum"
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "url-pattern",
+      [],
+      [
+        "new",
+        "js/RegExp",
+        "|https?:[\\w\\d\\/_#\\.\\=\\?\\-\\%]+"
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/url-pattern",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'JsObject"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "def",
+      "api-target",
+      [
+        "option:unwrap-or",
+        [
+          "get-env",
+          "|api-target"
+        ],
+        "|speech"
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.config/api-target",
+    "js_ffi": null,
+    "schema": "'String",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "def",
+      "dev?",
+      [
+        "=",
+        "|dev",
+        [
+          "option:unwrap-or",
+          [
+            "get-env",
+            "|mode"
+          ],
+          "|dev"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.config/dev?",
+    "js_ffi": null,
+    "schema": "'Bool",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "def",
+      "site",
+      [
+        "{}",
+        [
+          ":storage-key",
+          "|hestory"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.config/site",
+    "js_ffi": null,
+    "schema": [
+      "::",
+      "'Map",
+      "'Tag",
+      "'String"
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defref",
+      "*reel",
+      [
+        "typed/new-reel",
+        "schema/store"
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/*reel",
+    "js_ffi": null,
+    "schema": [
+      "::",
+      "'Ref",
+      [
+        "::",
+        "'reel.typed/State",
+        "'app.schema/Op",
+        "'app.schema/Store"
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "dispatch!",
+      [
+        "event"
+      ],
+      [
+        "if",
+        [
+          "enum?",
+          "event"
+        ],
+        [
+          "let",
+          [
+            [
+              "op",
+              "event"
+            ]
+          ],
+          [
+            "when",
+            [
+              "and",
+              "config/dev?",
+              [
+                "not=",
+                ":states",
+                [
+                  "&enum:nth",
+                  "op",
+                  "0"
+                ]
+              ]
+            ],
+            [
+              "js/console.log",
+              "|Dispatch:",
+              "op"
+            ]
+          ],
+          [
+            "match",
+            [
+              "typed/decode-control",
+              "op"
+            ],
+            [
+              [
+                ":some",
+                "control"
+              ],
+              [
+                "reset!",
+                "*reel",
+                [
+                  "typed/apply-control",
+                  "updater",
+                  "@*reel",
+                  "control"
+                ]
+              ]
+            ],
+            [
+              [
+                ":none"
+              ],
+              [
+                "reset!",
+                "*reel",
+                [
+                  "typed/record-op",
+                  "updater",
+                  "@*reel",
+                  [
+                    "schema/read-app-event",
+                    "op"
+                  ],
+                  [
+                    "generate-id!"
+                  ],
+                  [
+                    ":timestamp",
+                    [
+                      "date-now-snapshot"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "&unit"
+        ],
+        [
+          "raise",
+          "|Expected a UI event enum"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/dispatch!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'Dynamic"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "main!",
+      [],
+      [
+        "println",
+        "|Running mode:",
+        [
+          "if",
+          "config/dev?",
+          "|dev",
+          "|release"
+        ]
+      ],
+      [
+        "if",
+        "config/dev?",
+        [
+          "load-console-formatter!"
+        ]
+      ],
+      [
+        "js/window.speechSynthesis.getVoices"
+      ],
+      [
+        "render-app!"
+      ],
+      [
+        "add-watch!",
+        "*reel",
+        ":changes",
+        [
+          "fn",
+          [
+            "reel",
+            "prev"
+          ],
+          [
+            "render-app!"
+          ]
+        ]
+      ],
+      [
+        "listen-devtools!",
+        "|k",
+        "dispatch!"
+      ],
+      [
+        "js/window.addEventListener",
+        "|beforeunload",
+        [
+          "fn",
+          [
+            "event"
+          ],
+          [
+            "js/speechSynthesis.cancel"
+          ]
+        ]
+      ],
+      [
+        "println",
+        "|App started."
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/main!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "mount-target",
+      [],
+      [
+        "narrow-element",
+        [
+          "option:unwrap",
+          [
+            "query-selector",
+            "|.app"
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": {
+      ":backend": {
+        "__edn_tag": "js"
+      },
+      ":target": {
+        "__edn_tag": "browser"
+      }
+    },
+    "ffi_edn": "{} (:backend :js) (:target :browser)",
+    "id": "app.main/mount-target",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.dom/DomElement"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "persist-storage!",
+      [],
+      [
+        "js-ffi.browser/storage-set!",
+        [
+          "option:unwrap",
+          [
+            "get",
+            "config/site",
+            ":storage-key"
+          ]
+        ],
+        [
+          "format-cirru-edn",
+          [
+            ":store",
+            "@*reel"
+          ]
+        ]
+      ],
+      "&unit"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/persist-storage!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "reload!",
+      [],
+      [
+        "if",
+        [
+          "nil?",
+          "build-errors"
+        ],
+        [
+          "do",
+          [
+            "remove-watch!",
+            "*reel",
+            ":changes"
+          ],
+          [
+            "clear-cache!"
+          ],
+          [
+            "add-watch!",
+            "*reel",
+            ":changes",
+            [
+              "fn",
+              [
+                "reel",
+                "prev"
+              ],
+              [
+                "render-app!"
+              ]
+            ]
+          ],
+          [
+            "reset!",
+            "*reel",
+            [
+              "typed/refresh",
+              "updater",
+              "@*reel",
+              "schema/store"
+            ]
+          ],
+          [
+            "hud!",
+            "|ok~",
+            "|Ok"
+          ]
+        ],
+        [
+          "hud!",
+          "|error",
+          "build-errors"
+        ]
+      ],
+      "&unit"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/reload!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "render-app!",
+      [],
+      [
+        "render!",
+        [
+          "mount-target"
+        ],
+        [
+          "comp-container",
+          "@*reel"
+        ],
+        "dispatch!"
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/render-app!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "repeat!",
+      [
+        "duration",
+        "cb"
+      ],
+      [
+        "js/setTimeout",
+        [
+          "fn",
+          [],
+          [
+            "cb"
+          ],
+          [
+            "repeat!",
+            [
+              "*",
+              "1000",
+              "duration"
+            ],
+            "cb"
+          ]
+        ],
+        [
+          "*",
+          "1000",
+          "duration"
+        ]
+      ],
+      "&unit"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/repeat!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'Number",
+          [
+            "::",
+            "'Fn",
+            [
+              "{}",
+              [
+                ":return",
+                "'Unit"
+              ],
+              [
+                ":args",
+                [
+                  "[]"
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstruct",
+      "Message",
+      [
+        ":author",
+        "'String"
+      ],
+      [
+        ":text",
+        "'String"
+      ],
+      [
+        ":code?",
+        "'Bool"
+      ],
+      [
+        ":floor",
+        [
+          "::",
+          "'Option",
+          "'Number"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/Message",
+    "js_ffi": null,
+    "schema": "'StructDef",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defenum",
+      "Op",
+      [
+        ":states",
+        [
+          "::",
+          "'List",
+          "'Dynamic"
+        ],
+        "'Dynamic"
+      ],
+      [
+        ":message",
+        "'app.schema/Message"
+      ],
+      [
+        ":swap-messages",
+        [
+          "::",
+          "'List",
+          "'app.schema/Message"
+        ]
+      ],
+      [
+        ":clear"
+      ],
+      [
+        ":hydrate-storage",
+        "'app.schema/Store"
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/Op",
+    "js_ffi": null,
+    "schema": "'EnumDef",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstruct",
+      "OpEnvelope",
+      [
+        ":op",
+        "'app.schema/Op"
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/OpEnvelope",
+    "js_ffi": null,
+    "schema": "'StructDef",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstruct",
+      "Store",
+      [
+        ":states",
+        [
+          "::",
+          "'Map",
+          "'Dynamic",
+          "'Dynamic"
+        ]
+      ],
+      [
+        ":messages",
+        [
+          "::",
+          "'List",
+          "'app.schema/Message"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/Store",
+    "js_ffi": null,
+    "schema": "'StructDef",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defstruct",
+      "Story",
+      [
+        ":idx",
+        "'String"
+      ],
+      [
+        ":title",
+        "'String"
+      ],
+      [
+        ":messages",
+        [
+          "::",
+          "'List",
+          "'app.schema/Message"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/Story",
+    "js_ffi": null,
+    "schema": "'StructDef",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "app-event",
+      [
+        "op"
+      ],
+      [
+        "::",
+        ":app/event",
+        [
+          "OpEnvelope",
+          ":op",
+          "op"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/app-event",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Enum"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'app.schema/Op"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "decode-message",
+      [
+        "data"
+      ],
+      [
+        "decode-map-as",
+        [
+          "message-input",
+          "data"
+        ],
+        "Message"
+      ]
+    ],
+    "doc": "Checked legacy Map-to-Message decoder. Wrong field types are rejected rather than assumed from a schema.",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/decode-message",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'app.schema/Message"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'Dynamic"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "decode-story",
+      [
+        "data"
+      ],
+      [
+        "let",
+        [
+          [
+            "fields",
+            [
+              "decode-map-as",
+              "data",
+              [
+                "::",
+                "'Map",
+                "'Tag",
+                "'Dynamic"
+              ]
+            ]
+          ],
+          [
+            "messages",
+            [
+              "decode-map-as",
+              [
+                "option:unwrap",
+                [
+                  "get",
+                  "fields",
+                  ":messages"
+                ]
+              ],
+              [
+                "::",
+                "'List",
+                "'Dynamic"
+              ]
+            ]
+          ]
+        ],
+        [
+          "decode-map-as",
+          [
+            "assoc",
+            "fields",
+            ":messages",
+            [
+              "map",
+              "messages",
+              "message-input"
+            ]
+          ],
+          "Story"
+        ]
+      ]
+    ],
+    "doc": "Checked history decoder; normalize missing message code flags before recursively decoding Story and Message.",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/decode-story",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'app.schema/Story"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'Dynamic"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "message-input",
+      [
+        "data"
+      ],
+      [
+        "merge",
+        [
+          "{}",
+          [
+            ":author",
+            "|"
+          ],
+          [
+            ":text",
+            "|"
+          ],
+          [
+            ":code?",
+            "false"
+          ]
+        ],
+        [
+          "decode-map-as",
+          "data",
+          [
+            "::",
+            "'Map",
+            "'Tag",
+            "'Dynamic"
+          ]
+        ]
+      ]
+    ],
+    "doc": "Normalize legacy message defaults only at the Cirru/TOML data boundary; checked nominal decoding happens afterwards.",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/message-input",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'Dynamic"
+        ]
+      ],
+      [
+        ":return",
+        [
+          "::",
+          "'Map",
+          "'Tag",
+          "'Dynamic"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "read-app-event",
+      [
+        "event"
+      ],
+      [
+        "match",
+        "event",
+        [
+          [
+            ":app/event",
+            "envelope"
+          ],
+          [
+            "if",
+            [
+              "struct?",
+              "envelope"
+            ],
+            [
+              "struct-match",
+              "envelope",
+              [
+                "OpEnvelope",
+                "checked",
+                [
+                  ":op",
+                  "checked"
+                ]
+              ],
+              [
+                "_",
+                "other",
+                [
+                  "raise",
+                  "|Expected an app OpEnvelope"
+                ]
+              ]
+            ],
+            [
+              "raise",
+              "|Expected an app OpEnvelope"
+            ]
+          ]
+        ],
+        [
+          "_",
+          [
+            "raise",
+            "|Unknown UI event; reload after upgrading the application"
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/read-app-event",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'app.schema/Op"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'Enum"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "def",
+      "store",
+      [
+        "Store",
+        ":states",
+        [
+          "{}",
+          [
+            ":cursor",
+            [
+              "[]"
+            ]
+          ]
+        ],
+        ":messages",
+        [
+          "[]"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.schema/store",
+    "js_ffi": null,
+    "schema": "'app.schema/Store",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "updater",
+      [
+        "store",
+        "op",
+        "op-id",
+        "op-time"
+      ],
+      [
+        "match",
+        "op",
+        [
+          [
+            ":states",
+            "cursor",
+            "s"
+          ],
+          [
+            "assoc",
+            "store",
+            ":states",
+            [
+              "decode-map-as",
+              [
+                "update-state-tree",
+                [
+                  ":states",
+                  "store"
+                ],
+                "cursor",
+                "s"
+              ],
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ]
+            ]
+          ]
+        ],
+        [
+          [
+            ":hydrate-storage",
+            "data"
+          ],
+          "data"
+        ],
+        [
+          [
+            ":message",
+            "data"
+          ],
+          [
+            "assoc",
+            "store",
+            ":messages",
+            [
+              "append",
+              [
+                ":messages",
+                "store"
+              ],
+              "data"
+            ]
+          ]
+        ],
+        [
+          [
+            ":clear"
+          ],
+          [
+            "assoc",
+            "store",
+            ":messages",
+            [
+              "[]"
+            ]
+          ]
+        ],
+        [
+          [
+            ":swap-messages",
+            "data"
+          ],
+          [
+            "assoc",
+            "store",
+            ":messages",
+            "data"
+          ]
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.updater/updater",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'app.schema/Store"
+      ],
+      [
+        ":args",
+        [
+          "[]",
+          "'app.schema/Store",
+          "'app.schema/Op",
+          "'String",
+          "'Number"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  }
+]
