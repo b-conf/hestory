@@ -105,14 +105,14 @@
                 store $ :store reel
                 states $ :states store
                 cursor $ decode-map-as
-                  option:unwrap-or (get states :cursor) ([])
+                  .unwrap-or (get states :cursor) ([])
                   :: 'List 'Dynamic
                 state $ decode-map-as
-                  option:unwrap-or (get states :data)
+                  .unwrap-or (get states :data)
                     {} (:content |) (:voice? false)
                   :: 'Map 'Tag 'Dynamic
                 voice? $ decode-map-as
-                  option:unwrap-or (get state :voice?) false
+                  .unwrap-or (get state :voice?) false
                   , 'Bool
                 messages $ :messages store
               div
@@ -173,22 +173,22 @@
           :code $ quote $ defcomp comp-input (states)
             let
                 cursor $ decode-map-as
-                  option:unwrap-or (get states :cursor) ([])
+                  .unwrap-or (get states :cursor) ([])
                   :: 'List 'Dynamic
                 state $ decode-map-as
-                  option:unwrap-or (get states :data)
+                  .unwrap-or (get states :data)
                     {} $ :content |
                   :: 'Map 'Tag 'Dynamic
                 content $ decode-map-as
-                  option:unwrap-or (get state :content) |
+                  .unwrap-or (get state :content) |
                   , 'String
               div
-                {} $ :style $ merge ui/row-middle
+                {} $ :style $ .merge ui/row-middle
                   {} (:padding "|6px 10px")
                     :background-color $ hsl 0 0 97
                     :border-top $ str "|1px solid " $ hsl 0 0 90
                 textarea $ {} (:value content) (:placeholder |Reply...)
-                  :style $ merge ui/textarea ui/expand $ {} (:height 40) (:line-height |24px) (:border :none)
+                  :style $ .merge ui/textarea ui/expand $ {} (:height 40) (:line-height |24px) (:border :none)
                   :on-input $ fn (e d!)
                     hint-fn $ {}
                       :args $ [] (:: 'Map 'Tag 'Dynamic)
@@ -197,7 +197,7 @@
                           :return 'Unit
                       :return 'Unit
                     d! $ schema/app-event $ schema/Op :states cursor
-                      assoc state :content $ expect-string |input.value $ option:unwrap (get e :value)
+                      assoc state :content $ expect-string |input.value $ .unwrap (get e :value)
                   :autofocus true
                   :on-keydown $ fn (e d!)
                     hint-fn $ {}
@@ -208,12 +208,12 @@
                       :return 'Unit
                     let
                         event $ js-cast
-                          option:unwrap $ get e :event
+                          .unwrap $ get e :event
                           , 'app.comp.container/InputKeyboardEventHost
                         key $ .-key event
                       when (= |Enter key) (.prevent-default! event)
                         let
-                            target $ option:unwrap $ js-nullish->option (.-target event)
+                            target $ .unwrap $ js-nullish->option (.-target event)
                           d! $ schema/app-event $ schema/Op :message
                             schema/Message :author |Me :text
                               expect-string |input.target.value $ .-value target
@@ -261,7 +261,7 @@
                       <> title
                       =< 8 nil
                       <>
-                        str $ count messages
+                        str $ .len messages
                         , style-message-count
               =< nil 80
           :examples $ []
@@ -366,7 +366,7 @@
             when
               not $ empty? messages
               let
-                  msg $ option:unwrap $ first messages
+                  msg $ .unwrap $ first messages
                   text $ if (:code? msg) |Code $ :text msg
                   next! $ fn () $ read-content (rest messages) (inc idx) d!
                 d! $ schema/app-event $ schema/Op :message
@@ -374,11 +374,11 @@
                 match api-target
                   |xunfei $ speakXunfei (santinize-voice text) next!
                   |azure $ synthesizeAzureSpeech (santinize-voice text)
-                    option:unwrap-or (get-env |azure-key) |
+                    .unwrap-or (get-env |azure-key) |
                     fn $
                     , next!
                   |audio $ requestAudioSpeech
-                    option:unwrap-or (get-env |audio-host) |
+                    .unwrap-or (get-env |audio-host) |
                     santinize-voice text
                     , next!
                   _ $ speech! (santinize-voice text) next!
@@ -594,12 +594,12 @@
       :defs $ {}
         'api-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def api-target
-            option:unwrap-or (get-env |api-target) |speech
+            .unwrap-or (get-env |api-target) |speech
           :examples $ []
           :schema $ :: 'String
         'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def dev?
-            = |dev $ option:unwrap-or (get-env |mode) |dev
+            = |dev $ .unwrap-or (get-env |mode) |dev
           :examples $ []
           :schema $ :: 'Bool
         'site $ %{} 'CodeEntry (:doc |)
@@ -651,7 +651,7 @@
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
-            narrow-element $ option:unwrap $ query-selector |.app
+            narrow-element $ .unwrap $ query-selector |.app
           :examples $ []
           :ffi $ {} (:backend :js) (:target :browser)
           :schema $ :: 'Fn $ {} (:return 'respo.dom/DomElement)
@@ -660,7 +660,7 @@
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             js-ffi.browser/storage-set!
-              option:unwrap $ get config/site :storage-key
+              .unwrap $ get config/site :storage-key
               format-cirru-edn $ :store @*reel
             , &unit
           :examples $ []
@@ -764,7 +764,7 @@
             let
                 fields $ decode-map-as data $ :: 'Map 'Tag 'Dynamic
                 messages $ decode-map-as
-                  option:unwrap $ get fields :messages
+                  .unwrap $ get fields :messages
                   :: 'List 'Dynamic
               decode-map-as
                 assoc fields :messages $ map messages message-input
@@ -775,7 +775,7 @@
         'message-input $ %{} 'CodeEntry
           :doc "|Normalize legacy message defaults only at the Cirru/TOML data boundary; checked nominal decoding happens afterwards."
           :code $ quote $ defn message-input (data)
-            merge
+            .merge
               {} (:author |) (:text |) (:code? false)
               decode-map-as data $ :: 'Map 'Tag 'Dynamic
           :examples $ []
