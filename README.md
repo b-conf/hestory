@@ -4,6 +4,26 @@
 
 Demo http://r.tiye.me/b-conf/hestory .
 
+### 本轮公开方法迁移
+
+使用者影响：继续配对正式 CLI / `@calcit/procs` **0.30.1**，同步已发布的正式 Feather 0.4.30、
+Reel 0.6.41、Markdown 0.4.59、UI 0.8.0、Respo 0.16.124、JS-FFI 0.2.5，Memof 0.0.40 不变。
+这是一套与 Feather 当前稳定版相容的完整图，不能只把某一个模块换成另一套 642/081/126/026 图。
+更新后重新生成资源、重启开发服务并完整刷新；UI 0.7→0.8 的基础样式可能变化。
+原公开历史、输入/Enter、数据格式、语音模式/参数、Worker 内联、`hud!` 及部署路径不变。
+刷新仍按原入口回到初始空列表，不新增用户回复持久化或恢复功能。
+
+源码 17 处 Option helper 改为同实现的接收者方法，3 处 Map 合并改为 `.merge`、1 处 List 计数改为 `.len`。
+原 Node 业务 fixture 中 13 处 Option helper 和 7 处 List 计数也改用配对 runtime 的接收者方法调度，
+原十项测试名、断言、Worker/DOM/语音 fixture 均保留；不增加测试框架或脚本。
+source unsafe 仍为 0，全部原 schema/FFI/配置/imports/默认值保持不变，不恢复已退役的数量基线。
+完整 strict、原业务测试、构建及实际页面分别验收，不能只看版本声明或静态绿色 CI。
+
+本轮另发现并单独报告旧语音适配器问题：Azure 的未声明 `SpeechSDK` 全局见 [#33](https://github.com/b-conf/hestory/issues/33)，
+讯飞错误日志输出完整认证 URL 的静态风险见 [#34](https://github.com/b-conf/hestory/issues/34)。这两个文件本轮未改，
+没有使用真实凭据、连接付费服务或声称语音网络已经验收；原缺少付费凭据提示也不静默删除。
+以下为前轮升级与历史验收说明，不代替本轮最新提交结果。
+
 ### Usages
 
 从微信扒数据, 然后按照 `data/` 当中的格式保存, 再源码里进行索引.

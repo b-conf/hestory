@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { invoke_method } from '@calcit/procs';
 import { registerHooks } from 'node:module';
 import * as c from '../js-out/calcit.core.mjs';
 import { store, Op, decode_message, read_app_event } from '../js-out/app.schema.mjs';
@@ -10,7 +11,7 @@ import { make_string } from '../js-out/respo.render.html.mjs';
 
 const t = c.init_tags(['store', 'states', 'cursor', 'data', 'content', 'messages', 'author', 'text', 'code?', 'floor', 'input', 'value', 'event', 'keydown', 'click', 'children', 'node', 'clear', 'message', 'swap-messages', 'voice?', 'mount']);
 const map = c._$n__$M_;
-const read = (value, key) => c.option_$o_unwrap(c.get(value, t[key]));
+const read = (value, key) => invoke_method('unwrap', c.get(value, t[key]));
 const op = (key, ...args) => c._PCT__$o__$o_(Op, t[key], ...args);
 const root = state => new_reel(state);
 const event = values => map(...Object.entries(values).flatMap(([key, value]) => [t[key], value]));
@@ -54,16 +55,16 @@ try {
 }
 function handlers(node, kind, found = []) {
   if (c.enum_$q_(node)) return handlers(c._$n_enum_$o_nth(node, 1), kind, found);
-  if (component_$q_(node)) return handlers(c.option_$o_unwrap(component_tree(node)), kind, found);
+  if (component_$q_(node)) return handlers(invoke_method('unwrap', component_tree(node)), kind, found);
   const events = c.get(node, t.event);
-  if (c.option_$o_some_$q_(events)) {
-    const handler = c.get(c.option_$o_unwrap(events), kind);
-    if (c.option_$o_some_$q_(handler)) found.push(c.option_$o_unwrap(handler));
+  if (invoke_method('some?', events)) {
+    const handler = c.get(invoke_method('unwrap', events), kind);
+    if (invoke_method('some?', handler)) found.push(invoke_method('unwrap', handler));
   }
   const children = c.get(node, t.children);
-  if (c.option_$o_some_$q_(children)) for (const pair of c.option_$o_unwrap(children).toArray()) {
+  if (invoke_method('some?', children)) for (const pair of invoke_method('unwrap', children).toArray()) {
     const child = read(pair, 'node');
-    if (c.option_$o_some_$q_(child)) handlers(c.option_$o_unwrap(child), kind, found);
+    if (invoke_method('some?', child)) handlers(invoke_method('unwrap', child), kind, found);
   }
   return found;
 }
@@ -75,7 +76,7 @@ test('actual initial app renders original history menu and empty message area', 
   assert.equal(workers, 1);
   const html = make_string(app.comp_container(root(store)));
   for (const text of ['Hestory', 'Cleared.', 'Reply...', 'https://github.com/b-conf/hestory']) assert.ok(html.includes(text));
-  assert.ok(c.count(app.reading_list) > 20);
+  assert.ok(invoke_method('len', app.reading_list) > 20);
 });
 test('real Respo event-map input sends one states Enum and re-renders typed text', () => {
   const callbacks = handlers(app.comp_container(root(store)), t.input);
@@ -86,7 +87,7 @@ test('real Respo event-map input sends one states Enum and re-renders typed text
   const next = updater(store, operations[0], 'fixture', 0);
   assert.equal(read(read(read(read(next, 'states'), 'input'), 'data'), 'content'), 'Typed reply');
   assert.ok(make_string(app.comp_container(root(next))).includes('Typed reply'));
-  assert.equal(c.count(read(store, 'messages')), 0);
+  assert.equal(invoke_method('len', read(store, 'messages')), 0);
 });
 test('Enter uses the actual keyboard host, prevents default and sends/clears with Enums', () => {
   const timer = globalThis.setTimeout;
@@ -99,7 +100,7 @@ test('Enter uses the actual keyboard host, prevents default and sends/clears wit
     assert.equal(prevented, 1);
     assert.equal(operations.length, 2);
     const next = operations.reduce((state, operation) => updater(state, operation, 'fixture', 0), store);
-    const message = c.option_$o_unwrap(c.first(read(next, 'messages')));
+    const message = invoke_method('unwrap', c.first(read(next, 'messages')));
     assert.equal(read(message, 'author'), 'Me');
     assert.equal(read(message, 'text'), 'Reply from target');
     assert.equal(read(read(read(read(next, 'states'), 'input'), 'data'), 'content'), '');
@@ -115,14 +116,14 @@ test('swap/message/clear Enum updater paths preserve all message data', () => {
   let next = updater(store, operations[0], 'fixture', 0);
   assert.ok(make_string(app.comp_messages(read(next, 'messages'))).includes('const x = 1;'));
   next = updater(next, op('message', message), 'fixture', 0);
-  assert.equal(c.count(read(next, 'messages')), 2);
+  assert.equal(invoke_method('len', read(next, 'messages')), 2);
   next = updater(next, op('clear'), 'fixture', 0);
-  assert.equal(c.count(read(next, 'messages')), 0);
+  assert.equal(invoke_method('len', read(next, 'messages')), 0);
 });
 test('actual Voice toggle sends one Enum and preserves the input branch', () => {
   const { operations, dispatch } = capture();
   // The menu has one click callback per actual reading-list entry; Voice follows it.
-  const callback = handlers(app.comp_container(root(store)), t.click)[c.count(app.reading_list)];
+  const callback = handlers(app.comp_container(root(store)), t.click)[invoke_method('len', app.reading_list)];
   callback(null, dispatch);
   const next = updater(store, operations[0], 'fixture', 0);
   assert.equal(read(read(read(next, 'states'), 'data'), 'voice?'), true);
@@ -138,12 +139,12 @@ test('actual menu callback preserves the selected history without enabling speec
   try {
     globalThis.window = { speechSynthesis: { cancel() { cancelled++; } } };
     const callbacks = handlers(app.comp_menu(false), t.click);
-    assert.equal(callbacks.length, c.count(app.reading_list));
+    assert.equal(callbacks.length, invoke_method('len', app.reading_list));
     callbacks.forEach((callback, index) => {
       const { operations, dispatch } = capture();
       callback(null, dispatch);
       const next = updater(store, operations[0], 'fixture', 0);
-      const messages = read(c.option_$o_unwrap(c.nth(app.reading_list, index)), 'messages');
+      const messages = read(invoke_method('unwrap', c.nth(app.reading_list, index)), 'messages');
       assert.equal(read(next, 'messages'), messages);
       assert.doesNotThrow(() => make_string(app.comp_messages(messages)));
     });
@@ -161,7 +162,7 @@ test('actual clear callback removes audio nodes and cancels speech with a zero-p
     assert.equal(callbacks.length, 2);
     callbacks[1](null, dispatch);
     const next = updater(store, op('message', decode_message(map(t.author, 'Alice', t.text, 'message'))), 'fixture', 0);
-    assert.equal(c.count(read(updater(next, operations[0], 'fixture', 0), 'messages')), 0);
+    assert.equal(invoke_method('len', read(updater(next, operations[0], 'fixture', 0), 'messages')), 0);
     assert.equal(removed, 1);
     assert.equal(cancelled, 1);
   } finally {
@@ -198,7 +199,7 @@ test('actual native speech queues messages with one Enum and retains Chinese spe
     globalThis.setTimeout = (fn, delay) => { delays.push(delay); if (delay === 400) fn(); return 1; };
     app.read_content(c._$L_(decode_message(map(t.author, 'Alice', t.text, 'First')), decode_message(map(t.author, 'Bob', t.text, 'Second'))), 0, dispatch);
     const firstState = updater(store, operations[0], 'fixture', 0);
-    assert.equal(read(c.option_$o_unwrap(c.first(read(firstState, 'messages'))), 'text'), 'First');
+    assert.equal(read(invoke_method('unwrap', c.first(read(firstState, 'messages'))), 'text'), 'First');
     assert.equal(utterances[0].lang, 'zh-cn');
     assert.equal(utterances[0].rate, 1.2);
     assert.equal(utterances[0].voice.i, 3);
