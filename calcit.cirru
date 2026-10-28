@@ -6,7 +6,7 @@
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {} $ :js-ffi :error
       :modules $ [] |respo.calcit/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |respo-feather.calcit/
-      :type-slots $ {}
+      :type-slots $ {} $ :dispatch-op |app.schema/DispatchOp
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -716,6 +716,11 @@
             js-ffi.browser :refer $ query-selector
     'app.schema $ %{} 'FileEntry
       :defs $ {}
+        'DispatchOp $ %{} 'CodeEntry
+          :doc "|Respo 的 Enum dispatch 合同；保留既有 OpEnvelope 和 Reel 事件检查。代表值不会发送。"
+          :code $ quote $ def DispatchOp (:: :unhandled)
+          :examples $ []
+          :schema $ :: 'Enum
         'Message $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Message (:author 'String) (:text 'String) (:code? 'Bool)
             :floor $ :: 'Option 'Number
