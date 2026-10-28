@@ -4,7 +4,24 @@
 
 Demo http://r.tiye.me/b-conf/hestory .
 
-### 本轮公开方法迁移
+### Calcit 0.31.0 迁移
+
+使用者影响：CLI / `@calcit/procs` 同步到正式 **0.31.0**，需要重新安装依赖、生成 JS 并完整刷新。
+配套依赖为 Feather 0.5.0-alpha.5、Markdown 0.5.0-alpha.4、Reel 0.7.0-alpha.4、
+UI 0.9.0-alpha.4、Respo 0.17.0-alpha.4、JS-FFI 0.2.7、Memof 0.0.41；
+这些都是已发布精确 tag，但 Respo 系列仍带 alpha，不代表整套依赖均已稳定。
+
+新增明确的 Enum dispatch-op 绑定，保留原 OpEnvelope / Reel 受检事件合同。
+原历史消息、输入/Enter、语音参数、内联 Worker、`hud!` 和部署路径不变；
+不新增持久化，刷新仍回到初始空列表。没有改动原业务定义、测试断言或弱化类型门禁。
+
+完整 strict、全部定义、原 10 项 Node fixture 和构建通过；实际浏览器验证合成输入/Enter、
+公开历史菜单和刷新清空原内存状态。未开启语音或使用付费凭据；原未配置讯飞提示保留。
+原 Azure 全局和讯飞认证日志问题继续由 #33 / #34 跟踪，不声称已完成真实语音服务验收。
+
+以下为先前 0.30.1 迁移记录，不替代本轮精确提交的验收结果。
+
+### 先前公开方法迁移
 
 使用者影响：继续配对正式 CLI / `@calcit/procs` **0.30.1**，同步已发布的正式 Feather 0.4.30、
 Reel 0.6.41、Markdown 0.4.59、UI 0.8.0、Respo 0.16.124、JS-FFI 0.2.5，Memof 0.0.40 不变。
