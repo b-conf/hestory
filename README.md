@@ -4,7 +4,24 @@
 
 Demo http://r.tiye.me/b-conf/hestory .
 
-### Calcit 0.31.0 迁移
+### Calcit 0.32.0 迁移候选：使用者影响
+
+CLI / `@calcit/procs` 配对正式 `0.32.0`，需要重新安装依赖、生成 JS 并完整刷新。
+依赖声明对齐 Feather/Markdown 0.5.0、Reel 0.7.0、UI 0.9.0、Respo 0.17.0、
+JS-FFI 0.2.8 和 Memof 0.0.42。Respo 系列当前以本地候选验收，正式标签整图
+尚待验证，不提前引用未发布的 tag/main/hash。
+
+官方工具转换 19 处旧类型表达式，61 个项目定义的 schema 合同不变。保留原
+OpEnvelope、历史消息、输入/Enter、语音参数、内联 Worker、HUD 和部署路径；
+不新增持久化或测试脚本，不放宽类型门禁。
+
+本轮全部定义、完整 strict（diagnostics 为空）、原 10 项 Node fixture、构建和
+immutable 安装通过。实际页面验证合成输入/Enter、公开历史菜单和刷新回到空列表；
+语音保持关闭，原未配置付费凭据提示保留。原语音问题 #33/#34 继续保留，
+不使用真实语音凭据、不调用付费 TTS。npm 发布年龄门禁为一小时，无单包例外。
+正式标签依赖整图及远端 CI 尚待验收，本地候选结果不替代这两项检查。
+
+### 历史：Calcit 0.31.0 迁移
 
 使用者影响：CLI / `@calcit/procs` 同步到正式 **0.31.0**，需要重新安装依赖、生成 JS 并完整刷新。
 配套依赖为 Feather 0.5.0-alpha.5、Markdown 0.5.0-alpha.4、Reel 0.7.0-alpha.4、
