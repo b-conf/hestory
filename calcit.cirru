@@ -89,11 +89,11 @@
                 states $ :states store
                 cursor $ decode-map-as
                   .unwrap-or (get states :cursor) ([])
-                  :: 'List 'Dynamic
+                  quote $ List Dynamic
                 state $ decode-map-as
                   .unwrap-or (get states :data)
                     {} (:content |) (:voice? false)
-                  :: 'Map 'Tag 'Dynamic
+                  quote $ Map Tag Dynamic
                 voice? $ decode-map-as
                   .unwrap-or (get state :voice?) false
                   , 'Bool
@@ -123,7 +123,12 @@
                   memof1-call comp-header
                   comp-messages messages
                   memof1-call comp-input $ >> states :input
-                  when dev? $ comp-typed-reel (>> states :reel) reel $ {}
+                  match
+                    if dev?
+                      Option :some $ comp-typed-reel (>> states :reel) reel $ {}
+                      Option :none
+                    (:some node) node
+                    (:none) nil
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store) (-> respo.schema/Component)
         'comp-header $ %{} 'CodeEntry (:doc |)
@@ -154,11 +159,11 @@
             let
                 cursor $ decode-map-as
                   .unwrap-or (get states :cursor) ([])
-                  :: 'List 'Dynamic
+                  quote $ List Dynamic
                 state $ decode-map-as
                   .unwrap-or (get states :data)
                     {} $ :content |
-                  :: 'Map 'Tag 'Dynamic
+                  quote $ Map Tag Dynamic
                 content $ decode-map-as
                   .unwrap-or (get state :content) |
                   , 'String
@@ -276,13 +281,17 @@
                 {} $ :id |message-area
                 map-indexed messages $ fn (idx message)
                   [] idx $ comp-message message
-              if (empty? messages)
-                div
-                  {} (:class-name css/center)
-                    :style $ {} $ :padding |40px
-                  <> |Cleared. $ {} (:font-family ui/font-fancy) (:font-weight 500)
-                    :color $ hsl 0 0 70
-                    :font-style :italic
+              match
+                if (empty? messages)
+                  Option :some $ div
+                    {} (:class-name css/center)
+                      :style $ {} $ :padding |40px
+                    <> |Cleared. $ {} (:font-family ui/font-fancy) (:font-weight 500)
+                      :color $ hsl 0 0 70
+                      :font-style :italic
+                  Option :none
+                (:some node) node
+                (:none) nil
               =< nil 80
           :examples $ []
           :schema $ quote $ Fn (List app.schema/Message) (-> respo.schema/Component)
@@ -655,7 +664,7 @@
           :examples $ []
           :schema $ quote Enum
         'Message $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defstruct Message (:author 'String) (:text 'String) (:code? 'Bool)
+          :code $ quote $ defstruct Message (:author String) (:text String) (:code? Bool)
             :floor $ quote $ Option Number
           :examples $ []
           :schema $ quote StructDef
@@ -663,15 +672,15 @@
           :code $ quote $ defenum Op
             :states
               quote $ List Dynamic
-              , 'Dynamic
-            :message 'app.schema/Message
+              , Dynamic
+            :message app.schema/Message
             :swap-messages $ quote $ List app.schema/Message
             :clear
-            :hydrate-storage 'app.schema/Store
+            :hydrate-storage app.schema/Store
           :examples $ []
           :schema $ quote EnumDef
         'OpEnvelope $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defstruct OpEnvelope (:op 'app.schema/Op)
+          :code $ quote $ defstruct OpEnvelope (:op app.schema/Op)
           :examples $ []
           :schema $ quote StructDef
         'Store $ %{} 'CodeEntry (:doc |)
@@ -681,7 +690,7 @@
           :examples $ []
           :schema $ quote StructDef
         'Story $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defstruct Story (:idx 'String) (:title 'String)
+          :code $ quote $ defstruct Story (:idx String) (:title String)
             :messages $ quote $ List app.schema/Message
           :examples $ []
           :schema $ quote StructDef
@@ -700,10 +709,10 @@
           :doc "|Checked history decoder; normalize missing message code flags before recursively decoding Story and Message."
           :code $ quote $ defn decode-story (data)
             let
-                fields $ decode-map-as data $ :: 'Map 'Tag 'Dynamic
+                fields $ decode-map-as data $ quote (Map Tag Dynamic)
                 messages $ decode-map-as
                   .unwrap $ get fields :messages
-                  :: 'List 'Dynamic
+                  quote $ List Dynamic
               decode-map-as
                 assoc fields :messages $ map messages message-input
                 , Story
@@ -714,7 +723,7 @@
           :code $ quote $ defn message-input (data)
             .merge
               {} (:author |) (:text |) (:code? false)
-              decode-map-as data $ :: 'Map 'Tag 'Dynamic
+              decode-map-as data $ quote $ Map Tag Dynamic
           :examples $ []
           :schema $ quote $ Fn Dynamic
             -> $ Map Tag Dynamic
@@ -747,7 +756,7 @@
               (:states cursor s)
                 assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor s
-                  :: 'Map 'Dynamic 'Dynamic
+                  quote $ Map Dynamic Dynamic
               (:hydrate-storage data) data
               (:message data)
                 assoc store :messages $ append (:messages store) data
