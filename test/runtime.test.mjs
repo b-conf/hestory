@@ -8,13 +8,16 @@ import { updater } from '../js-out/app.updater.mjs';
 import { new_reel } from '../js-out/reel.typed.mjs';
 import { component_$q_, component_tree } from '../js-out/respo.util.detect.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
+import { event__GT_edn } from '../js-out/respo.util.format.mjs';
 
 const t = c.init_tags(['store', 'states', 'cursor', 'data', 'content', 'messages', 'author', 'text', 'code?', 'floor', 'input', 'value', 'event', 'keydown', 'click', 'children', 'node', 'clear', 'message', 'swap-messages', 'voice?', 'mount']);
 const map = c._$n__$M_;
 const read = (value, key) => invoke_method('unwrap', c.get(value, t[key]));
 const op = (key, ...args) => c._PCT__$o__$o_(Op, t[key], ...args);
 const root = state => new_reel(state);
-const event = values => map(...Object.entries(values).flatMap(([key, value]) => [t[key], value]));
+const event = values => event__GT_edn(values.event
+  ? { type: 'keydown', ...values.event }
+  : { type: 'input', target: { value: values.value } });
 const original = Object.fromEntries(['window', 'document', 'localStorage', 'Worker'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
 let workers = 0;
 const hooks = registerHooks({
@@ -78,7 +81,7 @@ test('actual initial app renders original history menu and empty message area', 
   for (const text of ['Hestory', 'Cleared.', 'Reply...', 'https://github.com/b-conf/hestory']) assert.ok(html.includes(text));
   assert.ok(invoke_method('len', app.reading_list) > 20);
 });
-test('real Respo event-map input sends one states Enum and re-renders typed text', () => {
+test('real Respo event input sends one states Enum and re-renders typed text', () => {
   const callbacks = handlers(app.comp_container(root(store)), t.input);
   assert.equal(callbacks.length, 1);
   const { operations, dispatch } = capture();

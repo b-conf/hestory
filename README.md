@@ -6,30 +6,15 @@ Demo http://r.tiye.me/b-conf/hestory .
 
 ### 使用者影响
 
-CLI / `@calcit/procs` 配对正式 **0.34.0**，Memof 使用已发布 **0.0.44**。
-升级后需重新安装依赖、生成 JS 并完整刷新。其他依赖版本保持，Reel
-0.7.0-alpha.5 与 Markdown 0.5.0-alpha.5 仍是已有预发布版本；不宣称整张依赖图都已迁移至0.34。
+CLI / `@calcit/procs` 配对正式 **0.34.2**；依赖图同步现代 Respo **0.19.2**、Reel **0.9.0**、UI **0.14.1**、Markdown **0.7.1**、Feather **0.6.0**、JS-FFI **0.2.10** 和 Memof **0.0.44**（传递 Router **0.11.2**）。Feather 已在 0.34.3，保持其版本，消费者用本项目的 0.34.2 实际验收。升级后重新安装依赖、生成 JS 并完整刷新；替换原 Reel / Markdown alpha 依赖，不能与旧 Respo 0.17 图混装。
 
-消息空态和开发 Reel 的条件节点改为 Option，再在旧 Respo 0.17.1 的子节点入口
-显式恢复其原有 nil 表示。DOM 顺序、消息内容、事件、缓存身份、语音逻辑与 HUD 保持。
-这是修复原0.32.1全定义检查发现的隐式 nil 分支，不能将旧基线描述为已通过。
-官方带 revision 守卫事务同时规范化17处旧类型形式；61个项目定义的 schema、
-附加测试、示例和 FFI 元数据保持，53个定义查询视图完全相同（含2个生成meta定义）。
+六处 DOM 回调标注真实 `RespoEvent`，输入和键盘事件直接读取已声明字段，再保留原字符串 / 宿主校验；消息空态和开发 Reel 直接返回 Option 子节点，不再恢复 nil。七处间距改用 `space-x` / `space-y`，根渲染加入现代 Respo memo 生命周期。两个宿主回调显式丢弃不使用的 JS 返回值，返回 Unit；不扩大回调返回类型。
 
-Message、Story、Store、Op 与 OpEnvelope 已使用具体 Struct/Enum。Cirru/TOML 历史数据
-和通用 UI 状态仍在真实输入边界收敛，不用不完整的 union 假称任意扩展字段已闭合。
-Memof 共享异构缓存的开放合同保留。本轮不增加强转、迁移脚本或类型预算。
+Message、Story、Store、Op 与 OpEnvelope 已使用具体 Struct/Enum，业务模型和 updater 保持。Cirru/TOML 历史数据、通用 UI 状态和 Memof 异构缓存仍在真实开放边界处理，不用不完整 union 假称任意扩展字段已闭合。Feather 在颜色边界使用真实标量 union；本项目不增加强转、迁移脚本、类型预算或新测试入口。
 
-本地正式依赖图通过 Caps strict/toolchain、Yarn immutable、全部定义、完整 strict、
-deprecated零门禁、原十项离线Node回归与带CDN路径构建；远端结果以PR检查为准。
-本轮不重跑浏览器、不读取真实存档或浏览器密钥、不调用付费语音服务。
-原fixture在隔离Node宿主中检查实际页面渲染、输入/Enter、菜单、清空、滚动与语音调用参数。
+原十项离线 Node 业务回归保留全部断言，事件夹具改用 Respo 自身转换器产生真实事件。实际隔离 Chrome 验证中文/emoji 回复、Enter 发送与清空、菜单、刷新回到初始空列表；没有启用语音或操作系统剪贴板。离线语音 fixture 不代表真实语音网络验收，讯飞 Worker 保持 Vite `?worker&inline`，原未配置付费凭据提示保留。Azure 未声明全局与讯飞认证URL日志风险仍由 [#33](https://github.com/b-conf/hestory/issues/33)、[#34](https://github.com/b-conf/hestory/issues/34) 跟踪。
 
-刷新仍回到初始空列表。讯飞 Worker 保留 Vite `?worker&inline`；
-原未配置付费凭据提示保留。Azure 未声明全局与讯飞认证URL日志风险仍由
-[#33](https://github.com/b-conf/hestory/issues/33)、
-[#34](https://github.com/b-conf/hestory/issues/34) 跟踪，不宣称语音网络问题已修复。
-本轮不合并或部署业务应用，仅沿用原工作流上传隔离PR前端预览，上传校验使用COS Action内置verify。
+原 HUD、语音模式、存储键、字体和服务器路径保持。本轮不合并或部署业务应用，仅沿用原工作流上传隔离 PR 前端预览；COS 校验只用 action 内置 verify。远端结果以 PR 检查为准，源码版本号不代表正式 tag 已发布。
 
 ### Usages
 

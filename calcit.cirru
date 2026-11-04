@@ -5,7 +5,7 @@
   :entries $ {} $ :default
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {} $ :js-ffi :error
-      :modules $ [] |respo.calcit/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |respo-feather.calcit/
+      :modules $ [] |respo.calcit/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |respo-feather.calcit/ |js-ffi/
       :type-slots $ {} $ :dispatch-op |app.schema/DispatchOp
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
@@ -116,6 +116,9 @@
                       :style $ {} (:cursor :pointer) (:font-family ui/font-fancy)
                         :color $ if voice? (hsl 240 60 60) (hsl 0 0 80)
                       :on-click $ fn (e d!)
+                        hint-fn $ Fn respo.schema/RespoEvent
+                          Fn Enum $ -> Unit
+                          -> Unit
                         d! $ schema/app-event $ schema/Op :states cursor
                           assoc state :voice? $ not voice?
                 div
@@ -123,12 +126,9 @@
                   memof1-call comp-header
                   comp-messages messages
                   memof1-call comp-input $ >> states :input
-                  match
-                    if dev?
-                      Option :some $ comp-typed-reel (>> states :reel) reel $ {}
-                      Option :none
-                    (:some node) node
-                    (:none) nil
+                  if dev?
+                    Option :some $ comp-typed-reel (>> states :reel) reel $ {}
+                    Option :none
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store) (-> respo.schema/Component)
         'comp-header $ %{} 'CodeEntry (:doc |)
@@ -137,7 +137,13 @@
               {} $ :class-name $ str-spaced css/row-parted style-header
               span $ {}
               span
-                {} $ :on-click $ fn (e d!) (js/document.body.requestFullscreen)
+                {} $ :on-click $ fn (e d!)
+                  hint-fn $ Fn respo.schema/RespoEvent
+                    Fn Enum $ -> Unit
+                    -> Unit
+                    :features :js-ffi
+                  js/document.body.requestFullscreen
+                  , &unit
                 <> |Hestory $ {} $ :font-family ui/font-fancy
               comp-icon :trash
                 {} (:font-size 20)
@@ -146,12 +152,17 @@
                   :vertical-align :middle
                   :cursor :pointer
                 fn (e d!)
+                  hint-fn $ Fn respo.schema/RespoEvent
+                    Fn Enum $ -> Unit
+                    -> Unit
+                    :features :js-ffi
                   d! $ schema/app-event $ schema/Op :clear
                   let
                       nodes $ js-cast (js/document.querySelectorAll |audio) 'app.comp.container/AudioNodeListHost
                     .for-each! nodes $ fn (node i a)
                       .remove! $ js-cast node 'app.comp.container/AudioNodeHost
                   js/window.speechSynthesis.cancel
+                  , &unit
           :examples $ []
           :schema $ quote $ Fn (-> respo.schema/Component) (:features :js-ffi)
         'comp-input $ %{} 'CodeEntry (:doc |)
@@ -175,20 +186,18 @@
                 textarea $ {} (:value content) (:placeholder |Reply...)
                   :style $ .merge ui/textarea ui/expand $ {} (:height 40) (:line-height |24px) (:border :none)
                   :on-input $ fn (e d!)
-                    hint-fn $ Fn (Map Tag Dynamic)
+                    hint-fn $ Fn respo.schema/RespoEvent
                       Fn Enum $ -> Unit
                       -> Unit
                     d! $ schema/app-event $ schema/Op :states cursor
-                      assoc state :content $ expect-string |input.value $ .unwrap (get e :value)
+                      assoc state :content $ expect-string |input.value $ :value e
                   :autofocus true
                   :on-keydown $ fn (e d!)
-                    hint-fn $ Fn (Map Tag Dynamic)
+                    hint-fn $ Fn respo.schema/RespoEvent
                       Fn Enum $ -> Unit
                       -> Unit
                     let
-                        event $ js-cast
-                          .unwrap $ get e :event
-                          , 'app.comp.container/InputKeyboardEventHost
+                        event $ js-cast (:event e) 'app.comp.container/InputKeyboardEventHost
                         key $ .-key event
                       when (= |Enter key) (.prevent-default! event)
                         let
@@ -218,7 +227,7 @@
                       {}
                         :class-name $ str-spaced css/row-middle |hover-item style-entry
                         :on-click $ fn (e d!)
-                          hint-fn $ Fn (Map Tag Dynamic)
+                          hint-fn $ Fn respo.schema/RespoEvent
                             Fn Enum $ -> Unit
                             -> Unit
                             :features :js-ffi
@@ -229,15 +238,15 @@
                           :color $ hsl 230 70 70
                           :line-height |14px
                         , nil
-                      =< 2 nil
+                      space-x 2
                       <> (str idx) style-ep-no
-                      =< 8 nil
+                      space-x 8
                       <> title
-                      =< 8 nil
+                      space-x 8
                       <>
                         str $ .len messages
                         , style-message-count
-              =< nil 80
+              space-y 80
           :examples $ []
           :schema $ quote $ Fn Bool (-> respo.schema/Component) (:features :js-ffi)
         'comp-message $ %{} 'CodeEntry (:doc |)
@@ -253,7 +262,7 @@
                 {} (:class-name css/row)
                   :style $ {} (:width |98%) (:padding "|4px 10px")
                 comp-avatar author
-                =< 8 nil
+                space-x 8
                 div
                   {} $ :class-name css/flex
                   div
@@ -276,23 +285,20 @@
           :code $ quote $ defcomp comp-messages (messages)
             div
               {} $ :class-name css/expand
-              =< nil 8
+              space-y 8
               list->
                 {} $ :id |message-area
                 map-indexed messages $ fn (idx message)
                   [] idx $ comp-message message
-              match
-                if (empty? messages)
-                  Option :some $ div
-                    {} (:class-name css/center)
-                      :style $ {} $ :padding |40px
-                    <> |Cleared. $ {} (:font-family ui/font-fancy) (:font-weight 500)
-                      :color $ hsl 0 0 70
-                      :font-style :italic
-                  Option :none
-                (:some node) node
-                (:none) nil
-              =< nil 80
+              if (empty? messages)
+                Option :some $ div
+                  {} (:class-name css/center)
+                    :style $ {} $ :padding |40px
+                  <> |Cleared. $ {} (:font-family ui/font-fancy) (:font-weight 500)
+                    :color $ hsl 0 0 70
+                    :font-style :italic
+                Option :none
+              space-y 80
           :examples $ []
           :schema $ quote $ Fn (List app.schema/Message) (-> respo.schema/Component)
         'effect-render-icon $ %{} 'CodeEntry (:doc |)
@@ -531,7 +537,7 @@
             respo.css :refer $ defstyle
             respo-ui.core :refer $ hsl
             respo.core :refer $ defcomp defeffect <> >> a div button textarea span input list-> create-element pre code
-            respo.comp.space :refer $ =<
+            respo.comp.space :refer $ space-x space-y
             respo-md.comp.md :refer $ comp-md
             app.config :refer $ dev? api-target
             memof.once :refer $ memof1-call
@@ -626,7 +632,7 @@
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            render! (mount-target) (comp-container @*reel) dispatch!
+            with-memo-frame $ fn () $ render! (mount-target) (comp-container @*reel) dispatch!
           :examples $ []
           :schema $ quote $ Fn (-> Unit)
         'repeat! $ %{} 'CodeEntry (:doc |)
@@ -656,6 +662,7 @@
             js-ffi.shared :refer $ date-now-snapshot
             respo.ffi.browser :refer $ narrow-element
             js-ffi.browser :refer $ query-selector
+            respo.memo :refer $ with-memo-frame
     'app.schema $ %{} 'FileEntry
       :defs $ {}
         'DispatchOp $ %{} 'CodeEntry
