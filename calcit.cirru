@@ -12,14 +12,14 @@
       :defs $ {}
         'AudioNodeHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait AudioNodeHost
-            .remove! $ quote $ Fn app.comp.container/AudioNodeHost (-> Unit)
+            .remove! $ Fn app.comp.container/AudioNodeHost $ -> Unit
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
             :names $ {} $ :remove! |remove
           :schema $ quote Trait
         'AudioNodeListHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait AudioNodeListHost
-            .for-each! $ quote $ Fn app.comp.container/AudioNodeListHost
+            .for-each! $ Fn app.comp.container/AudioNodeListHost
               Fn app.comp.container/AudioNodeHost Number app.comp.container/AudioNodeListHost $ -> Unit
               -> Unit
           :examples $ []
@@ -28,30 +28,29 @@
           :schema $ quote Trait
         'InputKeyboardEventHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait InputKeyboardEventHost (:key 'String)
-            :target $ quote $ JsNullish js-ffi.browser/DomInputHost
-            .prevent-default! $ quote $ Fn app.comp.container/InputKeyboardEventHost (-> Unit)
+            :target $ JsNullish js-ffi.browser/DomInputHost
+            .prevent-default! $ Fn app.comp.container/InputKeyboardEventHost $ -> Unit
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
             :names $ {} $ :prevent-default! |preventDefault
           :schema $ quote Trait
         'ScrollChildHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait ScrollChildHost
-            .scroll-into-view! $ quote $ Fn app.comp.container/ScrollChildHost (-> Unit)
+            .scroll-into-view! $ Fn app.comp.container/ScrollChildHost $ -> Unit
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
             :names $ {} $ :scroll-into-view! |scrollIntoView
           :schema $ quote Trait
         'ScrollTargetHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait ScrollTargetHost
-            :lastElementChild $ quote $ JsNullish app.comp.container/ScrollChildHost
+            :lastElementChild $ JsNullish app.comp.container/ScrollChildHost
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
           :schema $ quote Trait
         'SpeechUtteranceHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait SpeechUtteranceHost (:lang 'String) (:rate 'Number)
-            :voice $ quote $ JsNullish app.comp.container/SpeechVoiceHost
-            :on-end $ quote $ JsNullish
-              Fn JsObject $ -> Unit
+            :voice $ JsNullish app.comp.container/SpeechVoiceHost
+            :on-end $ JsNullish $ Fn JsObject (-> Unit)
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
             :names $ {} (:lang |lang) (:on-end |onend) (:rate |rate) (:voice |voice)
@@ -65,7 +64,7 @@
           :schema $ quote Trait
         'SpeechVoiceListHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait SpeechVoiceListHost
-            .filter $ quote $ Fn app.comp.container/SpeechVoiceListHost
+            .filter $ Fn app.comp.container/SpeechVoiceListHost
               Fn app.comp.container/SpeechVoiceHost Number app.comp.container/SpeechVoiceListHost $ -> Bool
               -> app.comp.container/SpeechVoiceListHost
           :examples $ []
@@ -89,11 +88,11 @@
                 states $ :states store
                 cursor $ decode-map-as
                   .unwrap-or (get states :cursor) ([])
-                  quote $ List Dynamic
+                  List respo.schema/CoordKey
                 state $ decode-map-as
                   .unwrap-or (get states :data)
                     {} (:content |) (:voice? false)
-                  quote $ Map Tag Dynamic
+                  Map Tag Dynamic
                 voice? $ decode-map-as
                   .unwrap-or (get state :voice?) false
                   , 'Bool
@@ -117,7 +116,7 @@
                         :color $ if voice? (hsl 240 60 60) (hsl 0 0 80)
                       :on-click $ fn (e d!)
                         hint-fn $ Fn respo.schema/RespoEvent
-                          Fn Enum $ -> Unit
+                          Fn AnyEnum $ -> Unit
                           -> Unit
                         d! $ schema/app-event $ schema/Op :states cursor
                           assoc state :voice? $ not voice?
@@ -139,7 +138,7 @@
               span
                 {} $ :on-click $ fn (e d!)
                   hint-fn $ Fn respo.schema/RespoEvent
-                    Fn Enum $ -> Unit
+                    Fn AnyEnum $ -> Unit
                     -> Unit
                     :features :js-ffi
                   js/document.body.requestFullscreen
@@ -153,7 +152,7 @@
                   :cursor :pointer
                 fn (e d!)
                   hint-fn $ Fn respo.schema/RespoEvent
-                    Fn Enum $ -> Unit
+                    Fn AnyEnum $ -> Unit
                     -> Unit
                     :features :js-ffi
                   d! $ schema/app-event $ schema/Op :clear
@@ -170,11 +169,11 @@
             let
                 cursor $ decode-map-as
                   .unwrap-or (get states :cursor) ([])
-                  quote $ List Dynamic
+                  List respo.schema/CoordKey
                 state $ decode-map-as
                   .unwrap-or (get states :data)
                     {} $ :content |
-                  quote $ Map Tag Dynamic
+                  Map Tag Dynamic
                 content $ decode-map-as
                   .unwrap-or (get state :content) |
                   , 'String
@@ -187,14 +186,14 @@
                   :style $ .merge ui/textarea ui/expand $ {} (:height 40) (:line-height |24px) (:border :none)
                   :on-input $ fn (e d!)
                     hint-fn $ Fn respo.schema/RespoEvent
-                      Fn Enum $ -> Unit
+                      Fn AnyEnum $ -> Unit
                       -> Unit
                     d! $ schema/app-event $ schema/Op :states cursor
                       assoc state :content $ expect-string |input.value $ :value e
                   :autofocus true
                   :on-keydown $ fn (e d!)
                     hint-fn $ Fn respo.schema/RespoEvent
-                      Fn Enum $ -> Unit
+                      Fn AnyEnum $ -> Unit
                       -> Unit
                     let
                         event $ js-cast (:event e) 'app.comp.container/InputKeyboardEventHost
@@ -228,7 +227,7 @@
                         :class-name $ str-spaced css/row-middle |hover-item style-entry
                         :on-click $ fn (e d!)
                           hint-fn $ Fn respo.schema/RespoEvent
-                            Fn Enum $ -> Unit
+                            Fn AnyEnum $ -> Unit
                             -> Unit
                             :features :js-ffi
                           js/window.speechSynthesis.cancel
@@ -359,7 +358,7 @@
             , &unit
           :examples $ []
           :schema $ quote $ Fn (List app.schema/Message) Number
-            Fn Enum $ -> Unit
+            Fn AnyEnum $ -> Unit
             -> Unit
         'reading-list $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def reading-list
@@ -525,7 +524,7 @@
             d! $ schema/app-event $ schema/Op :swap-messages messages
           :examples $ []
           :schema $ quote $ Fn (List app.schema/Message)
-            Fn Enum $ -> Unit
+            Fn AnyEnum $ -> Unit
             -> Unit
         'url-pattern $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn url-pattern () (new js/RegExp |https?:[\w\d\/_#\.\=\?\-\%]+)
@@ -592,7 +591,7 @@
                 , &unit
               raise "|Expected a UI event enum"
           :examples $ []
-          :schema $ quote $ Fn Dynamic (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -669,19 +668,17 @@
           :doc "|Respo 的 Enum dispatch 合同；保留既有 OpEnvelope 和 Reel 事件检查。代表值不会发送。"
           :code $ quote $ def DispatchOp (:: :unhandled)
           :examples $ []
-          :schema $ quote Enum
+          :schema $ quote AnyEnum
         'Message $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Message (:author String) (:text String) (:code? Bool)
-            :floor $ quote $ Option Number
+            :floor $ Option Number
           :examples $ []
           :schema $ quote StructDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states
-              quote $ List Dynamic
-              , Dynamic
+            :states (List respo.schema/CoordKey) Dynamic
             :message app.schema/Message
-            :swap-messages $ quote $ List app.schema/Message
+            :swap-messages $ List app.schema/Message
             :clear
             :hydrate-storage app.schema/Store
           :examples $ []
@@ -692,20 +689,20 @@
           :schema $ quote StructDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ quote $ Map Dynamic Dynamic
-            :messages $ quote $ List app.schema/Message
+            :states $ Map Dynamic Dynamic
+            :messages $ List app.schema/Message
           :examples $ []
           :schema $ quote StructDef
         'Story $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Story (:idx String) (:title String)
-            :messages $ quote $ List app.schema/Message
+            :messages $ List app.schema/Message
           :examples $ []
           :schema $ quote StructDef
         'app-event $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn app-event (op)
             :: :app/event $ OpEnvelope :op op
           :examples $ []
-          :schema $ quote $ Fn app.schema/Op (-> Enum)
+          :schema $ quote $ Fn app.schema/Op (-> AnyEnum)
         'decode-message $ %{} 'CodeEntry
           :doc "|Checked legacy Map-to-Message decoder. Wrong field types are rejected rather than assumed from a schema."
           :code $ quote $ defn decode-message (data)
@@ -716,10 +713,10 @@
           :doc "|Checked history decoder; normalize missing message code flags before recursively decoding Story and Message."
           :code $ quote $ defn decode-story (data)
             let
-                fields $ decode-map-as data $ quote (Map Tag Dynamic)
+                fields $ decode-map-as data $ Map Tag Dynamic
                 messages $ decode-map-as
                   .unwrap $ get fields :messages
-                  quote $ List Dynamic
+                  List Dynamic
               decode-map-as
                 assoc fields :messages $ map messages message-input
                 , Story
@@ -730,7 +727,7 @@
           :code $ quote $ defn message-input (data)
             .merge
               {} (:author |) (:text |) (:code? false)
-              decode-map-as data $ quote $ Map Tag Dynamic
+              decode-map-as data $ Map Tag Dynamic
           :examples $ []
           :schema $ quote $ Fn Dynamic
             -> $ Map Tag Dynamic
@@ -745,7 +742,7 @@
                   raise "|Expected an app OpEnvelope"
               _ $ raise "|Unknown UI event; reload after upgrading the application"
           :examples $ []
-          :schema $ quote $ Fn Enum (-> app.schema/Op)
+          :schema $ quote $ Fn AnyEnum (-> app.schema/Op)
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states
@@ -763,7 +760,7 @@
               (:states cursor s)
                 assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor s
-                  quote $ Map Dynamic Dynamic
+                  Map Dynamic Dynamic
               (:hydrate-storage data) data
               (:message data)
                 assoc store :messages $ append (:messages store) data
