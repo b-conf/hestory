@@ -105,7 +105,7 @@
                   {} (:class-name css/column)
                     :style $ {} (:width |28%)
                       :background-color $ hsl 0 0 94
-                  memof1-call comp-menu voice?
+                  memof1-call-unary comp-menu voice?
                   div
                     {} (:class-name css/row-parted)
                       :style $ {} (:padding "|0 8px") (:user-select :none)
@@ -124,7 +124,7 @@
                   {} $ :class-name $ str-spaced css/expand css/column
                   memof1-call comp-header
                   comp-messages messages
-                  memof1-call comp-input $ >> states :input
+                  memof1-call-unary comp-input $ >> states :input
                   if dev?
                     Option :some $ comp-typed-reel (>> states :reel) reel $ {}
                     Option :none
@@ -539,7 +539,7 @@
             respo.comp.space :refer $ space-x space-y
             respo-md.comp.md :refer $ comp-md
             app.config :refer $ dev? api-target
-            memof.once :refer $ memof1-call
+            memof.once :refer $ memof1-call memof1-call-unary
             |jdenticon :as jdenticon
             |../xunfei/sdk :refer $ speakXunfei
             |../assets/play-azure :refer $ synthesizeAzureSpeech
