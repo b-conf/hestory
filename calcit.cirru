@@ -6,7 +6,7 @@
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {} $ :js-ffi :error
       :modules $ [] |respo.calcit/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |respo-feather.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op |app.schema/DispatchOp
+      :type-slots $ {} $ :dispatch-op 'app.schema/Op
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -116,10 +116,9 @@
                         :color $ if voice? (hsl 240 60 60) (hsl 0 0 80)
                       :on-click $ fn (e d!)
                         hint-fn $ Fn respo.schema/RespoEvent
-                          Fn AnyEnum $ -> Unit
+                          Fn app.schema/Op $ -> Unit
                           -> Unit
-                        d! $ schema/app-event $ schema/Op :states cursor
-                          assoc state :voice? $ not voice?
+                        d! $ schema/Op :states cursor $ assoc state :voice? (not voice?)
                 div
                   {} $ :class-name $ str-spaced css/expand css/column
                   memof1-call comp-header
@@ -138,7 +137,7 @@
               span
                 {} $ :on-click $ fn (e d!)
                   hint-fn $ Fn respo.schema/RespoEvent
-                    Fn AnyEnum $ -> Unit
+                    Fn app.schema/Op $ -> Unit
                     -> Unit
                     :features :js-ffi
                   js/document.body.requestFullscreen
@@ -152,10 +151,10 @@
                   :cursor :pointer
                 fn (e d!)
                   hint-fn $ Fn respo.schema/RespoEvent
-                    Fn AnyEnum $ -> Unit
+                    Fn app.schema/Op $ -> Unit
                     -> Unit
                     :features :js-ffi
-                  d! $ schema/app-event $ schema/Op :clear
+                  d! $ schema/Op :clear
                   let
                       nodes $ js-cast (js/document.querySelectorAll |audio) 'app.comp.container/AudioNodeListHost
                     .for-each! nodes $ fn (node i a)
@@ -186,14 +185,14 @@
                   :style $ .merge ui/textarea ui/expand $ {} (:height 40) (:line-height |24px) (:border :none)
                   :on-input $ fn (e d!)
                     hint-fn $ Fn respo.schema/RespoEvent
-                      Fn AnyEnum $ -> Unit
+                      Fn app.schema/Op $ -> Unit
                       -> Unit
-                    d! $ schema/app-event $ schema/Op :states cursor
-                      assoc state :content $ expect-string |input.value $ :value e
+                    d! $ schema/Op :states cursor $ assoc state :content
+                      expect-string |input.value $ :value e
                   :autofocus true
                   :on-keydown $ fn (e d!)
                     hint-fn $ Fn respo.schema/RespoEvent
-                      Fn AnyEnum $ -> Unit
+                      Fn app.schema/Op $ -> Unit
                       -> Unit
                     let
                         event $ js-cast (:event e) 'app.comp.container/InputKeyboardEventHost
@@ -201,11 +200,10 @@
                       when (= |Enter key) (.prevent-default! event)
                         let
                             target $ .unwrap $ js-nullish->option (.-target event)
-                          d! $ schema/app-event $ schema/Op :message
-                            schema/Message :author |Me :text
-                              expect-string |input.target.value $ .-value target
-                              , :code? false :floor $ Option :none
-                        d! $ schema/app-event $ schema/Op :states cursor (assoc state :content |)
+                          d! $ schema/Op :message $ schema/Message :author |Me :text
+                            expect-string |input.target.value $ .-value target
+                            , :code? false :floor (Option :none)
+                        d! $ schema/Op :states cursor $ assoc state :content |
                         scroll-view!
                     , &unit
           :examples $ []
@@ -227,7 +225,7 @@
                         :class-name $ str-spaced css/row-middle |hover-item style-entry
                         :on-click $ fn (e d!)
                           hint-fn $ Fn respo.schema/RespoEvent
-                            Fn AnyEnum $ -> Unit
+                            Fn app.schema/Op $ -> Unit
                             -> Unit
                             :features :js-ffi
                           js/window.speechSynthesis.cancel
@@ -341,8 +339,7 @@
                   msg $ .unwrap $ first messages
                   text $ if (:code? msg) |Code $ :text msg
                   next! $ fn () $ read-content (rest messages) (inc idx) d!
-                d! $ schema/app-event $ schema/Op :message
-                  assoc msg :floor $ Option :some idx
+                d! $ schema/Op :message $ assoc msg :floor (Option :some idx)
                 match api-target
                   |xunfei $ speakXunfei (santinize-voice text) next!
                   |azure $ synthesizeAzureSpeech (santinize-voice text)
@@ -358,7 +355,7 @@
             , &unit
           :examples $ []
           :schema $ quote $ Fn (List app.schema/Message) Number
-            Fn AnyEnum $ -> Unit
+            Fn app.schema/Op $ -> Unit
             -> Unit
         'reading-list $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def reading-list
@@ -521,10 +518,10 @@
           :schema $ quote String
         'swap-messages $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn swap-messages (messages d!)
-            d! $ schema/app-event $ schema/Op :swap-messages messages
+            d! $ schema/Op :swap-messages messages
           :examples $ []
           :schema $ quote $ Fn (List app.schema/Message)
-            Fn AnyEnum $ -> Unit
+            Fn app.schema/Op $ -> Unit
             -> Unit
         'url-pattern $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn url-pattern () (new js/RegExp |https?:[\w\d\/_#\.\=\?\-\%]+)
@@ -574,24 +571,35 @@
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
           :schema $ quote $ Ref (reel.typed/State app.schema/Op app.schema/Store)
-        'dispatch! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn dispatch! (event)
-            if (enum? event)
-              let
-                  op event
-                when
-                  and config/dev? $ not= :states $ &enum:nth op 0
-                  js/console.log |Dispatch: op
-                match (typed/decode-control op)
-                  (:some control)
-                    reset! *reel $ typed/apply-control updater @*reel control
-                  (:none)
-                    reset! *reel $ typed/record-op updater @*reel (schema/read-app-event op) (generate-id!)
-                      :timestamp $ date-now-snapshot
-                , &unit
-              raise "|Expected a UI event enum"
+        'apply-op! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn apply-op! (op)
+            reset! *reel $ match op
+              (reel.typed/Control control) (typed/apply-control updater @*reel control)
+              (app.schema/Op action)
+                typed/record-op updater @*reel action (generate-id!)
+                  :timestamp $ date-now-snapshot
+            , &unit
           :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
+        'decode-dispatch $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn decode-dispatch (op)
+            match (typed/decode-control op)
+              (:some control) control
+              (:none)
+                if
+                  = (Option :some schema/Op) (enum-definition op)
+                  decode-map-as op 'app.schema/Op
+                  raise "|Unknown UI event; reload after upgrading the application"
+          :examples $ []
+          :schema $ quote $ Fn app.schema/Op (-> app.schema/ResolvedOp)
+        'dispatch! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn dispatch! (op)
+            when
+              and config/dev? $ not= :states $ &enum:nth op 0
+              js/console.log |Dispatch: op
+            apply-op! $ decode-dispatch op
+          :examples $ []
+          :schema $ quote $ Fn app.schema/Op (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -599,7 +607,7 @@
             js/window.speechSynthesis.getVoices
             render-app!
             add-watch! *reel :changes $ fn (reel prev) (render-app!)
-            listen-devtools! |k dispatch!
+            listen-devtools-toggle! |k $ fn () $ apply-op! (reel.typed/Control :toggle)
             js/window.addEventListener |beforeunload $ fn (event) (js/speechSynthesis.cancel)
             println "|App started."
           :examples $ []
@@ -653,7 +661,7 @@
             app.comp.container :refer $ comp-container
             app.updater :refer $ updater
             app.schema :as schema
-            reel.util :refer $ listen-devtools!
+            reel.util :refer $ listen-devtools-toggle!
             app.config :as config
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
@@ -664,11 +672,6 @@
             respo.memo :refer $ with-memo-frame
     'app.schema $ %{} 'FileEntry
       :defs $ {}
-        'DispatchOp $ %{} 'CodeEntry
-          :doc "|Respo 的 Enum dispatch 合同；保留既有 OpEnvelope 和 Reel 事件检查。代表值不会发送。"
-          :code $ quote $ def DispatchOp (:: :unhandled)
-          :examples $ []
-          :schema $ quote AnyEnum
         'Message $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Message (:author String) (:text String) (:code? Bool)
             :floor $ Option Number
@@ -683,10 +686,10 @@
             :hydrate-storage app.schema/Store
           :examples $ []
           :schema $ quote EnumDef
-        'OpEnvelope $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defstruct OpEnvelope (:op app.schema/Op)
+        'ResolvedOp $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion ResolvedOp app.schema/Op reel.typed/Control
           :examples $ []
-          :schema $ quote StructDef
+          :schema $ quote UnionDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
             :states $ Map Dynamic Dynamic
@@ -698,11 +701,6 @@
             :messages $ List app.schema/Message
           :examples $ []
           :schema $ quote StructDef
-        'app-event $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn app-event (op)
-            :: :app/event $ OpEnvelope :op op
-          :examples $ []
-          :schema $ quote $ Fn app.schema/Op (-> AnyEnum)
         'decode-message $ %{} 'CodeEntry
           :doc "|Checked legacy Map-to-Message decoder. Wrong field types are rejected rather than assumed from a schema."
           :code $ quote $ defn decode-message (data)
@@ -731,18 +729,6 @@
           :examples $ []
           :schema $ quote $ Fn Dynamic
             -> $ Map Tag Dynamic
-        'read-app-event $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn read-app-event (event)
-            match event
-              (:app/event envelope)
-                if (struct? envelope)
-                  struct-match envelope
-                    OpEnvelope checked $ :op checked
-                    _ other $ raise "|Expected an app OpEnvelope"
-                  raise "|Expected an app OpEnvelope"
-              _ $ raise "|Unknown UI event; reload after upgrading the application"
-          :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> app.schema/Op)
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states
