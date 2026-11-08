@@ -34,6 +34,11 @@
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
             :names $ {} $ :prevent-default! |preventDefault
           :schema $ quote Trait
+        'ReplaceValue $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion ReplaceValue String
+            Fn String Number String $ -> String
+          :examples $ []
+          :schema $ quote UnionDef
         'ScrollChildHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait ScrollChildHost
             .scroll-into-view! $ Fn app.comp.container/ScrollChildHost $ -> Unit
@@ -71,6 +76,10 @@
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
             :names $ {} $ :filter |filter
           :schema $ quote Trait
+        'VoiceStateValue $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion VoiceStateValue String Bool
+          :examples $ []
+          :schema $ quote UnionDef
         'at-pattern $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn at-pattern () (new js/RegExp |@)
           :examples $ []
@@ -92,7 +101,7 @@
                 state $ decode-map-as
                   .unwrap-or (get states :data)
                     {} (:content |) (:voice? false)
-                  Map Tag Dynamic
+                  Map Tag app.comp.container/VoiceStateValue
                 voice? $ decode-map-as
                   .unwrap-or (get state :voice?) false
                   , 'Bool
@@ -172,10 +181,8 @@
                 state $ decode-map-as
                   .unwrap-or (get states :data)
                     {} $ :content |
-                  Map Tag Dynamic
-                content $ decode-map-as
-                  .unwrap-or (get state :content) |
-                  , 'String
+                  Map Tag String
+                content $ .unwrap-or (get state :content) |
               div
                 {} $ :style $ .merge ui/row-middle
                   {} (:padding "|6px 10px")
@@ -207,7 +214,7 @@
                         scroll-view!
                     , &unit
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic Dynamic) (-> respo.schema/Component) (:features :js-ffi)
+          :schema $ quote $ Fn respo.schema/States (-> respo.schema/Component) (:features :js-ffi)
         'comp-menu $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-menu (voice?)
             div
@@ -314,9 +321,11 @@
           :schema $ quote $ Fn String (-> respo.schema/Effect) (:features :js-ffi)
         'js-replace $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn js-replace (text pattern replacement)
-            expect-string "|String.replace result" $ .!replace text pattern replacement
+            expect-string "|String.replace result" $ match replacement
+              (String literal) (.!replace text pattern literal)
+              (Fn callback) (.!replace text pattern callback)
           :examples $ []
-          :schema $ quote $ Fn String Dynamic Dynamic (-> String) (:features :js-ffi)
+          :schema $ quote $ Fn String JsObject app.comp.container/ReplaceValue (-> String) (:features :js-ffi)
         'load-data $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defmacro load-data (path)
             let
@@ -392,11 +401,13 @@
             js-replace
               js-replace text (at-pattern) "| at "
               url-pattern
-              fn (target & args)
+              fn (target offset source)
+                hint-fn $ Fn String Number String $ -> String
                 let
                     url $ js-cast (new js/URL target) 'js-ffi.shared/UrlHost
                     host $ .-host url
-                  str "| link to " (js-replace host |www. |) "| "
+                    name $ expect-string "|String.replace result" $ .!replace host |www. |
+                  str "| link to " name "| "
           :examples $ []
           :schema $ quote $ Fn String (-> String) (:features :js-ffi)
         'scroll-view! $ %{} 'CodeEntry (:doc |)

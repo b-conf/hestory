@@ -153,7 +153,7 @@ test('actual Voice toggle sends one Enum and preserves the input branch', () => 
 });
 test('real sanitization preserves speech text and replaces mentions and URLs', () => {
   assert.equal(app.santinize_voice('Hello @Alice'), 'Hello  at Alice');
-  assert.ok(!app.santinize_voice('Visit https://example.com/page').includes('/page'));
+  assert.equal(app.santinize_voice('Visit https://www.example.com/page'), 'Visit  link to example.com ');
 });
 test('actual menu callback preserves the selected history without enabling speech', () => {
   const priorWindow = globalThis.window;

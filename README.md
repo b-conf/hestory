@@ -6,9 +6,9 @@ Demo http://r.tiye.me/b-conf/hestory .
 
 ### 使用者影响
 
-CLI / `@calcit/procs` 配对正式 **0.35.1**，使用 Respo **0.19.4**、Reel **0.9.2**、UI **0.15.1**、Markdown **0.8.1**、Feather **0.6.2**、JS-FFI **0.2.13**、Memof **0.0.46** 和传递 Router **0.12.1**。升级后重新安装依赖、生成 JS 并完整刷新。
+CLI / `@calcit/procs` 配对正式 **0.38.0**，使用 Respo **0.19.5**、Reel **0.10.0**、UI **0.15.2**、Markdown **0.8.2**、Feather **0.6.3**、JS-FFI **0.2.13**、Memof **0.0.47** 和传递 Router **0.12.2**。升级后重新安装依赖、生成 JS 并完整刷新。
 
-组件游标使用 Respo 的 `CoordKey`，由 Tag、字符串和数字组成。派发和回调使用 `AnyEnum`，继续检查业务事件封装。历史消息仍通过原 Cirru/TOML 解码入口。
+组件游标使用 Respo 的 `CoordKey`，由 Tag、字符串和数字组成。业务事件和 Reel 控制通过具名 union 进入应用派发。回复草稿读取为字符串，侧栏状态读取为字符串或布尔值；语音文本清洗使用字符串替换或具名函数签名。历史消息仍通过原 Cirru/TOML 解码入口。
 
 六处 DOM 回调标注真实 `RespoEvent`，输入和键盘事件直接读取已声明字段，再保留原字符串 / 宿主校验；消息空态和开发 Reel 直接返回 Option 子节点，不再恢复 nil。七处间距改用 `space-x` / `space-y`，根渲染加入现代 Respo memo 生命周期。两个宿主回调显式丢弃不使用的 JS 返回值，返回 Unit；不扩大回调返回类型。
 
