@@ -3,14 +3,14 @@ import test from 'node:test';
 import { invoke_method } from '@calcit/procs';
 import { registerHooks } from 'node:module';
 import * as c from '../js-out/calcit.core.mjs';
-import { store, Op, decode_message, read_app_event } from '../js-out/app.schema.mjs';
+import { store, Op, decode_message } from '../js-out/app.schema.mjs';
 import { updater } from '../js-out/app.updater.mjs';
-import { new_reel } from '../js-out/reel.typed.mjs';
+import { Control, new_reel } from '../js-out/reel.typed.mjs';
 import { component_$q_, component_tree } from '../js-out/respo.util.detect.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
 import { event__GT_edn } from '../js-out/respo.util.format.mjs';
 
-const t = c.init_tags(['store', 'states', 'cursor', 'data', 'content', 'messages', 'author', 'text', 'code?', 'floor', 'input', 'value', 'event', 'keydown', 'click', 'children', 'node', 'clear', 'message', 'swap-messages', 'voice?', 'mount']);
+const t = c.init_tags(['store', 'states', 'cursor', 'data', 'content', 'messages', 'author', 'text', 'code?', 'floor', 'input', 'value', 'event', 'keydown', 'click', 'children', 'node', 'clear', 'message', 'swap-messages', 'voice?', 'mount', 'reel/toggle', 'toggle']);
 const map = c._$n__$M_;
 const read = (value, key) => invoke_method('unwrap', c.get(value, t[key]));
 const op = (key, ...args) => c._PCT__$o__$o_(Op, t[key], ...args);
@@ -22,6 +22,9 @@ const original = Object.fromEntries(['window', 'document', 'localStorage', 'Work
 let workers = 0;
 const hooks = registerHooks({
   resolve(specifier, context, nextResolve) {
+    if (specifier === './calcit.build-errors') specifier += '.mjs';
+    if (specifier === "virtual-dom/create-element") specifier += ".js";
+
     if (specifier === '../xunfei/sdk') specifier += '.js';
     if (specifier === '../assets/play-azure' || specifier === '../assets/play-audio') specifier += '.mjs';
     return nextResolve(specifier, context);
@@ -35,7 +38,7 @@ const hooks = registerHooks({
     return nextLoad(url, context);
   },
 });
-let app;
+let app, main;
 export { app };
 const log = console.log;
 const error = console.error;
@@ -47,6 +50,7 @@ try {
   console.log = () => {}; // Real Azure adapter logs the entire imported SDK.
   console.error = () => {}; // Expected unset paid Xunfei credentials.
   app = await import('../js-out/app.comp.container.mjs');
+  main = await import('../js-out/app.main.mjs');
 } finally {
   hooks.deregister();
   console.log = log;
@@ -73,8 +77,23 @@ function handlers(node, kind, found = []) {
 }
 const capture = () => {
   const operations = [];
-  return { operations, dispatch(...args) { assert.equal(args.length, 1); assert.ok(c.enum_$q_(args[0])); operations.push(read_app_event(args[0])); } };
+  return {
+    operations,
+    dispatch(...args) {
+      assert.equal(args.length, 1);
+      assert.equal(invoke_method('unwrap', c.enum_definition(args[0])), Op);
+      operations.push(args[0]);
+    },
+  };
 };
+test('dispatch boundary preserves app Op and normalizes the legacy Reel control', () => {
+  const action = op('clear');
+  assert.equal(main.decode_dispatch(action), action);
+  const control = main.decode_dispatch(c._$o__$o_(t['reel/toggle']));
+  assert.equal(invoke_method('unwrap', c.enum_definition(control)), Control);
+  assert.equal(c._$n_enum_$o_nth(control, 0), t.toggle);
+  assert.throws(() => main.decode_dispatch(c._$o__$o_(t.clear)), /Unknown UI event/);
+});
 test('actual initial app renders original history menu and empty message area', () => {
   assert.equal(workers, 1);
   const html = make_string(app.comp_container(root(store)));
