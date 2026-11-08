@@ -130,7 +130,7 @@
                         d! $ schema/Op :states cursor $ assoc state :voice? (not voice?)
                 div
                   {} $ :class-name $ str-spaced css/expand css/column
-                  memof1-call comp-header
+                  memof1-call-nullary comp-header
                   comp-messages messages
                   memof1-call-unary comp-input $ >> states :input
                   if dev?
@@ -547,7 +547,7 @@
             respo.comp.space :refer $ space-x space-y
             respo-md.comp.md :refer $ comp-md
             app.config :refer $ dev? api-target
-            memof.once :refer $ memof1-call memof1-call-unary
+            memof.once :refer $ memof1-call-nullary memof1-call-unary
             |jdenticon :as jdenticon
             |../xunfei/sdk :refer $ speakXunfei
             |../assets/play-azure :refer $ synthesizeAzureSpeech
