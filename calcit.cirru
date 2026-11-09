@@ -91,7 +91,7 @@
           :examples $ []
           :schema $ quote $ Fn String (-> respo.schema/Component)
         'comp-container $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defcomp comp-container (reel)
+          :code $ quote $ defcomp comp-container (reel on-control)
             let
                 store $ :store reel
                 states $ :states store
@@ -134,10 +134,12 @@
                   comp-messages messages
                   memof1-call-unary comp-input $ >> states :input
                   if dev?
-                    Option :some $ comp-typed-reel (>> states :reel) reel $ {}
+                    Option :some $ comp-typed-reel (>> states :reel) reel ({}) on-control
                     Option :none
           :examples $ []
-          :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store) (-> respo.schema/Component)
+          :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store)
+            Fn reel.typed/Control $ -> Unit
+            -> respo.schema/Component
         'comp-header $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-header ()
             div
@@ -592,23 +594,15 @@
             , &unit
           :examples $ []
           :schema $ quote $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
-        'decode-dispatch $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn decode-dispatch (op)
-            match (typed/decode-control op)
-              (:some control) control
-              (:none)
-                if
-                  = (Option :some schema/Op) (enum-definition op)
-                  decode-map-as op 'app.schema/Op
-                  raise "|Unknown UI event; reload after upgrading the application"
-          :examples $ []
-          :schema $ quote $ Fn app.schema/Op (-> app.schema/ResolvedOp)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when
               and config/dev? $ not= :states $ &enum:nth op 0
               js/console.log |Dispatch: op
-            apply-op! $ decode-dispatch op
+            if
+              = (Option :some schema/Op) (enum-definition op)
+              apply-op! op
+              raise "|Unknown UI event; reload after upgrading the application"
           :examples $ []
           :schema $ quote $ Fn app.schema/Op (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
@@ -618,7 +612,7 @@
             js/window.speechSynthesis.getVoices
             render-app!
             add-watch! *reel :changes $ fn (reel prev) (render-app!)
-            listen-devtools-toggle! |k $ fn () $ apply-op! (reel.typed/Control :toggle)
+            listen-devtools! |k on-control!
             js/window.addEventListener |beforeunload $ fn (event) (js/speechSynthesis.cancel)
             println "|App started."
           :examples $ []
@@ -629,6 +623,10 @@
           :examples $ []
           :ffi $ {} (:backend :js) (:target :browser)
           :schema $ quote $ Fn (-> respo.dom/DomElement) (:features :js-ffi)
+        'on-control! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn on-control! (control) (apply-op! control)
+          :examples $ []
+          :schema $ quote $ Fn reel.typed/Control (-> Unit)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             js-ffi.browser/storage-set!
@@ -650,7 +648,7 @@
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            with-memo-frame $ fn () $ render! (mount-target) (comp-container @*reel) dispatch!
+            with-memo-frame $ fn () $ render! (mount-target) (comp-container @*reel on-control!) dispatch!
           :examples $ []
           :schema $ quote $ Fn (-> Unit)
         'repeat! $ %{} 'CodeEntry (:doc |)
@@ -672,7 +670,7 @@
             app.comp.container :refer $ comp-container
             app.updater :refer $ updater
             app.schema :as schema
-            reel.util :refer $ listen-devtools-toggle!
+            reel.util :refer $ listen-devtools!
             app.config :as config
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!

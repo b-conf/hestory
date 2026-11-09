@@ -10,11 +10,11 @@ import { component_$q_, component_tree } from '../js-out/respo.util.detect.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
 import { event__GT_edn } from '../js-out/respo.util.format.mjs';
 
-const t = c.init_tags(['store', 'states', 'cursor', 'data', 'content', 'messages', 'author', 'text', 'code?', 'floor', 'input', 'value', 'event', 'keydown', 'click', 'children', 'node', 'clear', 'message', 'swap-messages', 'voice?', 'mount', 'reel/toggle', 'toggle']);
+const t = c.init_tags(['store', 'states', 'cursor', 'data', 'content', 'messages', 'author', 'text', 'code?', 'floor', 'input', 'value', 'event', 'keydown', 'click', 'children', 'node', 'clear', 'message', 'swap-messages', 'voice?', 'mount', 'toggle', 'display?', 'records']);
 const map = c._$n__$M_;
 const read = (value, key) => invoke_method('unwrap', c.get(value, t[key]));
 const op = (key, ...args) => c._PCT__$o__$o_(Op, t[key], ...args);
-const root = state => new_reel(state);
+const renderRoot = state => app.comp_container(new_reel(state), main.on_control_$x_);
 const event = values => event__GT_edn(values.event
   ? { type: 'keydown', ...values.event }
   : { type: 'input', target: { value: values.value } });
@@ -86,29 +86,33 @@ const capture = () => {
     },
   };
 };
-test('dispatch boundary preserves app Op and normalizes the legacy Reel control', () => {
+test('dispatch records app Op and keeps Reel controls out of edit history', () => {
+  const current = () => c.deref(main._$s_reel);
+  const before = current();
   const action = op('clear');
-  assert.equal(main.decode_dispatch(action), action);
-  const control = main.decode_dispatch(c._$o__$o_(t['reel/toggle']));
-  assert.equal(invoke_method('unwrap', c.enum_definition(control)), Control);
-  assert.equal(c._$n_enum_$o_nth(control, 0), t.toggle);
-  assert.throws(() => main.decode_dispatch(c._$o__$o_(t.clear)), /Unknown UI event/);
+  main.dispatch_$x_(action);
+  const edited = current();
+  assert.equal(c.count(read(edited, 'records')), c.count(read(before, 'records')) + 1);
+  assert.throws(() => main.dispatch_$x_(c._$o__$o_(t.clear)), /Unknown UI event/);
+  main.on_control_$x_(c._PCT__$o__$o_(Control, t.toggle));
+  assert.equal(read(current(), 'display?'), !read(edited, 'display?'));
+  assert.equal(read(current(), 'records'), read(edited, 'records'));
 });
 test('actual initial app renders original history menu and empty message area', () => {
   assert.equal(workers, 1);
-  const html = make_string(app.comp_container(root(store)));
+  const html = make_string(renderRoot(store));
   for (const text of ['Hestory', 'Cleared.', 'Reply...', 'https://github.com/b-conf/hestory']) assert.ok(html.includes(text));
   assert.ok(invoke_method('len', app.reading_list) > 20);
 });
 test('real Respo event input sends one states Enum and re-renders typed text', () => {
-  const callbacks = handlers(app.comp_container(root(store)), t.input);
+  const callbacks = handlers(renderRoot(store), t.input);
   assert.equal(callbacks.length, 1);
   const { operations, dispatch } = capture();
   callbacks[0](event({ value: 'Typed reply' }), dispatch);
   assert.equal(operations.length, 1);
   const next = updater(store, operations[0], 'fixture', 0);
   assert.equal(read(read(read(read(next, 'states'), 'input'), 'data'), 'content'), 'Typed reply');
-  assert.ok(make_string(app.comp_container(root(next))).includes('Typed reply'));
+  assert.ok(make_string(renderRoot(next)).includes('Typed reply'));
   assert.equal(invoke_method('len', read(store, 'messages')), 0);
 });
 test('Enter uses the actual keyboard host, prevents default and sends/clears with Enums', () => {
@@ -145,11 +149,11 @@ test('swap/message/clear Enum updater paths preserve all message data', () => {
 test('actual Voice toggle sends one Enum and preserves the input branch', () => {
   const { operations, dispatch } = capture();
   // The menu has one click callback per actual reading-list entry; Voice follows it.
-  const callback = handlers(app.comp_container(root(store)), t.click)[invoke_method('len', app.reading_list)];
+  const callback = handlers(renderRoot(store), t.click)[invoke_method('len', app.reading_list)];
   callback(null, dispatch);
   const next = updater(store, operations[0], 'fixture', 0);
   assert.equal(read(read(read(next, 'states'), 'data'), 'voice?'), true);
-  assert.ok(make_string(app.comp_container(root(next))).includes('Reply...'));
+  assert.ok(make_string(renderRoot(next)).includes('Reply...'));
 });
 test('real sanitization preserves speech text and replaces mentions and URLs', () => {
   assert.equal(app.santinize_voice('Hello @Alice'), 'Hello  at Alice');
