@@ -6,7 +6,7 @@ Demo http://r.tiye.me/b-conf/hestory .
 
 ### 使用者影响
 
-CLI / `@calcit/procs` 配对正式 **0.38.0**，使用 Respo **0.19.5**、Reel **0.10.0**、UI **0.15.2**、Markdown **0.8.2**、Feather **0.6.3**、JS-FFI **0.2.13**、Memof **0.0.47** 和传递 Router **0.12.2**。升级后重新安装依赖、生成 JS 并完整刷新。
+CLI / `@calcit/procs` 配对正式 **0.40.0**，使用 Respo **0.19.5**、Reel **0.11.0**、UI **0.15.2**、Markdown **0.8.2**、Feather **0.6.3**、JS-FFI **0.2.13**、Memof **0.0.50** 和传递 Router **0.12.2**。升级后重新安装依赖、生成 JS 并完整刷新。
 
 组件游标使用 Respo 的 `CoordKey`，由 Tag、字符串和数字组成。业务事件和 Reel 控制通过具名 union 进入应用派发。回复草稿读取为字符串，侧栏状态读取为字符串或布尔值；语音文本清洗使用字符串替换或具名函数签名。历史消息仍通过原 Cirru/TOML 解码入口。
 
