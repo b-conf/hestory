@@ -328,14 +328,29 @@
               (Fn callback) (.!replace text pattern callback)
           :examples $ []
           :schema $ quote $ Fn String JsObject app.comp.container/ReplaceValue (-> String) (:features :js-ffi)
-        'load-data $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defmacro load-data (path)
+        'load-story $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defmacro load-story (path)
             let
                 path-text $ assert-type path 'String
-              &data-to-code $ parse-cirru-edn $ read-file path-text
+                story $ schema/decode-story $ parse-cirru-edn (read-file path-text)
+                idx $ :idx story
+                title $ :title story
+                messages $ map (:messages story)
+                  fn (message)
+                    let
+                        author $ :author message
+                        body $ :text message
+                        code? $ :code? message
+                        floor-form $ match (:floor message)
+                          (:some number)
+                            quasiquote $ calcit.core/Option :some ~number
+                          (:none)
+                            quote $ calcit.core/Option :none
+                      quasiquote $ app.schema/Message :author ~author :text ~body :code? ~code? :floor ~floor-form
+              quasiquote $ app.schema/Story :idx ~idx :title ~title :messages $ [] ~@messages
           :examples $ []
           :schema $ quote $ Macro Syntax
-            -> $ Expr Dynamic
+            -> $ Expr app.schema/Story
             :capabilities :fs-read
         'load-toml-data $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn load-toml-data ()
@@ -371,32 +386,15 @@
             -> Unit
         'reading-list $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def reading-list
-            []
-              schema/decode-story $ load-data |data/2019-08-15-serverless.cirru
-              schema/decode-story $ load-data |data/2019-07-22-http2-perf.cirru
-              schema/decode-story $ load-data |data/2019-07-10-deps-lock.cirru
-              schema/decode-story $ load-data |data/2019-07-02-yield-syntax.cirru
-              schema/decode-story $ load-data |data/2019-06-06-top-level-await.cirru
-              schema/decode-story $ load-data |data/2019-03-21-decorator-change.cirru
-              schema/decode-story $ load-data |data/2018-12-07-chrome-ie.cirru
-              schema/decode-story $ load-data |data/2018-11-19-private-field-problem.cirru
-              load-toml-data
-              schema/decode-story $ load-data |data/2018-11-14-js-build-speed.cirru
-              schema/decode-story $ load-data |data/2018-11-06-web-comps-templates.cirru
-              schema/decode-story $ load-data |data/2018-11-06-svelte-proposal.cirru
-              schema/decode-story $ load-data |data/2018-11-01-react-hooks-internals.cirru
-              schema/decode-story $ load-data |data/2018-10-26-react-hooks-wonder.cirru
-              schema/decode-story $ load-data |data/2018-10-21-react-class-syntax.cirru
-              schema/decode-story $ load-data |data/2018-09-27-vue-ts.cirru
-              schema/decode-story $ load-data |data/2018-08-23-worker-dom.cirru
-              schema/decode-story $ load-data |data/2018-07-21-algebraic-interrupts-early.cirru
-              schema/decode-story $ load-data |data/2018-08-10-write-book.cirru
-              schema/decode-story $ load-data |data/2018-08-18-babel-compile.cirru
-              schema/decode-story $ load-data |data/2018-07-13-vue-internals.cirru
-              schema/decode-story $ load-data |data/2018-07-04-babel-parser.cirru
-              schema/decode-story $ load-data |data/2018-06-15-vue-stars.cirru
-              schema/decode-story $ load-data |data/2018-05-11-layered-apis.cirru
-              schema/decode-story $ load-data |data/2018-07-23-demo.cirru
+            [] (load-story |data/2019-08-15-serverless.cirru) (load-story |data/2019-07-22-http2-perf.cirru) (load-story |data/2019-07-10-deps-lock.cirru) (load-story |data/2019-07-02-yield-syntax.cirru) (load-story |data/2019-06-06-top-level-await.cirru) (load-story |data/2019-03-21-decorator-change.cirru) (load-story |data/2018-12-07-chrome-ie.cirru) (load-story |data/2018-11-19-private-field-problem.cirru) (load-toml-data) (load-story |data/2018-11-14-js-build-speed.cirru) (load-story |data/2018-11-06-web-comps-templates.cirru) (load-story |data/2018-11-06-svelte-proposal.cirru) (load-story |data/2018-11-01-react-hooks-internals.cirru) (load-story |data/2018-10-26-react-hooks-wonder.cirru) (load-story |data/2018-10-21-react-class-syntax.cirru) (load-story |data/2018-09-27-vue-ts.cirru) (load-story |data/2018-08-23-worker-dom.cirru)
+              load-story |data/2018-07-21-algebraic-interrupts-early.cirru
+              load-story |data/2018-08-10-write-book.cirru
+              load-story |data/2018-08-18-babel-compile.cirru
+              load-story |data/2018-07-13-vue-internals.cirru
+              load-story |data/2018-07-04-babel-parser.cirru
+              load-story |data/2018-06-15-vue-stars.cirru
+              load-story |data/2018-05-11-layered-apis.cirru
+              load-story |data/2018-07-23-demo.cirru
           :examples $ []
           :schema $ quote $ List app.schema/Story
         'santinize-voice $ %{} 'CodeEntry (:doc |)
