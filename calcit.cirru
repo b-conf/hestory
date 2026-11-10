@@ -76,10 +76,6 @@
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
             :names $ {} $ :filter |filter
           :schema $ quote Trait
-        'VoiceStateValue $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defunion VoiceStateValue String Bool
-          :examples $ []
-          :schema $ quote UnionDef
         'at-pattern $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn at-pattern () (new js/RegExp |@)
           :examples $ []
@@ -99,12 +95,9 @@
                   .unwrap-or (get states :cursor) ([])
                   List respo.schema/CoordKey
                 state $ decode-map-as
-                  .unwrap-or (get states :data)
-                    {} (:content |) (:voice? false)
-                  Map Tag app.comp.container/VoiceStateValue
-                voice? $ decode-map-as
-                  .unwrap-or (get state :voice?) false
-                  , 'Bool
+                  .unwrap-or (get states :data) (app.schema/VoiceState :content | :voice? false)
+                  , app.schema/VoiceState
+                voice? $ :voice? state
                 messages $ :messages store
               div
                 {}
@@ -127,15 +120,15 @@
                         hint-fn $ Fn respo.schema/RespoEvent
                           Fn app.schema/Op $ -> Unit
                           -> Unit
-                        d! $ schema/Op :states cursor $ assoc state :voice? (not voice?)
+                        d! $ app.schema/Op :states cursor $ assoc state :voice? (not voice?)
                 div
                   {} $ :class-name $ str-spaced css/expand css/column
                   memof1-call-nullary comp-header
                   comp-messages messages
                   memof1-call-unary comp-input $ >> states :input
                   if dev?
-                    Option :some $ comp-typed-reel (>> states :reel) reel ({}) on-control
-                    Option :none
+                    Some $ comp-typed-reel (>> states :reel) reel ({}) on-control
+                    , None
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store)
             Fn reel.typed/Control $ -> Unit
@@ -165,7 +158,7 @@
                     Fn app.schema/Op $ -> Unit
                     -> Unit
                     :features :js-ffi
-                  d! $ schema/Op :clear
+                  d! $ app.schema/Op :clear
                   let
                       nodes $ js-cast (js/document.querySelectorAll |audio) 'app.comp.container/AudioNodeListHost
                     .for-each! nodes $ fn (node i a)
@@ -181,10 +174,9 @@
                   .unwrap-or (get states :cursor) ([])
                   List respo.schema/CoordKey
                 state $ decode-map-as
-                  .unwrap-or (get states :data)
-                    {} $ :content |
-                  Map Tag String
-                content $ .unwrap-or (get state :content) |
+                  .unwrap-or (get states :data) (app.schema/InputState :content |)
+                  , app.schema/InputState
+                content $ :content state
               div
                 {} $ :style $ .merge ui/row-middle
                   {} (:padding "|6px 10px")
@@ -196,7 +188,7 @@
                     hint-fn $ Fn respo.schema/RespoEvent
                       Fn app.schema/Op $ -> Unit
                       -> Unit
-                    d! $ schema/Op :states cursor $ assoc state :content
+                    d! $ app.schema/Op :states cursor $ assoc state :content
                       expect-string |input.value $ :value e
                   :autofocus true
                   :on-keydown $ fn (e d!)
@@ -209,10 +201,10 @@
                       when (= |Enter key) (.prevent-default! event)
                         let
                             target $ .unwrap $ js-nullish->option (.-target event)
-                          d! $ schema/Op :message $ schema/Message :author |Me :text
+                          d! $ app.schema/Op :message $ app.schema/Message :author |Me :text
                             expect-string |input.target.value $ .-value target
-                            , :code? false :floor (Option :none)
-                        d! $ schema/Op :states cursor $ assoc state :content |
+                            , :code? false :floor None
+                        d! $ app.schema/Op :states cursor $ assoc state :content |
                         scroll-view!
                     , &unit
           :examples $ []
@@ -297,13 +289,13 @@
                 map-indexed messages $ fn (idx message)
                   [] idx $ comp-message message
               if (empty? messages)
-                Option :some $ div
+                Some $ div
                   {} (:class-name css/center)
                     :style $ {} $ :padding |40px
                   <> |Cleared. $ {} (:font-family ui/font-fancy) (:font-weight 500)
                     :color $ hsl 0 0 70
                     :font-style :italic
-                Option :none
+                , None
               space-y 80
           :examples $ []
           :schema $ quote $ Fn (List app.schema/Message) (-> respo.schema/Component)
@@ -327,12 +319,12 @@
               (String literal) (.!replace text pattern literal)
               (Fn callback) (.!replace text pattern callback)
           :examples $ []
-          :schema $ quote $ Fn String JsObject app.comp.container/ReplaceValue (-> String) (:features :js-ffi)
+          :schema $ quote $ Fn String JsObject ReplaceValue (-> String) (:features :js-ffi)
         'load-story $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defmacro load-story (path)
             let
-                path-text $ assert-type path 'String
-                story $ schema/decode-story $ parse-cirru-edn (read-file path-text)
+                path-text $ assert-type path String
+                story $ app.schema/decode-story $ parse-cirru-edn (read-file path-text)
                 idx $ :idx story
                 title $ :title story
                 messages $ map (:messages story)
@@ -354,7 +346,7 @@
             :capabilities :fs-read
         'load-toml-data $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn load-toml-data ()
-            schema/decode-story $ tagging-edn $ to-calcit-data
+            app.schema/decode-story $ tagging-edn $ to-calcit-data
               toml/parse $ slurp |data/2020-08-12-template-stringify.toml
           :examples $ []
           :schema $ quote $ Fn (-> app.schema/Story) (:features :js-ffi)
@@ -366,7 +358,7 @@
                   msg $ .unwrap $ first messages
                   text $ if (:code? msg) |Code $ :text msg
                   next! $ fn () $ read-content (rest messages) (inc idx) d!
-                d! $ schema/Op :message $ assoc msg :floor (Option :some idx)
+                d! $ app.schema/Op :message $ assoc msg :floor (Some idx)
                 match api-target
                   |xunfei $ speakXunfei (santinize-voice text) next!
                   |azure $ synthesizeAzureSpeech (santinize-voice text)
@@ -430,7 +422,7 @@
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'slurp $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defmacro slurp (path)
-            read-file $ assert-type path 'String
+            read-file $ assert-type path String
           :examples $ []
           :schema $ quote $ Macro Syntax
             -> $ Expr Dynamic
@@ -530,7 +522,7 @@
           :schema $ quote String
         'swap-messages $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn swap-messages (messages d!)
-            d! $ schema/Op :swap-messages messages
+            d! $ app.schema/Op :swap-messages messages
           :examples $ []
           :schema $ quote $ Fn (List app.schema/Message)
             Fn app.schema/Op $ -> Unit
@@ -556,7 +548,6 @@
             feather.core :refer $ comp-icon comp-i
             |toml :as toml
             js-ffi.contract :refer $ expect-string
-            app.schema :as schema
             reel.comp.reel :refer $ comp-typed-reel
     'app.config $ %{} 'FileEntry
       :defs $ {}
@@ -582,7 +573,7 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
-          :schema $ quote $ Ref (reel.typed/State app.schema/Op app.schema/Store)
+          :schema $ quote $ Ref (typed/State schema/Op schema/Store)
         'apply-op! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn apply-op! (op)
             reset! *reel $ match op
@@ -592,18 +583,18 @@
                   :timestamp $ date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ quote $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn schema/ResolvedOp (-> Unit) (:features :js-ffi)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when
               and config/dev? $ not= :states $ &enum:nth op 0
               js/console.log |Dispatch: op
             if
-              = (Option :some schema/Op) (enum-definition op)
+              = (Some schema/Op) (enum-definition op)
               apply-op! op
               raise "|Unknown UI event; reload after upgrading the application"
           :examples $ []
-          :schema $ quote $ Fn app.schema/Op (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn schema/Op (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -625,7 +616,7 @@
         'on-control! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn on-control! (control) (apply-op! control)
           :examples $ []
-          :schema $ quote $ Fn reel.typed/Control (-> Unit)
+          :schema $ quote $ Fn typed/Control (-> Unit)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             js-ffi.browser/storage-set!
@@ -680,6 +671,14 @@
             respo.memo :refer $ with-memo-frame
     'app.schema $ %{} 'FileEntry
       :defs $ {}
+        'ControlState $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion ControlState VoiceState InputState
+          :examples $ []
+          :schema $ quote UnionDef
+        'InputState $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstruct InputState (:content String)
+          :examples $ []
+          :schema $ quote StructDef
         'Message $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Message (:author String) (:text String) (:code? Bool)
             :floor $ Option Number
@@ -687,7 +686,7 @@
           :schema $ quote StructDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states (List respo.schema/CoordKey) Dynamic
+            :states (List respo.schema/CoordKey) app.schema/ControlState
             :message app.schema/Message
             :swap-messages $ List app.schema/Message
             :clear
@@ -698,9 +697,13 @@
           :code $ quote $ defunion ResolvedOp app.schema/Op reel.typed/Control
           :examples $ []
           :schema $ quote UnionDef
+        'StateValue $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion StateValue ControlState (List respo.schema/CoordKey) (Map respo.schema/CoordKey app.schema/StateValue)
+          :examples $ []
+          :schema $ quote UnionDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ Map Dynamic Dynamic
+            :states $ Map respo.schema/CoordKey app.schema/StateValue
             :messages $ List app.schema/Message
           :examples $ []
           :schema $ quote StructDef
@@ -709,12 +712,16 @@
             :messages $ List app.schema/Message
           :examples $ []
           :schema $ quote StructDef
+        'VoiceState $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstruct VoiceState (:content String) (:voice? Bool)
+          :examples $ []
+          :schema $ quote StructDef
         'decode-message $ %{} 'CodeEntry
           :doc "|Checked legacy Map-to-Message decoder. Wrong field types are rejected rather than assumed from a schema."
           :code $ quote $ defn decode-message (data)
             decode-map-as (message-input data) Message
           :examples $ []
-          :schema $ quote $ Fn Dynamic (-> app.schema/Message)
+          :schema $ quote $ Fn Dynamic (-> Message)
         'decode-story $ %{} 'CodeEntry
           :doc "|Checked history decoder; normalize missing message code flags before recursively decoding Story and Message."
           :code $ quote $ defn decode-story (data)
@@ -727,7 +734,7 @@
                 assoc fields :messages $ map messages decode-message
                 , Story
           :examples $ []
-          :schema $ quote $ Fn Dynamic (-> app.schema/Story)
+          :schema $ quote $ Fn Dynamic (-> Story)
         'message-input $ %{} 'CodeEntry
           :doc "|Normalize legacy message defaults only at the Cirru/TOML data boundary; checked nominal decoding happens afterwards."
           :code $ quote $ defn message-input (data)
@@ -743,7 +750,7 @@
               {} $ :cursor $ []
               , :messages $ []
           :examples $ []
-          :schema $ quote app.schema/Store
+          :schema $ quote Store
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
     'app.updater $ %{} 'FileEntry
@@ -754,7 +761,7 @@
               (:states cursor s)
                 assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor s
-                  Map Dynamic Dynamic
+                  Map respo.schema/CoordKey app.schema/StateValue
               (:hydrate-storage data) data
               (:message data)
                 assoc store :messages $ append (:messages store) data
@@ -762,7 +769,7 @@
                 assoc store :messages $ []
               (:swap-messages data) (assoc store :messages data)
           :examples $ []
-          :schema $ quote $ Fn app.schema/Store app.schema/Op String Number (-> app.schema/Store)
+          :schema $ quote $ Fn schema/Store schema/Op String Number (-> schema/Store)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
           :require
