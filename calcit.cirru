@@ -339,9 +339,10 @@
             :capabilities :fs-read
         'load-toml-data $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn load-toml-data ()
-            tagging-edn $ to-calcit-data $ toml/parse (slurp |data/2020-08-12-template-stringify.toml)
+            schema/decode-story $ tagging-edn $ to-calcit-data
+              toml/parse $ slurp |data/2020-08-12-template-stringify.toml
           :examples $ []
-          :schema $ quote $ Fn (-> Dynamic) (:features :js-ffi)
+          :schema $ quote $ Fn (-> app.schema/Story) (:features :js-ffi)
         'read-content $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn read-content (messages idx d!)
             when
@@ -379,7 +380,7 @@
               schema/decode-story $ load-data |data/2019-03-21-decorator-change.cirru
               schema/decode-story $ load-data |data/2018-12-07-chrome-ie.cirru
               schema/decode-story $ load-data |data/2018-11-19-private-field-problem.cirru
-              schema/decode-story $ load-toml-data
+              load-toml-data
               schema/decode-story $ load-data |data/2018-11-14-js-build-speed.cirru
               schema/decode-story $ load-data |data/2018-11-06-web-comps-templates.cirru
               schema/decode-story $ load-data |data/2018-11-06-svelte-proposal.cirru
@@ -723,9 +724,9 @@
                 fields $ decode-map-as data $ Map Tag Dynamic
                 messages $ decode-map-as
                   .unwrap $ get fields :messages
-                  List Dynamic
+                  List $ Map Tag Dynamic
               decode-map-as
-                assoc fields :messages $ map messages message-input
+                assoc fields :messages $ map messages decode-message
                 , Story
           :examples $ []
           :schema $ quote $ Fn Dynamic (-> app.schema/Story)
