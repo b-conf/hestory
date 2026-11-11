@@ -171,10 +171,10 @@
           :code $ quote $ defcomp comp-input (states)
             let
                 cursor $ decode-map-as
-                  .unwrap-or (get states :cursor) ([])
+                  .unwrap-or (&map:get states :cursor) ([])
                   List respo.schema/CoordKey
                 state $ decode-map-as
-                  .unwrap-or (get states :data) (app.schema/InputState :content |)
+                  .unwrap-or (&map:get states :data) (app.schema/InputState :content |)
                   , app.schema/InputState
                 content $ :content state
               div
@@ -721,7 +721,7 @@
           :code $ quote $ defn decode-message (data)
             decode-map-as (message-input data) Message
           :examples $ []
-          :schema $ quote $ Fn Dynamic (-> Message)
+          :schema $ quote $ Fn Input (-> Message) (:generics Input)
         'decode-story $ %{} 'CodeEntry
           :doc "|Checked history decoder; normalize missing message code flags before recursively decoding Story and Message."
           :code $ quote $ defn decode-story (data)
@@ -734,7 +734,7 @@
                 assoc fields :messages $ map messages decode-message
                 , Story
           :examples $ []
-          :schema $ quote $ Fn Dynamic (-> Story)
+          :schema $ quote $ Fn Input (-> Story) (:generics Input)
         'message-input $ %{} 'CodeEntry
           :doc "|Normalize legacy message defaults only at the Cirru/TOML data boundary; checked nominal decoding happens afterwards."
           :code $ quote $ defn message-input (data)
@@ -742,8 +742,9 @@
               {} (:author |) (:text |) (:code? false)
               decode-map-as data $ Map Tag Dynamic
           :examples $ []
-          :schema $ quote $ Fn Dynamic
+          :schema $ quote $ Fn Input
             -> $ Map Tag Dynamic
+            :generics Input
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states
