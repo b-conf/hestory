@@ -425,7 +425,7 @@
             read-file $ assert-type path String
           :examples $ []
           :schema $ quote $ Macro Syntax
-            -> $ Expr Dynamic
+            -> $ Expr String
             :capabilities :fs-read
         'speech! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn speech! (text cb)
@@ -719,7 +719,11 @@
         'decode-message $ %{} 'CodeEntry
           :doc "|Checked legacy Map-to-Message decoder. Wrong field types are rejected rather than assumed from a schema."
           :code $ quote $ defn decode-message (data)
-            decode-map-as (message-input data) Message
+            decode-map-as
+              .merge
+                {} (:author |) (:text |) (:code? false)
+                decode-map-as data $ Map Tag Dynamic
+              , Message
           :examples $ []
           :schema $ quote $ Fn Input (-> Message) (:generics Input)
         'decode-story $ %{} 'CodeEntry
@@ -735,16 +739,6 @@
                 , Story
           :examples $ []
           :schema $ quote $ Fn Input (-> Story) (:generics Input)
-        'message-input $ %{} 'CodeEntry
-          :doc "|Normalize legacy message defaults only at the Cirru/TOML data boundary; checked nominal decoding happens afterwards."
-          :code $ quote $ defn message-input (data)
-            .merge
-              {} (:author |) (:text |) (:code? false)
-              decode-map-as data $ Map Tag Dynamic
-          :examples $ []
-          :schema $ quote $ Fn Input
-            -> $ Map Tag Dynamic
-            :generics Input
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states
