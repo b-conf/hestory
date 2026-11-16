@@ -5,7 +5,7 @@
   :entries $ {} $ :default
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {} $ :js-ffi :error
-      :modules $ [] |respo.calcit/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |respo-feather.calcit/ |js-ffi/
+      :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |respo-feather.calcit/ |js-ffi/
       :type-slots $ {} $ :dispatch-op 'app.schema/Op
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
@@ -350,6 +350,18 @@
               toml/parse $ slurp |data/2020-08-12-template-stringify.toml
           :examples $ []
           :schema $ quote $ Fn (-> app.schema/Story) (:features :js-ffi)
+        'memof1-call-nullary $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn memof1-call-nullary (f) (respo.memo/memo-comp-by :header f)
+          :examples $ []
+          :schema $ quote $ Fn
+            Fn $ -> respo.schema/Component
+            -> respo.schema/Component
+        'memof1-call-unary $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn memof1-call-unary (f arg) (respo.memo/memo-comp-by :header f arg)
+          :examples $ []
+          :schema $ quote $ Fn
+            Fn A $ -> respo.schema/Component
+            , A (-> respo.schema/Component) (:generics A)
         'read-content $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn read-content (messages idx d!)
             when
@@ -540,7 +552,6 @@
             respo.comp.space :refer $ space-x space-y
             respo-md.comp.md :refer $ comp-md
             app.config :refer $ dev? api-target
-            memof.once :refer $ memof1-call-nullary memof1-call-unary
             |jdenticon :as jdenticon
             |../xunfei/sdk :refer $ speakXunfei
             |../assets/play-azure :refer $ synthesizeAzureSpeech
