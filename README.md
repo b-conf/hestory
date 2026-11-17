@@ -69,6 +69,7 @@ To build:
 
 ```
 VITE_BASE_URL=https://cos-sh.tiye.me/b-conf/hestory/ yarn build
+calcit --init-fn respo.render.html/make-string --reload-fn respo.render.html/make-string js
 node --test test/runtime.test.mjs
 ```
 
