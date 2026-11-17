@@ -131,8 +131,9 @@
                     , None
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store)
-            Fn reel.typed/Control $ -> Unit
+            Fn reel.typed/Control (-> Unit) (:features :io :state)
             -> respo.schema/Component
+            :features :io :state
         'comp-header $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-header ()
             div
@@ -246,7 +247,7 @@
                         , style-message-count
               space-y 80
           :examples $ []
-          :schema $ quote $ Fn Bool (-> respo.schema/Component) (:features :js-ffi)
+          :schema $ quote $ Fn Bool (-> respo.schema/Component) (:features :io :js-ffi)
         'comp-message $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-message (content)
             let
@@ -278,7 +279,7 @@
                             <> $ trim text
                         comp-md text $ {}
           :examples $ []
-          :schema $ quote $ Fn app.schema/Message (-> respo.schema/Component)
+          :schema $ quote $ Fn app.schema/Message (-> respo.schema/Component) (:features :state)
         'comp-messages $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-messages (messages)
             div
@@ -298,7 +299,7 @@
                 , None
               space-y 80
           :examples $ []
-          :schema $ quote $ Fn (List app.schema/Message) (-> respo.schema/Component)
+          :schema $ quote $ Fn (List app.schema/Message) (-> respo.schema/Component) (:features :state)
         'effect-render-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defeffect effect-render-icon (label) (action el at?)
             match action
@@ -356,12 +357,13 @@
           :schema $ quote $ Fn
             Fn $ -> respo.schema/Component
             -> respo.schema/Component
+            :features :state
         'memof1-call-unary $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn memof1-call-unary (f arg) (respo.memo/memo-comp-by :header f arg)
           :examples $ []
           :schema $ quote $ Fn
-            Fn A $ -> respo.schema/Component
-            , A (-> respo.schema/Component) (:generics A)
+            Fn A (-> respo.schema/Component) (:features :io)
+            , A (-> respo.schema/Component) (:generics A) (:features :io :state)
         'read-content $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn read-content (messages idx d!)
             when
@@ -388,6 +390,7 @@
           :schema $ quote $ Fn (List app.schema/Message) Number
             Fn app.schema/Op $ -> Unit
             -> Unit
+            :features :io
         'reading-list $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def reading-list
             [] (load-story |data/2019-08-15-serverless.cirru) (load-story |data/2019-07-22-http2-perf.cirru) (load-story |data/2019-07-10-deps-lock.cirru) (load-story |data/2019-07-02-yield-syntax.cirru) (load-story |data/2019-06-06-top-level-await.cirru) (load-story |data/2019-03-21-decorator-change.cirru) (load-story |data/2018-12-07-chrome-ie.cirru) (load-story |data/2018-11-19-private-field-problem.cirru) (load-toml-data) (load-story |data/2018-11-14-js-build-speed.cirru) (load-story |data/2018-11-06-web-comps-templates.cirru) (load-story |data/2018-11-06-svelte-proposal.cirru) (load-story |data/2018-11-01-react-hooks-internals.cirru) (load-story |data/2018-10-26-react-hooks-wonder.cirru) (load-story |data/2018-10-21-react-class-syntax.cirru) (load-story |data/2018-09-27-vue-ts.cirru) (load-story |data/2018-08-23-worker-dom.cirru)
@@ -594,7 +597,7 @@
                   :timestamp $ date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ quote $ Fn schema/ResolvedOp (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn schema/ResolvedOp (-> Unit) (:features :js-ffi :state)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when
@@ -605,7 +608,7 @@
               apply-op! op
               raise "|Unknown UI event; reload after upgrading the application"
           :examples $ []
-          :schema $ quote $ Fn schema/Op (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn schema/Op (-> Unit) (:features :js-ffi :state)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -617,7 +620,7 @@
             js/window.addEventListener |beforeunload $ fn (event) (js/speechSynthesis.cancel)
             println "|App started."
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
             narrow-element $ .unwrap $ query-selector |.app
@@ -627,7 +630,7 @@
         'on-control! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn on-control! (control) (apply-op! control)
           :examples $ []
-          :schema $ quote $ Fn typed/Control (-> Unit)
+          :schema $ quote $ Fn typed/Control (-> Unit) (:features :state)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             js-ffi.browser/storage-set!
@@ -635,7 +638,7 @@
               format-cirru-edn $ :store @*reel
             , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
@@ -646,12 +649,12 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             with-memo-frame $ fn () $ render! (mount-target) (comp-container @*reel on-control!) dispatch!
           :examples $ []
-          :schema $ quote $ Fn (-> Unit)
+          :schema $ quote $ Fn (-> Unit) (:features :io :state)
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
             js/setTimeout
