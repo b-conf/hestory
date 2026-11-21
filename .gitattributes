@@ -4,3 +4,4 @@ config/*-quality.cirru text linguist-generated=true
 
 
 xunfei/*.js -diff linguist-generated
+xunfei/sdk.js diff linguist-generated=false

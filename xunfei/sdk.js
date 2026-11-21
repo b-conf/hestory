@@ -133,10 +133,10 @@ class TTSRecorder {
         clearTimeout(this.playTimeout)
         this.setStatus('errorTTS')
         alert('WebSocket报错，请f12查看详情')
-        console.error(`详情查看：${encodeURI(url.replace('wss:', 'https:'))}`)
+        console.error('讯飞语音 WebSocket 连接失败，请检查网络和语音服务配置。')
       }
       ttsWS.onclose = e => {
-        console.log(e)
+        console.log('讯飞语音 WebSocket 已关闭。')
       }
     })
   }
