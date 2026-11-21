@@ -238,3 +238,20 @@ test('actual native speech queues messages with one Enum and retains Chinese spe
     if (priorWindow === undefined) delete globalThis.window; else globalThis.window = priorWindow;
   }
 });
+
+test('Azure 配置使用已安装 SDK，无需 SpeechSDK 全局或网络', async () => {
+  const keys = ['SpeechSDK', 'fetch', 'WebSocket'];
+  const saved = Object.fromEntries(keys.map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
+  try {
+    Reflect.deleteProperty(globalThis, 'SpeechSDK');
+    globalThis.fetch = () => { throw new Error('unexpected network request'); };
+    globalThis.WebSocket = class { constructor() { throw new Error('unexpected WebSocket'); } };
+    const { configAzureSpeechApi } = await import('../assets/play-azure.mjs');
+    assert.doesNotThrow(() => configAzureSpeechApi('synthetic-unused-key'));
+  } finally {
+    for (const [key, descriptor] of Object.entries(saved)) {
+      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+      else Reflect.deleteProperty(globalThis, key);
+    }
+  }
+});

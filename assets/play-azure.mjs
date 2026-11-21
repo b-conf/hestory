@@ -1,18 +1,14 @@
-// import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import * as bundle from "microsoft-cognitiveservices-speech-sdk/distrib/lib/microsoft.cognitiveservices.speech.sdk.js";
-
-console.log("speechsdk", bundle);
 
 var synthesizer;
 
 export let configAzureSpeechApi = (key) => {
-  const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(key, "eastasia");
+  const speechConfig = bundle.SpeechConfig.fromSubscription(key, "eastasia");
   speechConfig.speechSynthesisLanguage = "zh-CN"; // For example, "de-DE"
   speechConfig.speechSynthesisVoiceName = "zh-CN-XiaochenNeural";
   // speechConfig.speechSynthesisLanguage = "en-US"; // For example, "de-DE"
   // speechConfig.speechSynthesisVoiceName = "en-US-SaraNeural";
-  // const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
-  synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, null);
+  synthesizer = new bundle.SpeechSynthesizer(speechConfig, null);
 };
 
 let previousAudio;
