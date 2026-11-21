@@ -6,7 +6,7 @@ Demo http://r.tiye.me/b-conf/hestory .
 
 ### 使用者影响
 
-CLI / `@calcit/procs` 配对正式 **0.42.1**，使用 Respo **0.19.5**、Reel **0.11.0**、UI **0.15.2**、Markdown **0.8.2**、Feather **0.6.3**、JS-FFI **0.2.13**、Memof **0.0.50** 和传递 Router **0.12.2**。升级后重新安装依赖、生成 JS 并完整刷新。
+CLI / `@calcit/procs` 配对正式 **0.44.0**，使用 Respo **0.19.13**、Reel **0.11.5**、UI **0.15.7**、Markdown **0.9.5**、Feather **0.6.9** 和 JS-FFI **0.2.19**。升级后重新安装依赖、生成 JS 并完整刷新。
 
 输入草稿和 Voice 开关使用具名状态，升级后请完整刷新页面。故事文件仍通过原解码入口载入。故事文件读取宏的返回类型是 `Expr String`，故事构造宏继续声明具名 `Story`。此前的格式问题见 [Calcit #2686](https://github.com/calcit-lang/calcit/issues/2686)。
 
