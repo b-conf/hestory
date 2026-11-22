@@ -60,6 +60,59 @@ try {
     else Reflect.deleteProperty(globalThis, key);
   }
 }
+
+test('讯飞连接失败不会记录签名地址或错误对象', async () => {
+  const keys = ['window', 'Worker', 'localStorage', 'location', 'WebSocket', 'AudioContext', 'alert'];
+  const saved = Object.fromEntries(keys.map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
+  const errors = [];
+  const logs = [];
+  const alerts = [];
+  let socket;
+  const workerHook = registerHooks({
+    resolve(specifier, context, nextResolve) {
+      if (specifier === './transcode.worker.js?worker&inline') specifier += '&synthetic-failure';
+      return nextResolve(specifier, context);
+    },
+    load(url, context, nextLoad) {
+      if (url.endsWith('/transcode.worker.js?worker&inline&synthetic-failure')) {
+        return { format: 'module', source: 'export default globalThis.Worker;', shortCircuit: true };
+      }
+      return nextLoad(url, context);
+    },
+  });
+  try {
+    globalThis.window = globalThis;
+    globalThis.Worker = class {};
+    globalThis.localStorage = { getItem: () => JSON.stringify({ id: 'synthetic-id', key: 'synthetic-key', secret: 'synthetic-secret' }) };
+    globalThis.location = { host: 'example.invalid' };
+    globalThis.AudioContext = class { resume() {} };
+    globalThis.WebSocket = class { constructor(url) { this.url = url; socket = this; } };
+    globalThis.alert = message => alerts.push(message);
+    console.error = (...args) => errors.push(args);
+    console.log = (...args) => logs.push(args);
+    const { speakXunfei } = await import('../xunfei/sdk.js?synthetic-failure');
+    speakXunfei('synthetic text', () => {});
+    await new Promise(resolve => setImmediate(resolve));
+    assert.ok(socket.url.includes('authorization='));
+    errors.length = 0;
+    logs.length = 0;
+    socket.onerror({ message: socket.url });
+    socket.onclose({ target: socket });
+    assert.deepEqual(alerts, ['WebSocket报错，请f12查看详情']);
+    assert.equal(errors.length, 1);
+    assert.match(String(errors[0][0]), /连接失败/);
+    assert.doesNotMatch(JSON.stringify(errors), /authorization|synthetic-key|synthetic-secret|example\.invalid|wss:|https:/);
+    assert.doesNotMatch(JSON.stringify(logs), /authorization|synthetic-key|synthetic-secret|example\.invalid|wss:|https:/);
+  } finally {
+    workerHook.deregister();
+    console.error = error;
+    console.log = log;
+    for (const [key, descriptor] of Object.entries(saved)) {
+      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+      else Reflect.deleteProperty(globalThis, key);
+    }
+  }
+});
 function handlers(node, kind, found = []) {
   if (c.enum_$q_(node)) return handlers(c._$n_enum_$o_nth(node, 1), kind, found);
   if (component_$q_(node)) return handlers(invoke_method('unwrap', component_tree(node)), kind, found);
