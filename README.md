@@ -4,7 +4,11 @@
 
 Demo http://r.tiye.me/b-conf/hestory .
 
-### 使用者影响
+### 0.45.1 使用者影响
+
+开发和构建需配对 Calcit / `@calcit/procs` 0.45.1，重新安装依赖并生成前端资源。正式依赖为 Respo 0.19.18、Reel 0.11.9、UI 0.16.5、Markdown 0.9.9、Feather 0.6.13 和 JS-FFI 0.2.24，传递 Router 0.12.17。故事、输入和语音入口沿用原行为；本轮未调用真实语音服务。
+
+### 0.44.0 历史迁移记录
 
 CLI / `@calcit/procs` 配对正式 **0.44.0**，使用 Respo **0.19.13**、Reel **0.11.5**、UI **0.15.7**、Markdown **0.9.5**、Feather **0.6.9** 和 JS-FFI **0.2.19**。升级后重新安装依赖、生成 JS 并完整刷新。
 
