@@ -4,9 +4,9 @@
 
 Demo http://r.tiye.me/b-conf/hestory .
 
-### 0.45.1 使用者影响
+### 0.46.0 使用者影响
 
-开发和构建需配对 Calcit / `@calcit/procs` 0.45.1，重新安装依赖并生成前端资源。正式依赖为 Respo 0.19.18、Reel 0.11.9、UI 0.16.5、Markdown 0.9.9、Feather 0.6.13 和 JS-FFI 0.2.24，传递 Router 0.12.17。故事、输入和语音入口沿用原行为；本轮未调用真实语音服务。
+开发和构建需配对 Calcit / `@calcit/procs` 0.46.0，重新安装依赖并生成前端资源。正式依赖为 Respo 0.20.0、Reel 0.11.10、UI 0.16.6、Markdown 0.9.10、Feather 0.6.14 和 JS-FFI 0.2.26，传递 Router 0.12.18。故事、输入和语音入口沿用原行为；本轮未调用真实语音服务。
 
 ### 0.44.0 历史迁移记录
 
@@ -79,7 +79,7 @@ node --test test/runtime.test.mjs
 
 ##### 目录结构
 
-dev 先生成初始 JS，再启动 Vite；修改 Calcit 时在另一终端运行 `yarn watch`，无需进程管理依赖。build 包含一次编译。未设置 `VITE_BASE_URL` 时保持相对资源路径，每次 PR 上传按 PR/run/attempt 隔离。上传及公开访问验证仅使用 COS Action v1.2.0 内置 verify 配置，不添加独立 CDN 校验脚本。生产部署排队执行，上传前检查仍为当前 main，过期构建跳过 COS 和原服务器同步。CI 检查所有定义、禁止 deprecated 调用并运行原有真实业务测试；退休旧的 `analyze quality` 数量基线，不新增校验脚本。原语音模式、存储键、共享字体和服务器部署路径不变。
+dev 先生成初始 JS，再启动 Vite；修改 Calcit 时在另一终端运行 `yarn watch`，无需进程管理依赖。build 包含一次编译。未设置 `VITE_BASE_URL` 时保持相对资源路径，每次 PR 上传按 PR/run/attempt 隔离。上传及公开访问验证仅使用 COS Action v1.3.0 内置 verify 配置，不添加独立 CDN 校验脚本。生产部署排队执行，上传前检查仍为当前 main，过期构建跳过 COS 和原服务器同步。CI 检查所有定义、禁止 deprecated 调用并运行原有真实业务测试；退休旧的 `analyze quality` 数量基线，不新增校验脚本。原语音模式、存储键、共享字体和服务器部署路径不变。
 
 Actions 使用精确正式 tag，接受 tag 可移动风险；只读权限和 HEAD 检查不是 secret
 防窃取保证。保留原 mixed JS/CJS SDK 的 Node module-type warning 和 Vite chunk
