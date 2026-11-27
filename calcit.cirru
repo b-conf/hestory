@@ -601,7 +601,9 @@
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when
-              and config/dev? $ not= :states $ &enum:nth op 0
+              and config/dev? $ match op
+                (:states _cursor _state) false
+                _ true
               js/console.log |Dispatch: op
             if
               = (Some schema/Op) (enum-definition op)
