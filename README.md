@@ -20,7 +20,7 @@ CLI / `@calcit/procs` 配对正式 **0.44.0**，使用 Respo **0.19.13**、Reel 
 
 Message、Story、Store、Op 与 OpEnvelope 已使用具体 Struct/Enum，业务模型和 updater 保持。Cirru/TOML 历史数据、通用 UI 状态和 Memof 异构缓存仍在真实开放边界处理，不用不完整 union 假称任意扩展字段已闭合。Feather 在颜色边界使用真实标量 union；本项目不增加强转、迁移脚本、类型预算或新测试入口。
 
-原十项离线 Node 业务回归保留全部断言，事件夹具改用 Respo 自身转换器产生真实事件。实际隔离 Chrome 验证中文/emoji 回复、Enter 发送与清空、菜单、刷新回到初始空列表；没有启用语音或操作系统剪贴板。离线语音 fixture 不代表真实语音网络验收，讯飞 Worker 保持 Vite `?worker&inline`，原未配置付费凭据提示保留。Azure 未声明全局与讯飞认证URL日志风险仍由 [#33](https://github.com/b-conf/hestory/issues/33)、[#34](https://github.com/b-conf/hestory/issues/34) 跟踪。
+原十项离线 Node 业务回归保留全部断言，事件夹具改用 Respo 自身转换器产生真实事件。实际隔离 Chrome 验证中文/emoji 回复、Enter 发送与清空、菜单、刷新回到初始空列表；没有启用语音或操作系统剪贴板。离线语音 fixture 不代表真实语音网络验收，讯飞 Worker 保持 Vite `?worker&inline`，原未配置付费凭据提示保留。Azure 适配器已改用导入的 SDK namespace（[#56](https://github.com/b-conf/hestory/pull/56)），讯飞连接错误和关闭日志不再输出签名 URL（[#55](https://github.com/b-conf/hestory/pull/55)）；两项已有离线回归，真实服务认证与语音播放仍未验收。
 
 原 HUD、语音模式、存储键、字体和服务器路径保持。本轮不合并或部署业务应用，仅沿用原工作流上传隔离 PR 前端预览；COS 校验只用 action 内置 verify。远端结果以 PR 检查为准，源码版本号不代表正式 tag 已发布。
 
