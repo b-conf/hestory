@@ -47,7 +47,7 @@ try {
   globalThis.Worker = class { constructor() { workers++; } postMessage() { throw new Error('Unexpected paid speech worker request'); } };
   globalThis.localStorage = { getItem(key) { assert.equal(key, 'xunfei-secrets'); return '{}'; } };
   globalThis.document = { createElement() { return { getContext() { return { measureText(text) { return { width: text.length }; } }; } }; } };
-  console.log = () => {}; // Real Azure adapter logs the entire imported SDK.
+  console.log = () => {}; // Suppress startup logs during isolated imports.
   console.error = () => {}; // Expected unset paid Xunfei credentials.
   app = await import('../js-out/app.comp.container.mjs');
   main = await import('../js-out/app.main.mjs');
